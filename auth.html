@@ -263,12 +263,11 @@
 </div>
 
 <script>
-    if (localStorage.getItem("ns_token") || localStorage.getItem("ns_guest")) {
+    if (localStorage.getItem("ns_token")) {
         window.location.href = "index.html";
     }
 
     function skipAuth() {
-        localStorage.setItem("ns_guest", "true");
         window.location.href = "index.html";
     }
 
@@ -308,7 +307,6 @@
             const data = await res.json();
             if (!res.ok) return showMsg(data.error, "error");
 
-            localStorage.removeItem("ns_guest");
             localStorage.setItem("ns_token",    data.token);
             localStorage.setItem("ns_username", data.username);
             window.location.href = "index.html";
@@ -357,7 +355,6 @@
         });
         const data = await res.json();
         if (res.ok) {
-            localStorage.removeItem("ns_guest");
             localStorage.setItem("ns_token",    data.token);
             localStorage.setItem("ns_username", data.username);
             window.location.href = "index.html";

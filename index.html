@@ -372,20 +372,14 @@
 </div>
 
 <script>
-/* ─── Auth: aceptar token O modo invitado ─── */
+/* ─── Auth: siempre se entra directo. Login/Register es opcional. ─── */
 const _token = localStorage.getItem("ns_token");
-const _guest = localStorage.getItem("ns_guest");
-
-if (!_token && !_guest) {
-    window.location.href = "auth.html";
-}
-
-/* ─── Sidebar: area usuario / invitado ─── */
 const _username = localStorage.getItem("ns_username");
 const userArea = document.getElementById("sidebarUserArea");
 const topbarLoginArea = document.getElementById("topbarLoginArea");
 
 if (_token && _username) {
+    /* Usuario con sesión iniciada */
     userArea.innerHTML = `
         <div class="sidebar-user">
             <span class="sidebar-user-icon">👤</span>
@@ -395,17 +389,15 @@ if (_token && _username) {
     document.getElementById("logoutBtn").addEventListener("click", () => {
         localStorage.removeItem("ns_token");
         localStorage.removeItem("ns_username");
-        localStorage.removeItem("ns_guest");
-        window.location.href = "auth.html";
+        window.location.reload();
     });
 } else {
-    /* Invitado */
+    /* Sin cuenta — mostrar acceso opcional */
     userArea.innerHTML = `
         <div class="sidebar-guest-badge">
             <span>👤 Invitado</span>
             <a href="auth.html">Iniciar sesión →</a>
         </div>`;
-    /* Botón en topbar mobile */
     topbarLoginArea.innerHTML = `<a href="auth.html" class="topbar-login-btn">Iniciar sesión</a>`;
 }
 
@@ -417,48 +409,66 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* ─── SPLASH ─── */
-const splash   = document.getElementById("splash");
+const splash    = document.getElementById("splash");
 const splashBtn = document.getElementById("splashBtn");
 
-/* Sonido de intro */
+/* Sonido arranca con la animación del logo, no con el botón */
 const introAudio = new Audio("sounds/Heavenly.mp3");
 introAudio.volume = 0.7;
 
-splashBtn.addEventListener("click", () => {
-    introAudio.play().catch(() => {}); /* silencioso si el browser bloquea */
-    splash.classList.add("hidden");
-
-    /* Mostrar welcome overlay tras breve pausa */
-    setTimeout(() => {
-        document.getElementById("welcomeOverlay").classList.remove("hidden");
-    }, 500);
+/* Intentar reproducir apenas carga la página (puede ser bloqueado por el browser
+   hasta que haya una interacción; en ese caso lo reintentamos al tocar el botón) */
+window.addEventListener("load", () => {
+    introAudio.play().catch(() => {
+        /* Browser bloqueó el autoplay — lo reproducimos al primer toque */
+        document.addEventListener("click", () => introAudio.play().catch(() => {}), { once: true });
+        document.addEventListener("touchstart", () => introAudio.play().catch(() => {}), { once: true });
+    });
 });
 
-/* ─── WELCOME OVERLAY ─── */
-const WELCOME_CHIPS_DATA = [
-    { icon: "🎬", label: "Ficha Técnica",  key: "ficha tecnica" },
-    { icon: "📖", label: "Logline",         key: "logline" },
-    { icon: "📜", label: "Storyline",       key: "storyline" },
-    { icon: "🎨", label: "Moodboard",       key: "moodboard" },
-    { icon: "💰", label: "Presupuesto",     key: "presupuesto" },
-    { icon: "🤝", label: "Financiamiento",  key: "financiacion" },
-    { icon: "🎭", label: "Elenco",          key: "elenco tentativo" },
-    { icon: "🗺️", label: "Recorrido",       key: "recorrido de mercados" },
-    { icon: "🎞", label: "Teaser",          key: "teaser" },
+splashBtn.addEventListener("click", () => {
+    /* Si aún no sonó, intentar ahora */
+    introAudio.play().catch(() => {});
+    splash.classList.add("hidden");
+
+    setTimeout(() => {
+        document.getElementById("welcomeOverlay").classList.remove("hidden");
+    }, 450);
+});
+
+/* ─── MENÚ PRINCIPAL (welcome overlay) ─── */
+const MENU_ITEMS = [
+    /* Opción especial — ir a la IA */
+    { icon: "🤖", label: "Usar la IA",        key: "__ai__",               highlight: true },
+    /* Secciones de la película */
+    { icon: "🎬", label: "Ficha Técnica",      key: "ficha tecnica" },
+    { icon: "📖", label: "Logline",            key: "logline" },
+    { icon: "📜", label: "Storyline",          key: "storyline" },
+    { icon: "🎨", label: "Moodboard",          key: "moodboard" },
+    { icon: "💰", label: "Presupuesto",        key: "presupuesto" },
+    { icon: "🤝", label: "Financiamiento",     key: "financiacion" },
+    { icon: "🎭", label: "Elenco",             key: "elenco tentativo" },
+    { icon: "🗺️", label: "Recorrido",          key: "recorrido de mercados" },
+    { icon: "🎞", label: "Teaser",             key: "teaser" },
 ];
 
 const welcomeChipsEl = document.getElementById("welcomeChips");
-WELCOME_CHIPS_DATA.forEach(({ icon, label, key }) => {
+MENU_ITEMS.forEach(({ icon, label, key, highlight }) => {
     const btn = document.createElement("button");
-    btn.className = "welcome-chip";
+    btn.className = "welcome-chip" + (highlight ? " welcome-chip--ai" : "");
     btn.innerHTML = `<span class="wc-icon">${icon}</span>${label}`;
     btn.addEventListener("click", () => {
-        closeWelcome();
-        /* Pequeña pausa para que el overlay se cierre antes de enviar */
-        setTimeout(() => {
-            document.getElementById("messageInput").value = key;
-            if (typeof sendMessage === "function") sendMessage();
-        }, 350);
+        if (key === "__ai__") {
+            /* Cerrar overlay y dejar al usuario escribir libremente */
+            closeWelcome();
+            setTimeout(() => document.getElementById("messageInput").focus(), 350);
+        } else {
+            closeWelcome();
+            setTimeout(() => {
+                document.getElementById("messageInput").value = key;
+                if (typeof sendMessage === "function") sendMessage();
+            }, 350);
+        }
     });
     welcomeChipsEl.appendChild(btn);
 });
