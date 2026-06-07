@@ -610,7 +610,7 @@ B: Ya lo sé.`
         type: "qr",
         delay: 3500,
         message: "Generando tu código QR de acceso...",
-        qrUrl: "https://neurascript.com",  /* ← CAMBIÁ ESTA URL */
+        qrUrl: "https://youtu.be/dQw4w9WgXcQ",  /* ← CAMBIÁ ESTA URL */
         caption: "Escaneá para acceder al portfolio de guiones."
     }
 
