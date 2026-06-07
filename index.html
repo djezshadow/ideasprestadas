@@ -3,59 +3,36 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>NeuraScript</title>
-
 <link rel="stylesheet" href="style.css">
-
 </head>
 <body>
 
 <div class="app">
 
     <div class="logo-area">
-
-        <img
-            src="img/Neura 1.png"
-            class="logo"
-            alt="NeuraScript"
-        >
-
-        <div class="title">
-            NeuraScript
-        </div>
-
+        <img src="img/Neura 1.png" class="logo" alt="NeuraScript">
+        <div class="title">NeuraScript</div>
     </div>
 
+    <!-- El chat-container ocupa el espacio flexible y scroll interno -->
     <div class="chat-container">
-
         <div id="chat" class="chat"></div>
-
     </div>
 
     <div class="input-area">
-
         <div class="input-box">
-
             <input
                 id="messageInput"
                 placeholder="Escribe tu idea de guion..."
+                autocomplete="off"
             >
-
-            <button
-                id="sendBtn"
-                class="send-btn"
-            >
-                ➤
-            </button>
-
+            <button id="sendBtn" class="send-btn" aria-label="Enviar">➤</button>
         </div>
-
     </div>
 
 </div>
 
 <script src="script.js"></script>
-
 </body>
 </html>
