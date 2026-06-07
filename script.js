@@ -1022,7 +1022,7 @@ function addFicha(data) {
     div.innerHTML = `
         <div class="ficha-title">🎬 Ficha Técnica</div>
         <img
-            src="img/portada.webp"
+            src="img/ideasprestadas.webp"
             class="ficha-portada"
             alt="Portada — ${data.proyecto}"
             style="cursor:zoom-in"
