@@ -179,13 +179,13 @@ const ALIASES = {
     "cast":                        "elenco tentativo",
 
     /* Teaser / Trailer */
-    "teaser":                      "trailer",
-    "trailer":                     "trailer",
-    "avance":                      "trailer",
-    "ver teaser":                  "trailer",
-    "ver trailer":                 "trailer",
-    "mostrar teaser":              "trailer",
-    "mostrar trailer":             "trailer"
+    "trailer":                     "teaser",
+    "teaser":                      "teaser",
+    "avance":                      "teaser",
+    "ver teaser":                  "teaser",
+    "ver trailer":                 "teaser",
+    "mostrar teaser":              "teaser",
+    "mostrar trailer":             "teaser"
 
 };
 
@@ -757,7 +757,7 @@ En el programa, cuando su secreto sale poco a poco a la luz, siente culpa y asum
        TEASER / TRAILER
        ══════════════════════════════════════════ */
 
-    "trailer": {
+    "teaser": {
         type: "youtube",
         delay: 1600,
         message: "Cargando el Teaser Oficial de Ideas Prestadas...",
@@ -1672,7 +1672,7 @@ const SUGGESTION_CHIPS = [
     { label: "🤝 Financiamiento",  key: "financiacion" },
     { label: "🎭 Elenco",          key: "elenco tentativo" },
     { label: "🗺️ Recorrido",       key: "recorrido de mercados" },
-    { label: "🎞 Teaser",          key: "trailer" },
+    { label: "🎞 Teaser",          key: "teaser" },
 ];
 
 const chipsBar = document.getElementById("chipsBar");
