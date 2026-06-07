@@ -918,3 +918,31 @@ body {
     .elenco-grid { grid-template-columns: repeat(2, 1fr); }
     .financiacion-item { min-width: 70px; }
 }
+
+/* ── YOUTUBE EMBED ── */
+.youtube-block {
+    max-width: 600px !important;
+    padding: 16px 16px 12px !important;
+}
+
+.youtube-wrapper {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 */
+    border-radius: 10px;
+    overflow: hidden;
+    background: #000;
+}
+
+.youtube-wrapper iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 10px;
+}
+
+@media (max-width: 700px) {
+    .youtube-block { max-width: 100% !important; }
+}

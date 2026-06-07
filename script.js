@@ -140,6 +140,15 @@ const ALIASES = {
     "conversacion":           "crear dialogo",
     "conversación":           "crear dialogo",
 
+    /* Trailer / Teaser */
+    "trailer":                     "trailer",
+    "teaser":                      "trailer",
+    "avance":                      "trailer",
+    "ver trailer":                 "trailer",
+    "ver teaser":                  "trailer",
+    "mostrar trailer":             "trailer",
+    "mostrar teaser":              "trailer",
+
     /* QR */
     "contacto":                    "qr contacto",
     "mi qr":                       "qr contacto",
@@ -701,6 +710,19 @@ En el programa, cuando su secreto sale poco a poco a la luz, siente culpa y asum
         ]
     },
 
+    /* ══════════════════════════════════════════
+       TRAILER / TEASER
+       ══════════════════════════════════════════ */
+
+    "trailer": {
+        type: "youtube",
+        delay: 1800,
+        message: "Cargando el teaser oficial de Ideas Prestadas...",
+        /* ⬇️  CAMBIÁ el src si subís una versión nueva */
+        youtubeId: "QgG4actvdaU",
+        caption: "Ideas Prestadas — Teaser Oficial"
+    },
+
     "moodboard": {
         type: "moodboard",
         delay: 2800,
@@ -756,7 +778,40 @@ En el programa, cuando su secreto sale poco a poco a la luz, siente culpa y asum
 
 const BASE_TYPING_DELAY = 1400;
 
+/* El fallback ahora es dinámico — ver función getFallback() */
 const FALLBACK_MESSAGE = "No tengo una respuesta para eso todavía. Probá con 'ayuda' para ver qué puedo hacer, o usá 'géneros' para elegir un tipo de guion.";
+
+/* ── Detección de intención para respuestas inteligentes ── */
+const INTENT_PATTERNS = [
+    { pattern: /terror|miedo|oscuro|horror|suspenso|siniestro/i,     key: "guion de terror" },
+    { pattern: /comedia|gracioso|humor|risa|cómico|chiste/i,         key: "guion de comedia" },
+    { pattern: /romance|amor|pareja|enamorado|relacion|beso/i,       key: "guion de romance" },
+    { pattern: /drama|tragedia|tristeza|pérdida|familia|emocion/i,   key: "guion de drama" },
+    { pattern: /thriller|accion|persecucion|espía|misterio|crimen/i, key: "guion de thriller" },
+    { pattern: /ciencia|robot|futuro|espacio|tecnologia|ia|alien/i,  key: "guion de ciencia ficcion" },
+    { pattern: /personaje|protagonista|heroe|villano|actor/i,        key: "crear personaje" },
+    { pattern: /escena|situacion|momento|secuencia/i,                key: "crear escena" },
+    { pattern: /dialogo|conversacion|charla|hablan/i,                key: "crear dialogo" },
+    { pattern: /pelicula|film|ideas prestadas|marcos|angel/i,        key: "ficha tecnica" },
+    { pattern: /trailer|teaser|video|avance/i,                       key: "trailer" },
+    { pattern: /presupuesto|dinero|costo|plata|budget/i,             key: "presupuesto" },
+    { pattern: /elenco|actores|reparto|casting/i,                    key: "elenco tentativo" },
+];
+
+function detectIntent(text) {
+    const lower = text.toLowerCase();
+    for (const { pattern, key } of INTENT_PATTERNS) {
+        if (pattern.test(lower)) return BOT_RESPONSES[key] || null;
+    }
+    return null;
+}
+
+const SMART_FALLBACKS = [
+    "No tengo eso configurado aún, pero puedo ayudarte. ¿Querés un guion, una escena o un personaje?",
+    "Eso todavía no lo manejo directamente. Probá con 'géneros' para elegir un tipo de guion.",
+    "No encontré una respuesta exacta. Contame más sobre tu idea y veo cómo ayudarte.",
+    "Mmm, no tengo eso. ¿Estás pensando en un guion de terror, comedia, drama o algo distinto?"
+];
 
 const WELCOME_MESSAGE = "Bienvenido a NeuraScript. Soy tu asistente especializado en guiones. Escribí 'ayuda' para ver todo lo que puedo hacer, o contame directamente qué tipo de historia querés crear.";
 
@@ -906,11 +961,11 @@ function sendMessage() {
         removeTyping();
 
         if (response) {
-            if (["qr","moodboard","recorrido"].includes(response.type)) {
-                /* Estos tipos manejan su propio ciclo de locked/typing */
-                if (response.type === "qr")       addQR(response);
+            if (["qr","moodboard","recorrido","youtube"].includes(response.type)) {
+                if (response.type === "qr")        addQR(response);
                 if (response.type === "moodboard") addMoodboard(response);
                 if (response.type === "recorrido") addRecorrido(response);
+                if (response.type === "youtube")   addYoutube(response);
             } else {
                 setInputLocked(false);
                 input.focus();
@@ -934,7 +989,27 @@ function sendMessage() {
         } else {
             setInputLocked(false);
             input.focus();
-            addMessage(FALLBACK_MESSAGE, "bot");
+
+            /* Intentar detectar la intención del mensaje */
+            const intentResponse = detectIntent(userText);
+            if (intentResponse) {
+                const content = resolveContent(intentResponse);
+                switch (intentResponse.type) {
+                    case "text":        addMessage(content, "bot");          break;
+                    case "script":      addScript(content);                  break;
+                    case "list":        addList(content);                    break;
+                    case "ficha":       addFicha(intentResponse.content);
+                                        trackMessage("bot","Ficha Técnica","ficha",intentResponse.content); break;
+                    case "presupuesto": addPresupuesto(intentResponse.content);
+                                        trackMessage("bot","Presupuesto","presupuesto",intentResponse.content); break;
+                    case "elenco":      addElenco(intentResponse.content);
+                                        trackMessage("bot","Elenco","elenco",intentResponse.content); break;
+                    default:            addMessage(content, "bot");
+                }
+            } else {
+                const fb = SMART_FALLBACKS[Math.floor(Math.random() * SMART_FALLBACKS.length)];
+                addMessage(fb, "bot");
+            }
         }
     }, delay);
 }
@@ -947,50 +1022,130 @@ input.addEventListener("keypress", e => { if (e.key === "Enter") sendMessage(); 
    =================================================== */
 
 (function() {
+    /* ── Estado del lightbox ── */
+    let _allImages = [];   /* array de srcs del grupo actual */
+    let _currentIdx = 0;
+
+    /* Overlay */
     const overlay = document.createElement("div");
     overlay.id = "lightbox";
     overlay.style.cssText = `
         display:none;position:fixed;inset:0;z-index:9999;
-        background:rgba(0,0,0,.88);backdrop-filter:blur(8px);
-        align-items:center;justify-content:center;cursor:zoom-out;
-        animation:fade .2s ease;
+        background:rgba(0,0,0,.92);backdrop-filter:blur(10px);
+        align-items:center;justify-content:center;
     `;
+
+    /* Imagen */
     const img = document.createElement("img");
     img.style.cssText = `
-        max-width:92vw;max-height:88vh;border-radius:12px;
-        box-shadow:0 8px 60px rgba(0,0,0,.6);object-fit:contain;
-        cursor:default;
+        max-width:88vw;max-height:84vh;border-radius:12px;
+        box-shadow:0 8px 60px rgba(0,0,0,.7);object-fit:contain;
+        transition:opacity .15s ease;
     `;
+
+    /* Botón cerrar */
     const closeBtn = document.createElement("button");
-    closeBtn.textContent = "✕";
+    closeBtn.innerHTML = "✕";
     closeBtn.style.cssText = `
-        position:absolute;top:20px;right:24px;background:rgba(255,255,255,.15);
-        border:none;color:white;font-size:1.4rem;width:44px;height:44px;
-        border-radius:50%;cursor:pointer;transition:background .15s;
+        position:absolute;top:18px;right:20px;background:rgba(255,255,255,.15);
+        border:none;color:white;font-size:1.3rem;width:42px;height:42px;
+        border-radius:50%;cursor:pointer;transition:background .15s;z-index:1;
     `;
-    closeBtn.onmouseenter = () => closeBtn.style.background = "rgba(255,255,255,.3)";
-    closeBtn.onmouseleave = () => closeBtn.style.background = "rgba(255,255,255,.15)";
+
+    /* Flechas */
+    function makeArrow(dir) {
+        const btn = document.createElement("button");
+        btn.innerHTML = dir === "prev" ? "‹" : "›";
+        btn.style.cssText = `
+            position:absolute;${dir === "prev" ? "left:16px" : "right:16px"};
+            top:50%;transform:translateY(-50%);
+            background:rgba(255,255,255,.15);border:none;color:white;
+            font-size:2.2rem;width:48px;height:48px;border-radius:50%;
+            cursor:pointer;transition:background .15s;display:none;
+            align-items:center;justify-content:center;line-height:1;
+        `;
+        return btn;
+    }
+    const prevBtn = makeArrow("prev");
+    const nextBtn = makeArrow("next");
+
+    /* Contador */
+    const counter = document.createElement("div");
+    counter.style.cssText = `
+        position:absolute;bottom:20px;left:50%;transform:translateX(-50%);
+        color:rgba(255,255,255,.6);font-size:0.85rem;display:none;
+        background:rgba(0,0,0,.4);padding:4px 12px;border-radius:20px;
+    `;
+
     overlay.appendChild(img);
     overlay.appendChild(closeBtn);
+    overlay.appendChild(prevBtn);
+    overlay.appendChild(nextBtn);
+    overlay.appendChild(counter);
     document.body.appendChild(overlay);
+
+    function showImage(idx) {
+        _currentIdx = idx;
+        img.style.opacity = "0";
+        setTimeout(() => {
+            img.src = _allImages[idx];
+            img.style.opacity = "1";
+        }, 120);
+        counter.textContent = `${idx + 1} / ${_allImages.length}`;
+    }
 
     function closeLightbox() {
         overlay.style.display = "none";
         document.body.style.overflow = "";
+        _allImages = [];
     }
 
     overlay.addEventListener("click", e => { if (e.target === overlay) closeLightbox(); });
     closeBtn.addEventListener("click", closeLightbox);
-    document.addEventListener("keydown", e => { if (e.key === "Escape") closeLightbox(); });
+    prevBtn.addEventListener("click", e => { e.stopPropagation(); showImage((_currentIdx - 1 + _allImages.length) % _allImages.length); });
+    nextBtn.addEventListener("click", e => { e.stopPropagation(); showImage((_currentIdx + 1) % _allImages.length); });
 
-    window.openLightbox = function(src) {
-        img.src = src;
+    document.addEventListener("keydown", e => {
+        if (overlay.style.display === "none") return;
+        if (e.key === "Escape")      closeLightbox();
+        if (e.key === "ArrowRight")  showImage((_currentIdx + 1) % _allImages.length);
+        if (e.key === "ArrowLeft")   showImage((_currentIdx - 1 + _allImages.length) % _allImages.length);
+    });
+
+    /* Swipe en mobile */
+    let _touchStartX = 0;
+    overlay.addEventListener("touchstart", e => { _touchStartX = e.touches[0].clientX; }, { passive: true });
+    overlay.addEventListener("touchend", e => {
+        const diff = _touchStartX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) < 40) return;
+        if (diff > 0) showImage((_currentIdx + 1) % _allImages.length);
+        else          showImage((_currentIdx - 1 + _allImages.length) % _allImages.length);
+    });
+
+    /**
+     * openLightbox(src, group)
+     * src   = imagen a abrir
+     * group = array de srcs del grupo (para navegar con flechas)
+     *         Si no se pasa, solo muestra esa imagen sin flechas
+     */
+    window.openLightbox = function(src, group) {
+        _allImages = (group && group.length > 1) ? group : [src];
+        _currentIdx = _allImages.indexOf(src);
+        if (_currentIdx === -1) _currentIdx = 0;
+
+        const multi = _allImages.length > 1;
+        prevBtn.style.display  = multi ? "flex" : "none";
+        nextBtn.style.display  = multi ? "flex" : "none";
+        counter.style.display  = multi ? "block" : "none";
+
+        img.src = _allImages[_currentIdx];
+        counter.textContent = `${_currentIdx + 1} / ${_allImages.length}`;
         overlay.style.display = "flex";
         document.body.style.overflow = "hidden";
     };
 })();
 
-/* Hacer clickeables todas las imágenes que se agreguen al chat */
+/* Hacer clickeables imágenes individuales (sin grupo) */
 function makeChatImagesClickable(container) {
     container.querySelectorAll("img").forEach(img => {
         if (img.dataset.lightbox) return;
@@ -998,6 +1153,56 @@ function makeChatImagesClickable(container) {
         img.style.cursor = "zoom-in";
         img.addEventListener("click", () => openLightbox(img.src));
     });
+}
+
+/* Hacer clickeables imágenes de moodboard con navegación entre ellas */
+function makeMoodboardClickable(container, srcs) {
+    const validSrcs = srcs.filter(Boolean); /* solo las que tienen ruta */
+    container.querySelectorAll("img").forEach(img => {
+        if (img.dataset.lightbox) return;
+        img.dataset.lightbox = "1";
+        img.style.cursor = "zoom-in";
+        img.addEventListener("click", () => openLightbox(img.src, validSrcs));
+    });
+}
+
+/* ===================================================
+   RENDER — YOUTUBE EMBED
+   =================================================== */
+
+function addYoutube(response) {
+    addMessage(response.message || "Cargando video...", "bot");
+    setInputLocked(true);
+    showTyping();
+
+    setTimeout(() => {
+        removeTyping();
+        setInputLocked(false);
+        input.focus();
+
+        const div = document.createElement("div");
+        div.className = "message bot youtube-block";
+
+        div.innerHTML = `
+            <div class="ficha-title">🎬 ${response.caption || "Video"}</div>
+            <div class="youtube-wrapper">
+                <iframe
+                    src="https://www.youtube.com/embed/${response.youtubeId}?autoplay=0&rel=0"
+                    title="${response.caption || "Video"}"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                ></iframe>
+            </div>
+        `;
+
+        chat.appendChild(div);
+        scrollToBottom();
+        if (!_loadingHistory) {
+            trackMessage("bot", response.caption || "Video", "youtube", { youtubeId: response.youtubeId, caption: response.caption });
+            _debounceSave();
+        }
+    }, response.delay || 1800);
 }
 
 /* ===================================================
@@ -1155,7 +1360,7 @@ function addMoodboard(response) {
                 </div>
             `;
             chat.appendChild(div);
-            makeChatImagesClickable(div);
+            makeMoodboardClickable(div, slide.filter(Boolean));
         });
 
         scrollToBottom();
@@ -1350,6 +1555,21 @@ function loadChatMessages(rawMessages) {
             case "elenco":       addElenco(m.data);            break;
             case "moodboard":    _renderMoodboardStatic(m.data); break;
             case "recorrido":    _renderRecorridoStatic();     break;
+            case "youtube":
+                if (m.data) {
+                    const yd = document.createElement("div");
+                    yd.className = "message bot youtube-block";
+                    yd.innerHTML = `<div class="ficha-title">🎬 ${m.data.caption || "Video"}</div>
+                        <div class="youtube-wrapper">
+                            <iframe src="https://www.youtube.com/embed/${m.data.youtubeId}?rel=0"
+                                title="${m.data.caption || ""}" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen></iframe>
+                        </div>`;
+                    chat.appendChild(yd);
+                    scrollToBottom();
+                }
+                break;
             default:             _origAddMessage(text, role);  break;
         }
     });
@@ -1381,7 +1601,7 @@ function _renderMoodboardStatic(slides) {
                 }).join("")}
             </div>`;
         chat.appendChild(div);
-        makeChatImagesClickable(div);
+        makeMoodboardClickable(div, slide);
     });
     scrollToBottom();
 }
