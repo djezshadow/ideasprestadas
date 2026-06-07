@@ -204,6 +204,25 @@
     .welcome-chip .wc-icon { font-size: 1.3rem; }
 }
 
+/* Opción destacada — Usar la IA */
+.welcome-chip--ai {
+    grid-column: 1 / -1;          /* ocupa todo el ancho */
+    background: rgba(255,255,255,.22);
+    border-color: rgba(255,255,255,.7);
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
+    padding: 22px 20px;
+    letter-spacing: .2px;
+    box-shadow: 0 0 40px rgba(255,255,255,.1), inset 0 1px 0 rgba(255,255,255,.25);
+}
+
+.welcome-chip--ai .wc-icon { font-size: 2rem; }
+
+.welcome-chip--ai:hover {
+    background: rgba(255,255,255,.35);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 50px rgba(255,255,255,.18);
+}
+
 /* ═══════════════════════════════════════
    BOTÓN LOGIN en topbar (usuario invitado)
    ═══════════════════════════════════════ */
