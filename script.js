@@ -639,7 +639,7 @@ B: Ya lo sé.`
         type: "qr",
         delay: 3500,
         message: "Generando tu código QR de acceso...",
-        qrUrl: "https://neurascript.com",  /* ← CAMBIÁ ESTA URL */
+        qrUrl: "https://youtu.be/dQw4w9WgXcQ",  /* ← CAMBIÁ ESTA URL */
         caption: "Escaneá para acceder al portfolio de guiones."
     },
 
@@ -1021,6 +1021,13 @@ function addFicha(data) {
     div.className = "message bot ficha-card";
     div.innerHTML = `
         <div class="ficha-title">🎬 Ficha Técnica</div>
+        <img
+            src="img/portada.webp"
+            class="ficha-portada"
+            alt="Portada — ${data.proyecto}"
+            style="cursor:zoom-in"
+            onerror="this.style.display='none'"
+        >
         <div class="ficha-subtitle">${data.proyecto}</div>
         <table class="ficha-table">
             ${fields.map(([k, v]) => `
@@ -1032,6 +1039,9 @@ function addFicha(data) {
         </table>
     `;
     chat.appendChild(div);
+    /* Lightbox en la portada */
+    const portada = div.querySelector(".ficha-portada");
+    if (portada) portada.addEventListener("click", () => openLightbox(portada.src));
     scrollToBottom();
 }
 
@@ -1574,6 +1584,55 @@ window.addEventListener("beforeunload", () => {
         );
     }
 });
+
+/* ── CHIPS DE SUGERENCIAS ── */
+const SUGGESTION_CHIPS = [
+    { label: "🎬 Ficha Técnica",  key: "ficha tecnica" },
+    { label: "📖 Logline",         key: "logline" },
+    { label: "📜 Storyline",       key: "storyline" },
+    { label: "🎨 Moodboard",       key: "moodboard" },
+    { label: "💰 Presupuesto",     key: "presupuesto" },
+    { label: "🤝 Financiamiento",  key: "financiacion" },
+    { label: "🎭 Elenco",          key: "elenco tentativo" },
+    { label: "🗺️ Recorrido",       key: "recorrido de mercados" },
+    { label: "🎞 Trailer",         key: "trailer" },
+];
+
+const chipsBar = document.getElementById("chipsBar");
+
+function buildChips() {
+    if (!chipsBar) return;
+    chipsBar.innerHTML = "";
+    SUGGESTION_CHIPS.forEach(({ label, key }) => {
+        const btn = document.createElement("button");
+        btn.className = "chip-btn";
+        btn.textContent = label;
+        btn.addEventListener("click", () => {
+            /* Simular que el usuario escribió el comando */
+            document.getElementById("messageInput").value = key;
+            sendMessage();
+            hideChips();
+        });
+        chipsBar.appendChild(btn);
+    });
+}
+
+function hideChips() {
+    if (chipsBar) chipsBar.style.display = "none";
+}
+
+buildChips();
+
+/* Ocultar chips cuando el usuario manda su primer mensaje */
+const _origSendForChips = sendMessage;
+window.sendMessage = function() {
+    hideChips();
+    _origSendForChips();
+};
+sendBtn.removeEventListener("click", sendMessage);
+sendBtn.addEventListener("click", window.sendMessage);
+input.removeEventListener("keypress", e => {});
+input.addEventListener("keypress", e => { if (e.key === "Enter") window.sendMessage(); });
 
 /* ── Init ── */
 loadHistory();

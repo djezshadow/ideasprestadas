@@ -1014,3 +1014,81 @@ body {
     font-size: 0.9rem;
     opacity: .8;
 }
+
+/* =====================================================
+   CHIPS DE SUGERENCIAS
+   ===================================================== */
+
+.chips-bar {
+    flex-shrink: 0;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 6px 20px 2px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    /* Scroll horizontal si no caben en una línea (mobile) */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.chips-bar::-webkit-scrollbar { display: none; }
+
+.chip-btn {
+    flex-shrink: 0;
+    padding: 7px 14px;
+    background: rgba(255,255,255,.1);
+    border: 1.5px solid rgba(255,255,255,.28);
+    border-radius: 20px;
+    color: rgba(255,255,255,.88);
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background .15s ease, border-color .15s ease,
+                transform .12s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.chip-btn:hover {
+    background: rgba(255,255,255,.2);
+    border-color: rgba(255,255,255,.55);
+}
+
+.chip-btn:active {
+    transform: scale(0.95);
+    background: rgba(255,255,255,.25);
+}
+
+@media (max-width: 700px) {
+    .chips-bar {
+        flex-wrap: nowrap;   /* fila única con scroll */
+        padding: 6px 10px 2px;
+        gap: 6px;
+    }
+
+    .chip-btn {
+        font-size: 0.78rem;
+        padding: 6px 12px;
+    }
+}
+
+/* =====================================================
+   PORTADA EN FICHA TÉCNICA
+   ===================================================== */
+
+.ficha-portada {
+    width: 100%;
+    max-height: 220px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 14px;
+    display: block;
+    border: 1px solid rgba(255,255,255,.12);
+}
+
+@media (max-width: 700px) {
+    .ficha-portada { max-height: 160px; }
+}
