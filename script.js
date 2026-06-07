@@ -1326,30 +1326,69 @@ function loadChatMessages(rawMessages) {
     const chatEl = document.getElementById("chat");
     chatEl.innerHTML = "";
 
-    /* Parsear si viene como string JSON (comportamiento de Neon/JSONB) */
+    /* Parsear si viene como string JSON (JSONB de Neon a veces lo devuelve así) */
     let messages = rawMessages;
     if (typeof rawMessages === "string") {
         try { messages = JSON.parse(rawMessages); } catch { messages = []; }
     }
     if (!Array.isArray(messages)) messages = [];
 
-    /* Suspender tracking mientras cargamos historial */
     _loadingHistory = true;
     currentMessages = [...messages];
     currentLabel    = "";
 
     messages.forEach(m => {
         const role = m.role === "user" ? "user" : "bot";
-        const text = m.text || m.content || "";
+        const text = m.text || "";
         if (!text) return;
-        if (m.type === "script") {
-            _origAddScript(text);
-        } else {
-            _origAddMessage(text, role);
+
+        switch (m.type) {
+            case "script":       _origAddScript(text);         break;
+            case "ficha":        addFicha(m.data);             break;
+            case "presupuesto":  addPresupuesto(m.data);       break;
+            case "financiacion": addFinanciacion(m.data);      break;
+            case "elenco":       addElenco(m.data);            break;
+            case "moodboard":    _renderMoodboardStatic(m.data); break;
+            case "recorrido":    _renderRecorridoStatic();     break;
+            default:             _origAddMessage(text, role);  break;
         }
     });
 
     _loadingHistory = false;
+}
+
+/* Versión estática del moodboard (sin delay ni typing) para historial */
+function _renderMoodboardStatic(slides) {
+    if (!slides) return;
+    slides.forEach((slide, si) => {
+        const cols  = si === 0 ? 5 : 4;
+        const label = si === 0
+            ? `Slide 1 — Moodboard (${slide.length} imágenes)`
+            : `Slide 2 — Moodboard (${slide.length} imágenes)`;
+        const div = document.createElement("div");
+        div.className = "message bot moodboard-block";
+        div.innerHTML = `
+            <div class="ficha-title">${label}</div>
+            <div class="moodboard-grid" style="--cols:${cols}">
+                ${slide.map((src, i) => {
+                    const isPaleta = (i === slide.length - 1);
+                    return `<div class="moodboard-cell ${isPaleta ? "paleta-cell" : ""}">
+                        ${src
+                            ? `<img src="${src}" alt="Imagen ${i+1}" style="cursor:zoom-in">`
+                            : `<div class="moodboard-placeholder">${isPaleta ? "🎨 Paleta" : (i+1)}</div>`
+                        }
+                    </div>`;
+                }).join("")}
+            </div>`;
+        chat.appendChild(div);
+        makeChatImagesClickable(div);
+    });
+    scrollToBottom();
+}
+
+/* Versión estática del recorrido para historial */
+function _renderRecorridoStatic() {
+    addRecorrido({ message: "" });
 }
 
 /* ── Cargar historial al iniciar ── */
@@ -1362,37 +1401,97 @@ async function loadHistory() {
 /* ── Flag para suspender tracking al cargar historial ── */
 let _loadingHistory = false;
 
-/* ── Guardar mensaje en currentMessages ── */
-function trackMessage(role, text) {
+/* ── trackMessage: guardá cada mensaje con su tipo ── */
+function trackMessage(role, text, type = "text", data = null) {
+    if (_loadingHistory) return;
+
+    /* Primer mensaje del usuario → crear label y entrada en sidebar */
     if (role === "user" && currentMessages.length === 0) {
         currentLabel = text.length > 40 ? text.slice(0, 40) + "…" : text;
-        /* Agregar al sidebar inmediatamente (optimista) */
-        renderHistoryItem({ id: Date.now(), label: currentLabel, messages: [] });
+        renderHistoryItem({ id: "pending", label: currentLabel, messages: [] });
     }
-    currentMessages.push({ role, text });
+
+    currentMessages.push({ role, text, type, data });
+
+    /* Guardar automáticamente en DB cada vez que el bot responde */
+    if (role === "bot" && currentLabel) {
+        _debounceSave();
+    }
 }
 
-/* ── Interceptar addMessage para registrar mensajes ── */
+/* Guardado con debounce — espera 1.5s después del último mensaje antes de guardar */
+let _saveTimer = null;
+function _debounceSave() {
+    clearTimeout(_saveTimer);
+    _saveTimer = setTimeout(() => {
+        apiSaveChat(currentLabel, currentMessages);
+    }, 1500);
+}
+
+/* ── Interceptar funciones de render para trackear todo ── */
 const _origAddMessage = addMessage;
 window.addMessage = function(text, sender) {
     const el = _origAddMessage(text, sender);
     if (!_loadingHistory && text !== WELCOME_MESSAGE) {
-        trackMessage(sender === "user" ? "user" : "bot", text);
+        trackMessage(sender === "user" ? "user" : "bot", text, "text");
     }
     return el;
 };
 
-/* Mismo para scripts */
 const _origAddScript = addScript;
 window.addScript = function(text) {
     _origAddScript(text);
-    if (!_loadingHistory) trackMessage("bot", text);
+    if (!_loadingHistory) trackMessage("bot", text, "script");
+};
+
+/* Wrappers para tipos especiales — llamalos DESPUÉS de renderizar */
+function _trackSpecial(type, text, data) {
+    if (!_loadingHistory) trackMessage("bot", text, type, data);
+}
+
+/* Parchear addFicha, addPresupuesto, etc. para que trackeen */
+const _origAddFicha = addFicha;
+window.addFicha = function(data) {
+    _origAddFicha(data);
+    _trackSpecial("ficha", "Ficha Técnica", data);
+};
+
+const _origAddPresupuesto = addPresupuesto;
+window.addPresupuesto = function(data) {
+    _origAddPresupuesto(data);
+    _trackSpecial("presupuesto", "Presupuesto Estimado", data);
+};
+
+const _origAddFinanciacion = addFinanciacion;
+window.addFinanciacion = function(items) {
+    _origAddFinanciacion(items);
+    _trackSpecial("financiacion", "Financiación", items);
+};
+
+const _origAddElenco = addElenco;
+window.addElenco = function(actores) {
+    _origAddElenco(actores);
+    _trackSpecial("elenco", "Elenco Tentativo", actores);
+};
+
+const _origAddMoodboard = addMoodboard;
+window.addMoodboard = function(response) {
+    _origAddMoodboard(response);
+    /* Guardamos los datos de slides para poder recargar */
+    _trackSpecial("moodboard", "Moodboard", [response.slide1, response.slide2]);
+};
+
+const _origAddRecorrido = addRecorrido;
+window.addRecorrido = function(response) {
+    _origAddRecorrido(response);
+    _trackSpecial("recorrido", "Recorrido de Mercados", null);
 };
 
 /* ── Nuevo chat ── */
 newChatBtn.addEventListener("click", async () => {
     closeSidebar();
-    /* Guardar el chat actual antes de limpiar */
+    /* Forzar guardado inmediato si hay mensajes pendientes */
+    clearTimeout(_saveTimer);
     if (currentMessages.length > 0 && currentLabel) {
         await apiSaveChat(currentLabel, currentMessages);
     }
@@ -1401,6 +1500,21 @@ newChatBtn.addEventListener("click", async () => {
     const chatEl = document.getElementById("chat");
     chatEl.innerHTML = "";
     addMessage(WELCOME_MESSAGE, "bot");
+});
+
+/* Guardar al cerrar/salir de la página */
+window.addEventListener("beforeunload", () => {
+    if (currentMessages.length > 0 && currentLabel) {
+        /* Usar sendBeacon para garantizar el envío aunque se cierre */
+        const payload = JSON.stringify({
+            label:    currentLabel,
+            messages: currentMessages
+        });
+        navigator.sendBeacon(
+            "/api/history-save",
+            new Blob([payload], { type: "application/json" })
+        );
+    }
 });
 
 /* ── Init ── */
