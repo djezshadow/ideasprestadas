@@ -921,7 +921,9 @@ body {
 
 /* ── YOUTUBE EMBED ── */
 .youtube-block {
-    max-width: 600px !important;
+    /* Ocupa casi todo el ancho disponible del chat */
+    max-width: 96% !important;
+    width: 860px;
     padding: 16px 16px 12px !important;
 }
 
@@ -929,9 +931,10 @@ body {
     position: relative;
     width: 100%;
     padding-top: 56.25%; /* 16:9 */
-    border-radius: 10px;
+    border-radius: 12px;
     overflow: hidden;
     background: #000;
+    box-shadow: 0 8px 40px rgba(0,0,0,.5);
 }
 
 .youtube-wrapper iframe {
@@ -940,9 +943,74 @@ body {
     width: 100%;
     height: 100%;
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
 }
 
 @media (max-width: 700px) {
-    .youtube-block { max-width: 100% !important; }
+    .youtube-block {
+        max-width: 100% !important;
+        width: 100%;
+        padding: 12px 10px 10px !important;
+    }
+}
+
+
+/* ── HISTORIAL — botón borrar ── */
+.history-item {
+    position: relative;
+}
+
+.history-item:hover .hist-delete {
+    opacity: 1;
+}
+
+.hist-delete {
+    flex-shrink: 0;
+    opacity: 0;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,.45);
+    font-size: 0.85rem;
+    cursor: pointer;
+    padding: 2px 4px;
+    border-radius: 4px;
+    transition: opacity .15s ease, color .15s ease;
+    line-height: 1;
+}
+
+.hist-delete:hover {
+    color: #ff8080;
+}
+
+/* En mobile siempre visible (no hay hover) */
+@media (max-width: 700px) {
+    .hist-delete { opacity: 0.5; }
+}
+
+/* Botón borrar todo */
+.sidebar-clear-all {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 8px 10px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: rgba(255,100,100,.6);
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: background .15s ease, color .15s ease;
+    text-align: left;
+    margin-top: 4px;
+}
+
+.sidebar-clear-all:hover {
+    background: rgba(255,80,80,.12);
+    color: rgba(255,120,120,.9);
+}
+
+.sidebar-clear-all .sidebar-link-icon {
+    font-size: 0.9rem;
+    opacity: .8;
 }

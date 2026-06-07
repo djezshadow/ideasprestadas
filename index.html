@@ -40,6 +40,12 @@
             <p class="sidebar-empty">Tus conversaciones aparecerán acá.</p>
         </nav>
 
+        <!-- Borrar todo — se muestra solo cuando hay historial -->
+        <button class="sidebar-clear-all" id="clearAllBtn" style="display:none">
+            <span class="sidebar-link-icon">🗑</span>
+            Borrar todo el historial
+        </button>
+
         <div class="sidebar-spacer"></div>
 
         <div class="sidebar-bottom">
@@ -47,15 +53,15 @@
                 <span class="sidebar-link-icon">🎬</span>
                 Sobre Nosotros
             </a>
-            <a href="https://youtu.be/dQw4w9WgXcQ" class="sidebar-link">
+            <a href="" class="sidebar-link">
                 <span class="sidebar-link-icon">⚙</span>
                 Configuración
             </a>
-            <a href="https://youtu.be/dQw4w9WgXcQ" class="sidebar-link">
+            <a href="" class="sidebar-link">
                 <span class="sidebar-link-icon">✉</span>
                 Contacto
             </a>
-            <div class="sidebar-version">v0.2.5</div>
+            <div class="sidebar-version">v1.0.0</div>
         </div>
 
     </aside>
@@ -116,7 +122,6 @@
         }, { passive: true });
     });
 </script>
-
 <script src="script.js"></script>
 </body>
 </html>
