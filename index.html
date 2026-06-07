@@ -5,8 +5,270 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>NeuraScript</title>
 <link rel="stylesheet" href="style.css">
+<style>
+
+/* ═══════════════════════════════════════
+   SPLASH SCREEN — Animación de intro
+   ═══════════════════════════════════════ */
+#splash {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: linear-gradient(160deg, #0414ff 0%, #0000cc 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    transition: opacity .6s ease, visibility .6s ease;
+}
+
+#splash.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.splash-logo {
+    width: 120px;
+    opacity: 0;
+    transform: scale(0.6);
+    filter: drop-shadow(0 0 40px rgba(255,255,255,.5));
+    animation: splashLogoIn 1s cubic-bezier(.34,1.56,.64,1) .3s forwards;
+}
+
+@keyframes splashLogoIn {
+    to { opacity: 1; transform: scale(1); }
+}
+
+.splash-name {
+    color: white;
+    font-size: 2.4rem;
+    font-weight: 800;
+    letter-spacing: .5px;
+    opacity: 0;
+    transform: translateY(14px);
+    animation: splashTextIn .7s ease .9s forwards;
+    margin-top: 18px;
+    text-shadow: 0 4px 30px rgba(100,100,255,.4);
+}
+
+.splash-tagline {
+    color: rgba(255,255,255,.5);
+    font-size: 0.95rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: splashTextIn .6s ease 1.3s forwards;
+    margin-top: 8px;
+}
+
+@keyframes splashTextIn {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.splash-start-btn {
+    margin-top: 52px;
+    padding: 18px 56px;
+    background: white;
+    color: #0000cc;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.15rem;
+    font-weight: 800;
+    letter-spacing: .3px;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: splashTextIn .6s ease 1.8s forwards;
+    box-shadow: 0 8px 40px rgba(0,0,0,.25), 0 0 60px rgba(255,255,255,.15);
+    transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.splash-start-btn:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 14px 50px rgba(0,0,0,.3), 0 0 80px rgba(255,255,255,.2);
+}
+
+.splash-start-btn:active {
+    transform: scale(0.97);
+}
+
+/* ═══════════════════════════════════════
+   WELCOME OVERLAY — chips grandes
+   ═══════════════════════════════════════ */
+#welcomeOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    background: rgba(0, 0, 180, 0.55);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    animation: fade .35s ease;
+    transition: opacity .4s ease, visibility .4s ease;
+}
+
+#welcomeOverlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.welcome-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255,255,255,.15);
+    border: 1px solid rgba(255,255,255,.3);
+    color: white;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .18s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+.welcome-close:hover { background: rgba(255,255,255,.28); }
+
+.welcome-heading {
+    color: white;
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 8px;
+    text-shadow: 0 4px 20px rgba(0,0,200,.4);
+}
+
+.welcome-sub {
+    color: rgba(255,255,255,.65);
+    font-size: clamp(0.88rem, 2vw, 1rem);
+    text-align: center;
+    margin-bottom: 36px;
+    max-width: 480px;
+    line-height: 1.6;
+}
+
+.welcome-chips {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    max-width: 680px;
+    width: 100%;
+}
+
+.welcome-chip {
+    padding: 20px 14px;
+    background: rgba(255,255,255,.12);
+    border: 1.5px solid rgba(255,255,255,.28);
+    border-radius: 18px;
+    color: white;
+    font-size: clamp(0.78rem, 1.5vw, 0.92rem);
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    line-height: 1.35;
+    transition: background .18s ease, transform .15s ease, border-color .18s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.welcome-chip:hover {
+    background: rgba(255,255,255,.22);
+    border-color: rgba(255,255,255,.55);
+    transform: translateY(-3px);
+}
+
+.welcome-chip:active { transform: scale(0.96); }
+
+.welcome-chip .wc-icon {
+    display: block;
+    font-size: 1.6rem;
+    margin-bottom: 8px;
+}
+
+@media (max-width: 540px) {
+    .welcome-chips {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    .welcome-chip { padding: 16px 10px; }
+    .welcome-chip .wc-icon { font-size: 1.3rem; }
+}
+
+/* ═══════════════════════════════════════
+   BOTÓN LOGIN en topbar (usuario invitado)
+   ═══════════════════════════════════════ */
+.topbar-login-btn {
+    flex-shrink: 0;
+    padding: 7px 14px;
+    background: rgba(255,255,255,.15);
+    border: 1px solid rgba(255,255,255,.3);
+    border-radius: 20px;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background .18s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+.topbar-login-btn:hover { background: rgba(255,255,255,.28); }
+
+/* Badge "Invitado" en sidebar */
+.sidebar-guest-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    background: rgba(255,200,0,.1);
+    border: 1px solid rgba(255,200,0,.2);
+    border-radius: 10px;
+    margin-bottom: 12px;
+    color: rgba(255,220,100,.8);
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.sidebar-guest-badge a {
+    color: rgba(255,220,100,.95);
+    text-decoration: none;
+    font-weight: 700;
+    margin-left: auto;
+    font-size: 0.75rem;
+}
+
+</style>
 </head>
 <body>
+
+<!-- ══════════════════════════════════════════
+     SPLASH DE INTRO
+     ══════════════════════════════════════════ -->
+<div id="splash">
+    <img src="img/Neura 1.png" class="splash-logo" alt="NeuraScript">
+    <div class="splash-name">NeuraScript</div>
+    <div class="splash-tagline">Tu asistente de guion</div>
+    <button class="splash-start-btn" id="splashBtn">✦ Empezar</button>
+</div>
+
+<!-- ══════════════════════════════════════════
+     WELCOME OVERLAY — chips grandes
+     ══════════════════════════════════════════ -->
+<div id="welcomeOverlay" class="hidden">
+    <button class="welcome-close" id="welcomeClose" title="Cerrar">✕</button>
+    <div class="welcome-heading">¿Qué querés explorar?</div>
+    <div class="welcome-sub">Elegí una opción para comenzar o escribí directamente en el chat.</div>
+    <div class="welcome-chips" id="welcomeChips"></div>
+</div>
 
 <!-- Tap anywhere to dismiss keyboard on iPhone -->
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
@@ -23,12 +285,8 @@
             <span class="sidebar-title">NeuraScript</span>
         </div>
 
-        <!-- Usuario logueado -->
-        <div class="sidebar-user">
-            <span class="sidebar-user-icon">👤</span>
-            <span class="sidebar-user-name" id="sidebarUsername">...</span>
-            <button class="sidebar-logout-btn" id="logoutBtn" title="Cerrar sesión">↩</button>
-        </div>
+        <!-- Usuario logueado o badge invitado — se inyecta por JS -->
+        <div id="sidebarUserArea"></div>
 
         <button class="sidebar-new-chat" id="newChatBtn">
             <span class="icon">✦</span>
@@ -40,7 +298,6 @@
             <p class="sidebar-empty">Tus conversaciones aparecerán acá.</p>
         </nav>
 
-        <!-- Borrar todo — se muestra solo cuando hay historial -->
         <button class="sidebar-clear-all" id="clearAllBtn" style="display:none">
             <span class="sidebar-link-icon">🗑</span>
             Borrar todo el historial
@@ -76,6 +333,8 @@
             <button class="topbar-menu-btn" id="menuBtn" aria-label="Abrir menú">☰</button>
             <span class="topbar-title">NeuraScript</span>
             <div class="topbar-spacer"></div>
+            <!-- Botón login para invitados -->
+            <div id="topbarLoginArea"></div>
         </div>
 
         <!-- Logo desktop -->
@@ -89,7 +348,7 @@
             <div id="chat" class="chat"></div>
         </div>
 
-        <!-- Chips de sugerencias -->
+        <!-- Chips de sugerencias (pequeños, siempre visibles) -->
         <div class="chips-bar" id="chipsBar"></div>
 
         <!-- Input -->
@@ -106,7 +365,6 @@
             </div>
         </div>
 
-        <!-- Fondo sólido debajo del input para tapar el gap de Safari -->
         <div class="safari-bottom-fill"></div>
 
     </div>
@@ -114,16 +372,103 @@
 </div>
 
 <script>
-    /* Redirigir al login si no hay token */
-    const _token = localStorage.getItem("ns_token");
-    if (!_token) window.location.href = "auth.html";
+/* ─── Auth: aceptar token O modo invitado ─── */
+const _token = localStorage.getItem("ns_token");
+const _guest = localStorage.getItem("ns_guest");
 
-    /* Tap en el área de chat para cerrar teclado en iPhone */
-    document.addEventListener("DOMContentLoaded", () => {
-        document.getElementById("chat").addEventListener("touchstart", () => {
-            document.getElementById("messageInput").blur();
-        }, { passive: true });
+if (!_token && !_guest) {
+    window.location.href = "auth.html";
+}
+
+/* ─── Sidebar: area usuario / invitado ─── */
+const _username = localStorage.getItem("ns_username");
+const userArea = document.getElementById("sidebarUserArea");
+const topbarLoginArea = document.getElementById("topbarLoginArea");
+
+if (_token && _username) {
+    userArea.innerHTML = `
+        <div class="sidebar-user">
+            <span class="sidebar-user-icon">👤</span>
+            <span class="sidebar-user-name">${_username}</span>
+            <button class="sidebar-logout-btn" id="logoutBtn" title="Cerrar sesión">↩</button>
+        </div>`;
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+        localStorage.removeItem("ns_token");
+        localStorage.removeItem("ns_username");
+        localStorage.removeItem("ns_guest");
+        window.location.href = "auth.html";
     });
+} else {
+    /* Invitado */
+    userArea.innerHTML = `
+        <div class="sidebar-guest-badge">
+            <span>👤 Invitado</span>
+            <a href="auth.html">Iniciar sesión →</a>
+        </div>`;
+    /* Botón en topbar mobile */
+    topbarLoginArea.innerHTML = `<a href="auth.html" class="topbar-login-btn">Iniciar sesión</a>`;
+}
+
+/* ─── Tap en chat para cerrar teclado en iPhone ─── */
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("chat").addEventListener("touchstart", () => {
+        document.getElementById("messageInput").blur();
+    }, { passive: true });
+});
+
+/* ─── SPLASH ─── */
+const splash   = document.getElementById("splash");
+const splashBtn = document.getElementById("splashBtn");
+
+/* Sonido de intro */
+const introAudio = new Audio("sounds/Heavenly.mp3");
+introAudio.volume = 0.7;
+
+splashBtn.addEventListener("click", () => {
+    introAudio.play().catch(() => {}); /* silencioso si el browser bloquea */
+    splash.classList.add("hidden");
+
+    /* Mostrar welcome overlay tras breve pausa */
+    setTimeout(() => {
+        document.getElementById("welcomeOverlay").classList.remove("hidden");
+    }, 500);
+});
+
+/* ─── WELCOME OVERLAY ─── */
+const WELCOME_CHIPS_DATA = [
+    { icon: "🎬", label: "Ficha Técnica",  key: "ficha tecnica" },
+    { icon: "📖", label: "Logline",         key: "logline" },
+    { icon: "📜", label: "Storyline",       key: "storyline" },
+    { icon: "🎨", label: "Moodboard",       key: "moodboard" },
+    { icon: "💰", label: "Presupuesto",     key: "presupuesto" },
+    { icon: "🤝", label: "Financiamiento",  key: "financiacion" },
+    { icon: "🎭", label: "Elenco",          key: "elenco tentativo" },
+    { icon: "🗺️", label: "Recorrido",       key: "recorrido de mercados" },
+    { icon: "🎞", label: "Teaser",          key: "teaser" },
+];
+
+const welcomeChipsEl = document.getElementById("welcomeChips");
+WELCOME_CHIPS_DATA.forEach(({ icon, label, key }) => {
+    const btn = document.createElement("button");
+    btn.className = "welcome-chip";
+    btn.innerHTML = `<span class="wc-icon">${icon}</span>${label}`;
+    btn.addEventListener("click", () => {
+        closeWelcome();
+        /* Pequeña pausa para que el overlay se cierre antes de enviar */
+        setTimeout(() => {
+            document.getElementById("messageInput").value = key;
+            if (typeof sendMessage === "function") sendMessage();
+        }, 350);
+    });
+    welcomeChipsEl.appendChild(btn);
+});
+
+function closeWelcome() {
+    document.getElementById("welcomeOverlay").classList.add("hidden");
+}
+
+document.getElementById("welcomeClose").addEventListener("click", closeWelcome);
+
 </script>
 <script src="script.js"></script>
 </body>

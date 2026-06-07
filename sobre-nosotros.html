@@ -12,12 +12,26 @@
         min-height: 100vh;
         min-height: -webkit-fill-available;
         overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    /* ── Hero con fondo brillante ── */
+    .about-hero-bg {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        background:
+            radial-gradient(ellipse 80% 60% at 50% -10%, rgba(80,100,255,.55) 0%, transparent 70%),
+            radial-gradient(ellipse 60% 40% at 80% 110%, rgba(0,0,200,.4) 0%, transparent 60%);
     }
 
     .about-page {
+        position: relative;
+        z-index: 1;
         min-height: 100vh;
         padding: max(40px, env(safe-area-inset-top, 40px)) 20px
-                 max(40px, env(safe-area-inset-bottom, 40px));
+                 max(60px, env(safe-area-inset-bottom, 60px));
     }
 
     /* ── Topbar ── */
@@ -25,21 +39,30 @@
         display: flex;
         align-items: center;
         gap: 14px;
-        max-width: 900px;
-        margin: 0 auto 40px;
+        max-width: 960px;
+        margin: 0 auto 56px;
+        animation: slideDown .5s ease both;
+    }
+
+    @keyframes slideDown {
+        from { opacity:0; transform: translateY(-16px); }
+        to   { opacity:1; transform: translateY(0); }
     }
 
     .about-back {
-        color: rgba(255,255,255,.65);
+        color: rgba(255,255,255,.75);
         text-decoration: none;
-        font-size: 1.1rem;
-        padding: 8px 12px;
-        border-radius: 10px;
-        border: 1px solid rgba(255,255,255,.2);
+        font-size: 0.95rem;
+        font-weight: 700;
+        padding: 9px 16px;
+        border-radius: 50px;
+        border: 1.5px solid rgba(255,255,255,.28);
+        background: rgba(255,255,255,.08);
+        backdrop-filter: blur(8px);
         transition: all .18s ease;
         white-space: nowrap;
     }
-    .about-back:hover { background: rgba(255,255,255,.1); color: white; }
+    .about-back:hover { background: rgba(255,255,255,.18); color: white; transform: translateX(-2px); }
 
     .about-topbar-brand {
         display: flex;
@@ -47,62 +70,100 @@
         gap: 10px;
     }
 
-    .about-topbar-brand img { width: 32px; }
+    .about-topbar-brand img {
+        width: 34px;
+        filter: drop-shadow(0 0 10px rgba(255,255,255,.3));
+    }
     .about-topbar-brand span {
         color: white;
         font-size: 1.05rem;
-        font-weight: 700;
+        font-weight: 800;
     }
 
-    /* ── Hero de la película ── */
+    /* ── Hero ── */
     .movie-hero {
-        max-width: 900px;
-        margin: 0 auto 56px;
+        max-width: 960px;
+        margin: 0 auto 72px;
         text-align: center;
+        animation: fadeUp .7s ease .1s both;
+    }
+
+    @keyframes fadeUp {
+        from { opacity:0; transform: translateY(24px); }
+        to   { opacity:1; transform: translateY(0); }
     }
 
     .voces {
         display: block;
-        width: 400px;
-        max-width: 38vw;
-        margin: 0 auto 12px;
-        filter: drop-shadow(0 0 14px rgba(255,255,255,.2));
+        width: 360px;
+        max-width: 55vw;
+        margin: 0 auto 20px;
+        filter: drop-shadow(0 0 20px rgba(255,255,255,.2));
     }
 
     .movie-badge {
         display: inline-block;
-        background: rgba(255,255,255,.12);
-        border: 1px solid rgba(255,255,255,.25);
+        background: rgba(255,255,255,.1);
+        border: 1px solid rgba(255,255,255,.22);
         border-radius: 20px;
-        padding: 5px 16px;
-        color: rgba(255,255,255,.75);
-        font-size: 0.78rem;
-        font-weight: 600;
-        letter-spacing: 1.5px;
+        padding: 5px 20px;
+        color: rgba(255,255,255,.65);
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 2.5px;
         text-transform: uppercase;
-        margin-bottom: 18px;
+        margin-bottom: 20px;
     }
 
     .movie-title {
         color: white;
-        font-size: clamp(2rem, 5vw, 3.4rem);
-        font-weight: 800;
-        line-height: 1.1;
-        margin-bottom: 16px;
-        text-shadow: 0 4px 30px rgba(0,0,200,.4);
+        font-size: clamp(2.6rem, 7vw, 4.2rem);
+        font-weight: 900;
+        line-height: 1.05;
+        margin-bottom: 20px;
+        text-shadow: 0 6px 40px rgba(0,0,220,.5), 0 2px 0 rgba(255,255,255,.08);
+        letter-spacing: -.5px;
+    }
+
+    /* Imagen de la película con borde luminoso */
+    .movie-frame-wrap {
+        position: relative;
+        display: inline-block;
+        border-radius: 20px;
+        margin-bottom: 28px;
+        box-shadow:
+            0 0 0 1.5px rgba(255,255,255,.18),
+            0 20px 80px rgba(0,0,0,.5),
+            0 0 60px rgba(60,80,255,.25);
+        overflow: hidden;
+        max-width: 600px;
+        width: 85%;
+    }
+
+    .movie-frame-wrap::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            to bottom,
+            transparent 60%,
+            rgba(0, 0, 180, 0.35) 100%
+        );
+        pointer-events: none;
     }
 
     .movie-frame {
-        width: 60%;
+        display: block;
+        width: 100%;
         height: auto;
-        object-fit: cover;
+        border-radius: 20px;
     }
 
     .movie-tagline {
-        color: rgba(255,255,255,.65);
-        font-size: clamp(0.95rem, 2vw, 1.1rem);
-        line-height: 1.6;
-        max-width: 580px;
+        color: rgba(255,255,255,.72);
+        font-size: clamp(0.9rem, 2vw, 1.05rem);
+        line-height: 1.7;
+        max-width: 620px;
         margin: 0 auto 28px;
     }
 
@@ -110,26 +171,28 @@
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
-        gap: 12px;
+        gap: 10px;
     }
 
     .movie-chip {
         background: rgba(255,255,255,.1);
-        border: 1px solid rgba(255,255,255,.18);
-        border-radius: 12px;
-        padding: 7px 16px;
-        color: rgba(255,255,255,.8);
-        font-size: 0.83rem;
-        font-weight: 500;
+        border: 1px solid rgba(255,255,255,.2);
+        border-radius: 50px;
+        padding: 8px 18px;
+        color: rgba(255,255,255,.85);
+        font-size: 0.84rem;
+        font-weight: 600;
+        backdrop-filter: blur(6px);
+        letter-spacing: .2px;
     }
 
     /* ── Divider ── */
     .section-divider {
-        max-width: 900px;
-        margin: 0 auto 40px;
+        max-width: 960px;
+        margin: 0 auto 48px;
         display: flex;
         align-items: center;
-        gap: 16px;
+        gap: 20px;
     }
 
     .section-divider::before,
@@ -137,108 +200,105 @@
         content: "";
         flex: 1;
         height: 1px;
-        background: rgba(255,255,255,.15);
+        background: linear-gradient(to right, transparent, rgba(255,255,255,.25), transparent);
     }
 
     .section-divider span {
-        color: rgba(255,255,255,.4);
-        font-size: 0.75rem;
-        font-weight: 600;
-        letter-spacing: 1.5px;
+        color: rgba(255,255,255,.55);
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 3px;
         text-transform: uppercase;
         white-space: nowrap;
     }
 
-    /* ── Grid de productores ── */
+    /* ── Grid de equipo ── */
     .team-grid {
-        max-width: 900px;
-        margin: 0 auto 60px;
+        max-width: 960px;
+        margin: 0 auto 72px;
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-        gap: 20px;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 22px;
     }
 
     .team-card {
-        background: rgba(255,255,255,.09);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255,255,255,.15);
-        border-radius: 18px;
-        padding: 24px 20px;
+        background: rgba(255,255,255,.08);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255,255,255,.14);
+        border-radius: 22px;
+        padding: 30px 22px;
         text-align: center;
-        transition: transform .2s ease, background .2s ease;
+        transition: transform .25s ease, background .25s ease, box-shadow .25s ease;
+        animation: fadeUp .6s ease both;
     }
 
+    .team-card:nth-child(1) { animation-delay: .1s; }
+    .team-card:nth-child(2) { animation-delay: .18s; }
+    .team-card:nth-child(3) { animation-delay: .26s; }
+    .team-card:nth-child(4) { animation-delay: .34s; }
+    .team-card:nth-child(5) { animation-delay: .42s; }
+
     .team-card:hover {
-        transform: translateY(-4px);
+        transform: translateY(-6px);
         background: rgba(255,255,255,.14);
+        box-shadow: 0 20px 60px rgba(0,0,0,.25), 0 0 40px rgba(60,100,255,.15);
     }
 
     .team-photo {
-        width: 88px;
-        height: 88px;
+        width: 96px;
+        height: 96px;
         border-radius: 50%;
         object-fit: cover;
-        border: 3px solid rgba(255,255,255,.3);
-        margin: 0 auto 14px;
+        border: 3px solid rgba(255,255,255,.28);
+        margin: 0 auto 16px;
         display: block;
         background: rgba(255,255,255,.08);
+        box-shadow: 0 0 30px rgba(255,255,255,.1);
     }
 
     .team-photo-vicky {
-    width: 88px;
-    height: 88px;
-    border-radius: 50%;
-    object-fit: cover;
-    object-position: 0 -10px;
-    border: 3px solid rgba(255,255,255,.3);
-    margin: 0 auto 14px;
-    display: block;
-    background: rgba(255,255,255,.08);
-    }
-
-    /* Placeholder si no hay foto */
-    .team-photo-placeholder {
-        width: 88px;
-        height: 88px;
+        width: 96px;
+        height: 96px;
         border-radius: 50%;
-        background: rgba(255,255,255,.1);
-        border: 3px solid rgba(255,255,255,.2);
-        margin: 0 auto 14px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 2rem;
+        object-fit: cover;
+        object-position: 0 -10px;
+        border: 3px solid rgba(255,255,255,.28);
+        margin: 0 auto 16px;
+        display: block;
+        background: rgba(255,255,255,.08);
+        box-shadow: 0 0 30px rgba(255,255,255,.1);
     }
 
     .team-name {
         color: white;
-        font-size: 1rem;
-        font-weight: 700;
-        margin-bottom: 4px;
+        font-size: 1.05rem;
+        font-weight: 800;
+        margin-bottom: 5px;
+        letter-spacing: .1px;
     }
 
     .team-role {
-        color: rgba(255,255,255,.5);
-        font-size: 0.75rem;
-        font-weight: 600;
-        letter-spacing: 1px;
+        color: rgba(255,255,255,.45);
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 1.5px;
         text-transform: uppercase;
-        margin-bottom: 12px;
+        margin-bottom: 14px;
     }
 
     .team-desc {
-        color: rgba(255,255,255,.65);
-        font-size: 0.84rem;
-        line-height: 1.55;
+        color: rgba(255,255,255,.68);
+        font-size: 0.85rem;
+        line-height: 1.65;
     }
 
     /* ── Footer ── */
     .about-footer {
-        max-width: 900px;
+        max-width: 960px;
         margin: 0 auto;
         text-align: center;
-        padding-top: 20px;
+        padding-top: 28px;
         border-top: 1px solid rgba(255,255,255,.1);
     }
 
@@ -249,15 +309,19 @@
     }
 
     .about-footer a {
-        color: rgba(255,255,255,.5);
+        color: rgba(255,255,255,.45);
         font-size: 0.78rem;
         text-decoration: none;
+        transition: color .15s;
     }
     .about-footer a:hover { color: white; }
 
 </style>
 </head>
 <body>
+
+<!-- Fondo con glow -->
+<div class="about-hero-bg"></div>
 
 <div class="about-page">
 
@@ -272,24 +336,22 @@
 
     <!-- ══════════════════════════════════════════
          SECCIÓN PELÍCULA
-         Completá los datos de tu película acá
          ══════════════════════════════════════════ -->
     <div class="movie-hero">
 
         <img class="voces" src="img/5voces.png" alt="5 Voces Producciones">
         <div class="movie-badge">PRESENTA</div>
 
-        <!-- ⬇️ CAMBIÁ EL TÍTULO DE LA PELÍCULA -->
         <h1 class="movie-title">Ideas Prestadas</h1>
 
-        <img class="movie-frame" src="img/ideasprestadas.webp">
+        <div class="movie-frame-wrap">
+            <img class="movie-frame" src="img/ideasprestadas.webp" alt="Ideas Prestadas">
+        </div>
 
-        <!-- ⬇️ CAMBIÁ LA SINOPSIS / TAGLINE -->
         <p class="movie-tagline">
             Marcos (34), un frustrado actor que sueña con triunfar como guionista, encuentra una innovadora IA llamada NeuraScript que lo lleva a la fama y lo acerca a ser invitado al programa de Freddy Castelli. Para ello Intenta concretar una película junto a una excéntrica actriz, pero enfrenta los constantes sabotajes de su ex amigo Ángel (34), un actor rival. En el programa, cuando su secreto sale poco a poco a la luz, siente culpa y asume su mentira. Marcos pierde todo lo que había conseguido, y comprende que lo que de verdad necesitaba siempre estuvo en el humilde teatro donde comenzó.
         </p>
 
-        <!-- ⬇️ CHIPS CON DATOS DE LA PELÍCULA — editá o agregá los que necesites -->
         <div class="movie-details">
             <span class="movie-chip">📅 2028</span>
             <span class="movie-chip">🎭 Comedia Dramática</span>
@@ -303,20 +365,12 @@
     <div class="section-divider"><span>El Equipo</span></div>
 
     <!-- ══════════════════════════════════════════
-         PRODUCTORES
-         Para cada integrante:
-           - photo: ruta a la imagen (ej: "img/foto1.jpg")
-                    Si no tenés foto, borrá el <img> y dejá el placeholder
-           - name:  nombre completo
-           - role:  rol en el proyecto
-           - desc:  descripción corta
+         EQUIPO
          ══════════════════════════════════════════ -->
     <div class="team-grid">
 
-        <!-- PRODUCTOR 1 -->
         <div class="team-card">
-            <!-- Reemplazá con: <img class="team-photo" src="img/foto1.jpg" alt="Nombre"> -->
-            <img class="team-photo-vicky" src="img/vicky.webp" alt="Victoria">
+            <img class="team-photo-vicky" src="img/vicky.webp" alt="Victoria Gariglio">
             <div class="team-name">Victoria Gariglio</div>
             <div class="team-role">Directora / Productora</div>
             <p class="team-desc">
@@ -324,9 +378,8 @@
             </p>
         </div>
 
-        <!-- PRODUCTOR 2 -->
         <div class="team-card">
-            <img class="team-photo" src="img/eli.jpg" alt="Victoria">
+            <img class="team-photo" src="img/eli.jpg" alt="Eliás Betés">
             <div class="team-name">Eliás Betés</div>
             <div class="team-role">Guionista</div>
             <p class="team-desc">
@@ -334,19 +387,17 @@
             </p>
         </div>
 
-        <!-- PRODUCTOR 3 -->
         <div class="team-card">
-            <img class="team-photo" src="img/sere.webp" alt="Victoria">
+            <img class="team-photo" src="img/sere.webp" alt="Serena Arcuri">
             <div class="team-name">Serena Arcuri</div>
             <div class="team-role">Productora</div>
             <p class="team-desc">
-                Alumna avanzada de Diseño de Imagen y Sonido en la UBA, con experiencia en dirección, fotografía, montaje y dirección de arte en cortometrajes seleccionados para proyecciones académicas. 
+                Alumna avanzada de Diseño de Imagen y Sonido en la UBA, con experiencia en dirección, fotografía, montaje y dirección de arte en cortometrajes seleccionados para proyecciones académicas.
             </p>
         </div>
 
-        <!-- PRODUCTOR 4 -->
         <div class="team-card">
-            <img class="team-photo" src="img/emi.jpg" alt="Victoria">
+            <img class="team-photo" src="img/emi.jpg" alt="Ezequiel Sánchez">
             <div class="team-name">Ezequiel Sánchez</div>
             <div class="team-role">Productor</div>
             <p class="team-desc">
@@ -354,9 +405,8 @@
             </p>
         </div>
 
-        <!-- PRODUCTOR 5 -->
         <div class="team-card">
-            <img class="team-photo" src="img/isa.webp" alt="Victoria">
+            <img class="team-photo" src="img/isa.webp" alt="Isabel Rabanal">
             <div class="team-name">Isabel Rabanal</div>
             <div class="team-role">Productora</div>
             <p class="team-desc">
@@ -368,9 +418,8 @@
 
     <!-- Footer -->
     <div class="about-footer">
-        <!-- ⬇️ EDITÁ EL AÑO Y LOS DATOS DE CONTACTO -->
         <p>© 2026 NeuraScript — Todos los derechos reservados</p>
-        <a href="">productora@5vocesproducciones.com</a>
+        <a href="mailto:productora@5vocesproducciones.com">productora@5vocesproducciones.com</a>
     </div>
 
 </div>

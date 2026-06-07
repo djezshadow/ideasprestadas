@@ -9,7 +9,6 @@
 
     html, body {
         height: 100%;
-        /* Fix Safari: no usar 100vh en body */
         min-height: -webkit-fill-available;
     }
 
@@ -102,11 +101,9 @@
         border: 1.5px solid rgba(255,255,255,.22);
         border-radius: 10px;
         color: white;
-        font-size: 0.95rem;
         outline: none;
         transition: border-color .18s ease;
-        /* Fix iOS zoom on input */
-        font-size: 16px;
+        font-size: 16px; /* Fix iOS zoom */
     }
 
     .auth-field input:focus {
@@ -143,6 +140,27 @@
     .auth-btn:active  { transform: scale(0.97); }
     .auth-btn:disabled { opacity: .5; cursor: not-allowed; }
 
+    /* Botón "Usar sin cuenta" */
+    .auth-skip-btn {
+        width: 100%;
+        padding: 11px;
+        margin-top: 10px;
+        background: transparent;
+        color: rgba(255,255,255,.6);
+        border: 1.5px solid rgba(255,255,255,.25);
+        border-radius: 12px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all .18s ease;
+        -webkit-tap-highlight-color: transparent;
+    }
+    .auth-skip-btn:hover {
+        background: rgba(255,255,255,.08);
+        color: rgba(255,255,255,.9);
+        border-color: rgba(255,255,255,.45);
+    }
+
     .auth-msg {
         margin-top: 13px;
         padding: 10px 14px;
@@ -167,7 +185,6 @@
         color: #aaffcc;
     }
 
-    /* Link a Sobre Nosotros */
     .auth-footer {
         text-align: center;
         margin-top: 20px;
@@ -210,21 +227,21 @@
                 <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password">
             </div>
             <button class="auth-btn" id="loginBtn" onclick="doLogin()">Entrar</button>
+            <button class="auth-skip-btn" onclick="skipAuth()">Continuar sin cuenta →</button>
         </div>
 
-        <!-- REGISTRO -->
+        <!-- REGISTRO — sin campo de email -->
         <div id="formRegister" style="display:none">
             <div class="auth-field">
                 <label>Usuario</label>
                 <input type="text" id="regUser" placeholder="tu_usuario" autocomplete="username">
             </div>
+            <!-- Email desactivado: se puede reactivar en el futuro para recuperación de contraseña
             <div class="auth-field">
                 <label>Email</label>
                 <input type="email" id="regEmail" placeholder="tu@email.com" autocomplete="email">
-                <p class="auth-hint">
-                    📧 Tu email se usará en el futuro para recuperar tu contraseña.
-                </p>
             </div>
+            -->
             <div class="auth-field">
                 <label>Contraseña</label>
                 <input type="password" id="regPass" placeholder="••••••••" autocomplete="new-password">
@@ -233,6 +250,7 @@
                 </p>
             </div>
             <button class="auth-btn" id="registerBtn" onclick="doRegister()">Crear cuenta</button>
+            <button class="auth-skip-btn" onclick="skipAuth()">Continuar sin cuenta →</button>
         </div>
 
         <div class="auth-msg" id="authMsg"></div>
@@ -245,7 +263,12 @@
 </div>
 
 <script>
-    if (localStorage.getItem("ns_token")) {
+    if (localStorage.getItem("ns_token") || localStorage.getItem("ns_guest")) {
+        window.location.href = "index.html";
+    }
+
+    function skipAuth() {
+        localStorage.setItem("ns_guest", "true");
         window.location.href = "index.html";
     }
 
@@ -285,6 +308,7 @@
             const data = await res.json();
             if (!res.ok) return showMsg(data.error, "error");
 
+            localStorage.removeItem("ns_guest");
             localStorage.setItem("ns_token",    data.token);
             localStorage.setItem("ns_username", data.username);
             window.location.href = "index.html";
@@ -298,10 +322,9 @@
 
     async function doRegister() {
         const username = document.getElementById("regUser").value.trim();
-        const email    = document.getElementById("regEmail").value.trim();
         const password = document.getElementById("regPass").value;
 
-        if (!username || !email || !password) return showMsg("Completá todos los campos.", "error");
+        if (!username || !password) return showMsg("Completá todos los campos.", "error");
 
         const btn = document.getElementById("registerBtn");
         btn.disabled = true;
@@ -311,7 +334,7 @@
             const res  = await fetch("/api/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, email, password })
+                body: JSON.stringify({ username, password })
             });
             const data = await res.json();
             if (!res.ok) return showMsg(data.error, "error");
@@ -334,6 +357,7 @@
         });
         const data = await res.json();
         if (res.ok) {
+            localStorage.removeItem("ns_guest");
             localStorage.setItem("ns_token",    data.token);
             localStorage.setItem("ns_username", data.username);
             window.location.href = "index.html";
