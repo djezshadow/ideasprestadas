@@ -708,9 +708,9 @@ En el programa, cuando su secreto sale poco a poco a la luz, siente culpa y asum
         /* ── SLIDE 1: 15 imágenes (la última es la paleta de colores) ── */
         slide1: [
             /* ⬇️  Reemplazá cada "" con la ruta de tu imagen, ej: "img/mood/foto1.jpg" */
-            "", "", "", "", "",
-            "", "", "", "", "",
-            "", "", "", "", "img/paleta1.jpg"  /* última = paleta */
+            "img/moodboard/001.webp", "img/moodboard/002.webp", "img/moodboard/003.webp", "img/moodboard/004.webp", "img/moodboard/005.webp",
+            "img/moodboard/006.webp", "img/moodboard/007.webp", "img/moodboard/008.webp", "img/moodboard/009.webp", "img/moodboard/010.webp",
+            "img/moodboard/011.webp", "img/moodboard/012.webp", "img/moodboard/013.webp", "img/moodboard/014.webp", "img/paleta1.jpg"  /* última = paleta */
         ],
         /* ── SLIDE 2: 11 imágenes (la última es la paleta de colores) ── */
         slide2: [
