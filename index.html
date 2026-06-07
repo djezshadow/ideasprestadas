@@ -5,10 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>NeuraScript</title>
 <link rel="stylesheet" href="style.css">
+<!-- Precarga el audio para que esté listo antes de que el usuario toque Empezar -->
+<link rel="preload" href="sounds/Heavenly.mp3" as="audio" type="audio/mpeg">
 <style>
 
 /* ═══════════════════════════════════════
-   SPLASH SCREEN — Animación de intro
+   SPLASH SCREEN
    ═══════════════════════════════════════ */
 #splash {
     position: fixed;
@@ -20,7 +22,7 @@
     align-items: center;
     justify-content: center;
     gap: 0;
-    transition: opacity .6s ease, visibility .6s ease;
+    transition: opacity .7s ease, visibility .7s ease;
 }
 
 #splash.hidden {
@@ -29,12 +31,21 @@
     pointer-events: none;
 }
 
+/* ── Fase 1: solo el botón, centrado ── */
 .splash-logo {
     width: 120px;
     opacity: 0;
     transform: scale(0.6);
     filter: drop-shadow(0 0 40px rgba(255,255,255,.5));
-    animation: splashLogoIn 1s cubic-bezier(.34,1.56,.64,1) .3s forwards;
+    /* Fuera del flujo hasta que empiece la animación */
+    position: absolute;
+    pointer-events: none;
+}
+
+/* Cuando arranca la animación, vuelve al flujo */
+.splash-logo.animate {
+    position: relative;
+    animation: splashLogoIn 1s cubic-bezier(.34,1.56,.64,1) forwards;
 }
 
 @keyframes splashLogoIn {
@@ -48,9 +59,12 @@
     letter-spacing: .5px;
     opacity: 0;
     transform: translateY(14px);
-    animation: splashTextIn .7s ease .9s forwards;
     margin-top: 18px;
     text-shadow: 0 4px 30px rgba(100,100,255,.4);
+}
+
+.splash-name.animate {
+    animation: splashTextIn .7s ease .8s forwards;
 }
 
 .splash-tagline {
@@ -59,31 +73,44 @@
     letter-spacing: 2px;
     text-transform: uppercase;
     opacity: 0;
-    animation: splashTextIn .6s ease 1.3s forwards;
     margin-top: 8px;
+}
+
+.splash-tagline.animate {
+    animation: splashTextIn .6s ease 1.2s forwards;
 }
 
 @keyframes splashTextIn {
     to { opacity: 1; transform: translateY(0); }
 }
 
+/* Botón Empezar — visible desde el inicio, sin logo arriba */
 .splash-start-btn {
-    margin-top: 52px;
-    padding: 18px 56px;
+    padding: 20px 64px;
     background: white;
     color: #0000cc;
     border: none;
     border-radius: 50px;
-    font-size: 1.15rem;
+    font-size: 1.2rem;
     font-weight: 800;
     letter-spacing: .3px;
     cursor: pointer;
-    opacity: 0;
-    transform: translateY(10px);
-    animation: splashTextIn .6s ease 1.8s forwards;
     box-shadow: 0 8px 40px rgba(0,0,0,.25), 0 0 60px rgba(255,255,255,.15);
-    transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+    transition: transform .18s ease, box-shadow .18s ease, opacity .3s ease;
     -webkit-tap-highlight-color: transparent;
+    animation: splashBtnAppear .6s ease .2s both;
+}
+
+@keyframes splashBtnAppear {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Cuando arranca la animación, el botón se desvanece */
+.splash-start-btn.fade-out {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-8px);
 }
 
 .splash-start-btn:hover {
@@ -273,10 +300,14 @@
      SPLASH DE INTRO
      ══════════════════════════════════════════ -->
 <div id="splash">
-    <img src="img/Neura 1.png" class="splash-logo" alt="NeuraScript">
-    <div class="splash-name">NeuraScript</div>
-    <div class="splash-tagline">Tu asistente de guion</div>
+    <!-- Fase 1: solo el botón -->
     <button class="splash-start-btn" id="splashBtn">✦ Empezar</button>
+
+    <!-- Fase 2: animación (oculta hasta que el usuario toca Empezar) -->
+    <img src="img/Neura 1.png" class="splash-logo" id="splashLogo" alt="NeuraScript"
+         style="position:absolute; margin-top:0;">
+    <div class="splash-name" id="splashName">NeuraScript</div>
+    <div class="splash-tagline" id="splashTagline">Tu asistente de guion</div>
 </div>
 
 <!-- ══════════════════════════════════════════
@@ -431,28 +462,38 @@ document.addEventListener("DOMContentLoaded", () => {
 const splash    = document.getElementById("splash");
 const splashBtn = document.getElementById("splashBtn");
 
-/* Sonido arranca con la animación del logo, no con el botón */
-const introAudio = new Audio("sounds/Heavenly.mp3");
+/* Precargar audio apenas carga la página */
+const introAudio = new Audio();
+introAudio.preload = "auto";
 introAudio.volume = 0.7;
-
-/* Intentar reproducir apenas carga la página (puede ser bloqueado por el browser
-   hasta que haya una interacción; en ese caso lo reintentamos al tocar el botón) */
-window.addEventListener("load", () => {
-    introAudio.play().catch(() => {
-        /* Browser bloqueó el autoplay — lo reproducimos al primer toque */
-        document.addEventListener("click", () => introAudio.play().catch(() => {}), { once: true });
-        document.addEventListener("touchstart", () => introAudio.play().catch(() => {}), { once: true });
-    });
-});
+introAudio.src = "sounds/Heavenly.mp3";
+introAudio.load();
 
 splashBtn.addEventListener("click", () => {
-    /* Si aún no sonó, intentar ahora */
+    /* 1. Sonido — arranca aquí, en respuesta directa al click del usuario */
+    introAudio.currentTime = 0;
     introAudio.play().catch(() => {});
-    splash.classList.add("hidden");
 
+    /* 2. El botón desaparece */
+    splashBtn.classList.add("fade-out");
+
+    /* 3. Breve pausa y aparece la animación del logo */
     setTimeout(() => {
+        /* Reposicionar el splash a flex columna centrada para la animación */
+        splash.style.flexDirection = "column";
+        splash.style.gap = "0";
+
+        /* Activar animaciones del logo, nombre y tagline */
+        document.getElementById("splashLogo").classList.add("animate");
+        document.getElementById("splashName").classList.add("animate");
+        document.getElementById("splashTagline").classList.add("animate");
+    }, 300);
+
+    /* 4. La animación dura ~2s → mostramos el menú principal */
+    setTimeout(() => {
+        splash.classList.add("hidden");
         document.getElementById("welcomeOverlay").classList.remove("hidden");
-    }, 450);
+    }, 2600);
 });
 
 /* ─── MENÚ PRINCIPAL (welcome overlay) ─── */
