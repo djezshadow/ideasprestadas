@@ -176,7 +176,16 @@ const ALIASES = {
     "elenco":                      "elenco tentativo",
     "actores":                     "elenco tentativo",
     "reparto":                     "elenco tentativo",
-    "cast":                        "elenco tentativo"
+    "cast":                        "elenco tentativo",
+
+    /* Teaser / Trailer */
+    "teaser":                      "trailer",
+    "trailer":                     "trailer",
+    "avance":                      "trailer",
+    "ver teaser":                  "trailer",
+    "ver trailer":                 "trailer",
+    "mostrar teaser":              "trailer",
+    "mostrar trailer":             "trailer"
 
 };
 
@@ -742,6 +751,20 @@ En el programa, cuando su secreto sale poco a poco a la luz, siente culpa y asum
         ]
     }
 
+    ,
+
+    /* ══════════════════════════════════════════
+       TEASER / TRAILER
+       ══════════════════════════════════════════ */
+
+    "trailer": {
+        type: "youtube",
+        delay: 1600,
+        message: "Cargando el Teaser Oficial de Ideas Prestadas...",
+        youtubeId: "QgG4actvdaU",
+        caption: "IDEAS PRESTADAS — Teaser Oficial"
+    }
+
     /* ══════════════════════════════════════════
        ⬆️  FIN ZONA 2
        Para agregar respuestas nuevas, copiá uno
@@ -906,11 +929,11 @@ function sendMessage() {
         removeTyping();
 
         if (response) {
-            if (["qr","moodboard","recorrido"].includes(response.type)) {
-                /* Estos tipos manejan su propio ciclo de locked/typing */
-                if (response.type === "qr")       addQR(response);
+            if (["qr","moodboard","recorrido","youtube"].includes(response.type)) {
+                if (response.type === "qr")        addQR(response);
                 if (response.type === "moodboard") addMoodboard(response);
                 if (response.type === "recorrido") addRecorrido(response);
+                if (response.type === "youtube")   addYoutube(response);
             } else {
                 setInputLocked(false);
                 input.focus();
@@ -998,6 +1021,45 @@ function makeChatImagesClickable(container) {
         img.style.cursor = "zoom-in";
         img.addEventListener("click", () => openLightbox(img.src));
     });
+}
+
+/* ===================================================
+   RENDER — YOUTUBE EMBED
+   =================================================== */
+
+function addYoutube(response) {
+    addMessage(response.message || "Cargando video...", "bot");
+    setInputLocked(true);
+    showTyping();
+
+    setTimeout(() => {
+        removeTyping();
+        setInputLocked(false);
+        input.focus();
+
+        const div = document.createElement("div");
+        div.className = "message bot youtube-block";
+        div.innerHTML = `
+            <div class="ficha-title">🎬 ${response.caption || "Video"}</div>
+            <div class="youtube-wrapper">
+                <iframe
+                    src="https://www.youtube.com/embed/${response.youtubeId}?rel=0"
+                    title="${response.caption || "Video"}"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen
+                ></iframe>
+            </div>
+        `;
+        chat.appendChild(div);
+        scrollToBottom();
+
+        if (!_loadingHistory) {
+            trackMessage("bot", response.caption || "Video", "youtube",
+                { youtubeId: response.youtubeId, caption: response.caption });
+        }
+    }, response.delay || 1600);
 }
 
 /* ===================================================
@@ -1418,6 +1480,21 @@ function loadChatMessages(rawMessages) {
             case "elenco":       addElenco(m.data);            break;
             case "moodboard":    _renderMoodboardStatic(m.data); break;
             case "recorrido":    _renderRecorridoStatic();     break;
+            case "youtube":
+                if (m.data) {
+                    const yd = document.createElement("div");
+                    yd.className = "message bot youtube-block";
+                    yd.innerHTML = `<div class="ficha-title">🎬 ${m.data.caption||"Video"}</div>
+                        <div class="youtube-wrapper">
+                            <iframe src="https://www.youtube.com/embed/${m.data.youtubeId}?rel=0"
+                                title="${m.data.caption||""}" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen></iframe>
+                        </div>`;
+                    chat.appendChild(yd);
+                    scrollToBottom();
+                }
+                break;
             default:             _origAddMessage(text, role);  break;
         }
     });
@@ -1595,7 +1672,7 @@ const SUGGESTION_CHIPS = [
     { label: "🤝 Financiamiento",  key: "financiacion" },
     { label: "🎭 Elenco",          key: "elenco tentativo" },
     { label: "🗺️ Recorrido",       key: "recorrido de mercados" },
-    { label: "🎞 Trailer",         key: "trailer" },
+    { label: "🎞 Teaser",          key: "trailer" },
 ];
 
 const chipsBar = document.getElementById("chipsBar");
@@ -1617,22 +1694,8 @@ function buildChips() {
     });
 }
 
-function hideChips() {
-    if (chipsBar) chipsBar.style.display = "none";
-}
-
 buildChips();
-
-/* Ocultar chips cuando el usuario manda su primer mensaje */
-const _origSendForChips = sendMessage;
-window.sendMessage = function() {
-    hideChips();
-    _origSendForChips();
-};
-sendBtn.removeEventListener("click", sendMessage);
-sendBtn.addEventListener("click", window.sendMessage);
-input.removeEventListener("keypress", e => {});
-input.addEventListener("keypress", e => { if (e.key === "Enter") window.sendMessage(); });
+/* Chips siempre visibles — no se ocultan */
 
 /* ── Init ── */
 loadHistory();
