@@ -147,7 +147,9 @@ const ALIASES = {
     "codigo qr":              "qr contacto",
     "código qr":              "qr contacto",
     "link":                   "qr contacto",
-    "enlace":                 "qr contacto"
+    "enlace":                 "qr contacto",
+    "contact":                 "qr contacto",
+    "rick":                 "qr contacto"
 
 };
 
