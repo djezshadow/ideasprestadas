@@ -699,39 +699,28 @@ function addList(items) {
     scrollToBottom();
 }
 
-/* Genera QR usando la API pública de qrserver.com */
+/* Muestra QR usando imagen local en img/qr.png */
 function addQR(response) {
-    /* Primer mensaje: texto intro */
     addMessage(response.message || "Generando código QR...", "bot");
-
-    /* Segundo typing indicator mientras "genera la imagen" */
     setInputLocked(true);
     showTyping();
-
     setTimeout(() => {
         removeTyping();
         setInputLocked(false);
         input.focus();
-
-        const encodedUrl = encodeURIComponent(response.qrUrl);
-        const qrSrc = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodedUrl}`;
-
         const div = document.createElement("div");
         div.className = "message bot qr-block";
-
         const img = document.createElement("img");
-        img.src = qrSrc;
+        img.src = "img/qr.png";   /* ← archivo /img/qr.png */
         img.alt = "Código QR";
-
         const caption = document.createElement("p");
         caption.className = "qr-caption";
-        caption.textContent = response.caption || response.qrUrl;
-
+        caption.textContent = response.caption || "";
         div.appendChild(img);
         div.appendChild(caption);
         chat.appendChild(div);
         scrollToBottom();
-    }, 2200); /* delay extra para la "generación" de imagen */
+    }, 2400);
 }
 
 function showTyping() {
@@ -803,6 +792,86 @@ function sendMessage() {
 
 sendBtn.addEventListener("click", sendMessage);
 input.addEventListener("keypress", e => { if (e.key === "Enter") sendMessage(); });
+
+/* ===================================================
+   SIDEBAR — lógica de historial y drawer mobile
+   =================================================== */
+
+const sidebar       = document.getElementById("sidebar");
+const sidebarOverlay= document.getElementById("sidebarOverlay");
+const menuBtn       = document.getElementById("menuBtn");
+const newChatBtn    = document.getElementById("newChatBtn");
+const historyList   = document.getElementById("historyList");
+
+/* Abre/cierra sidebar en mobile */
+function openSidebar() {
+    sidebar.classList.add("open");
+    sidebarOverlay.classList.add("active");
+}
+function closeSidebar() {
+    sidebar.classList.remove("open");
+    sidebarOverlay.classList.remove("active");
+}
+
+menuBtn.addEventListener("click", openSidebar);
+sidebarOverlay.addEventListener("click", closeSidebar);
+
+/* Historial en memoria (se pierde al recargar — sin backend) */
+let chatHistory = [];    /* [{ label, messages[] }] */
+let currentMessages = [];/* mensajes del chat activo */
+
+/* Agrega un ítem al panel de historial */
+function addHistoryItem(label) {
+    const empty = historyList.querySelector(".sidebar-empty");
+    if (empty) empty.remove();
+
+    const btn = document.createElement("button");
+    btn.className = "history-item";
+    btn.innerHTML = `<span class="hist-icon">💬</span><span>${label}</span>`;
+    btn.title = label;
+    btn.addEventListener("click", () => {
+        closeSidebar();
+        /* Solo cierra el sidebar; el historial completo
+           requeriría backend — se puede extender */
+    });
+    historyList.insertBefore(btn, historyList.firstChild);
+}
+
+/* Intercepta sendMessage para guardar en historial */
+const _origSend = sendMessage;
+window.sendMessage = function() {
+    const userText = document.getElementById("messageInput").value.trim();
+    if (!userText) return;
+    /* Si es el primer mensaje de este chat, agregarlo al historial */
+    if (currentMessages.length === 0) {
+        const label = userText.length > 32
+            ? userText.slice(0, 32) + "…"
+            : userText;
+        addHistoryItem(label);
+    }
+    currentMessages.push(userText);
+    _origSend();
+};
+
+/* Reemplazar los listeners con la versión interceptada */
+sendBtn.removeEventListener("click", sendMessage);
+sendBtn.addEventListener("click", window.sendMessage);
+input.removeEventListener("keypress", e => {});
+input.addEventListener("keypress", e => { if (e.key === "Enter") window.sendMessage(); });
+
+/* Nuevo chat */
+newChatBtn.addEventListener("click", () => {
+    closeSidebar();
+    /* Guardar el chat actual si tenía mensajes */
+    if (currentMessages.length > 0) {
+        chatHistory.push([...currentMessages]);
+    }
+    currentMessages = [];
+    /* Limpiar el chat visual */
+    const chatEl = document.getElementById("chat");
+    chatEl.innerHTML = "";
+    addMessage(WELCOME_MESSAGE, "bot");
+});
 
 /* Mensaje inicial */
 addMessage(WELCOME_MESSAGE, "bot");
