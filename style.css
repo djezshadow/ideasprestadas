@@ -592,3 +592,329 @@ body {
 
     .send-btn { width: 42px; height: 42px; font-size: 17px; }
 }
+
+/* =====================================================
+   COMPONENTES DE PRESENTACIÓN — Ideas Prestadas
+   ===================================================== */
+
+/* ── Título compartido ── */
+.ficha-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.5);
+    margin-bottom: 14px;
+}
+
+/* ── FICHA TÉCNICA ── */
+.ficha-card {
+    max-width: 420px !important;
+    padding: 20px 22px !important;
+}
+
+.ficha-subtitle {
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,.12);
+}
+
+.ficha-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.ficha-table tr + tr td {
+    padding-top: 8px;
+}
+
+.ficha-key {
+    color: rgba(255,255,255,.5);
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding-right: 16px;
+    white-space: nowrap;
+    vertical-align: top;
+    padding-top: 2px;
+}
+
+.ficha-val {
+    color: white;
+    font-size: 0.88rem;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+/* ── PRESUPUESTO ── */
+.presupuesto-card {
+    max-width: 360px !important;
+    padding: 20px 22px !important;
+}
+
+.presupuesto-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px 0;
+}
+
+.presupuesto-label {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,.5);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .8px;
+}
+
+.presupuesto-amount {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: white;
+    letter-spacing: -.5px;
+}
+
+.presupuesto-divider {
+    height: 1px;
+    background: rgba(255,255,255,.12);
+}
+
+/* ── FINANCIACIÓN ── */
+.financiacion-card {
+    max-width: 480px !important;
+    padding: 20px 22px !important;
+}
+
+.financiacion-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+}
+
+.financiacion-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 90px;
+}
+
+.financiacion-foto {
+    width: 72px;
+    height: 72px;
+    border-radius: 12px;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    overflow: hidden;
+}
+
+.financiacion-foto img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 10px;
+    cursor: zoom-in;
+}
+
+.financiacion-nombre {
+    color: rgba(255,255,255,.8);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.3;
+}
+
+/* ── ELENCO ── */
+.elenco-card {
+    max-width: 520px !important;
+    padding: 20px 22px !important;
+}
+
+.elenco-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+}
+
+.elenco-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-align: center;
+}
+
+.elenco-foto {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.08);
+    border: 2px solid rgba(255,255,255,.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    overflow: hidden;
+}
+
+.elenco-foto img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.elenco-nombre {
+    color: white;
+    font-size: 0.82rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.elenco-rol {
+    color: rgba(255,255,255,.5);
+    font-size: 0.72rem;
+    font-style: italic;
+}
+
+/* ── MOODBOARD ── */
+.moodboard-block {
+    max-width: 95% !important;
+    padding: 18px 16px !important;
+    width: 600px;
+}
+
+.moodboard-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--cols, 5), 1fr);
+    gap: 6px;
+}
+
+.moodboard-cell {
+    aspect-ratio: 1;
+    border-radius: 8px;
+    overflow: hidden;
+    background: rgba(255,255,255,.07);
+    border: 1px solid rgba(255,255,255,.1);
+}
+
+.moodboard-cell img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .2s ease;
+}
+
+.moodboard-cell img:hover { transform: scale(1.05); }
+
+.moodboard-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,.3);
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-align: center;
+    padding: 4px;
+}
+
+.paleta-cell {
+    border: 2px solid rgba(255,255,255,.35);
+    border-radius: 8px;
+}
+
+/* ── RECORRIDO DE MERCADOS ── */
+.recorrido-block {
+    max-width: 420px !important;
+    padding: 20px 22px !important;
+}
+
+.recorrido-timeline {
+    display: flex;
+    flex-direction: column;
+}
+
+.recorrido-parada {
+    display: flex;
+    gap: 14px;
+    position: relative;
+    opacity: 0;
+    transform: translateX(-12px);
+    transition: opacity .35s ease, transform .35s ease;
+}
+
+.recorrido-parada.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.recorrido-dot-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.recorrido-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 4px;
+    box-shadow: 0 0 10px rgba(255,255,255,.3);
+    z-index: 1;
+}
+
+.recorrido-line {
+    width: 2px;
+    flex: 1;
+    background: rgba(255,255,255,.2);
+    margin: 4px auto 0;
+}
+
+.recorrido-line.last { display: none; }
+
+.recorrido-info {
+    padding-bottom: 20px;
+    flex: 1;
+}
+
+.recorrido-foto {
+    width: 100%;
+    max-height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    border: 1px solid rgba(255,255,255,.15);
+}
+
+.recorrido-nombre {
+    color: white;
+    font-size: 0.92rem;
+    font-weight: 700;
+    margin-bottom: 3px;
+}
+
+.recorrido-lugar,
+.recorrido-fecha {
+    color: rgba(255,255,255,.55);
+    font-size: 0.78rem;
+    line-height: 1.5;
+}
+
+@media (max-width: 700px) {
+    .moodboard-grid { gap: 4px; }
+    .moodboard-block { width: 100% !important; }
+    .elenco-grid { grid-template-columns: repeat(2, 1fr); }
+    .financiacion-item { min-width: 70px; }
+}

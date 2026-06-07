@@ -140,14 +140,43 @@ const ALIASES = {
     "conversacion":           "crear dialogo",
     "conversación":           "crear dialogo",
 
-    /* QR — ⬇️  AGREGAR AQUÍ LOS PROMPTS QUE DISPARAN EL QR */
-    "contacto":               "qr contacto",
-    "mi qr":                  "qr contacto",
-    "qr":                     "qr contacto",
-    "codigo qr":              "qr contacto",
-    "código qr":              "qr contacto",
-    "link":                   "qr contacto",
-    "enlace":                 "qr contacto"
+    /* QR */
+    "contacto":                    "qr contacto",
+    "mi qr":                       "qr contacto",
+    "qr":                          "qr contacto",
+    "codigo qr":                   "qr contacto",
+    "código qr":                   "qr contacto",
+    "link":                        "qr contacto",
+    "enlace":                      "qr contacto",
+
+    /* Película */
+    "ficha técnica":               "ficha tecnica",
+    "ficha":                       "ficha tecnica",
+    "datos tecnicos":              "ficha tecnica",
+    "datos técnicos":              "ficha tecnica",
+    "logline":                     "logline",
+    "log line":                    "logline",
+    "storyline":                   "storyline",
+    "story line":                  "storyline",
+    "historia":                    "storyline",
+    "sinopsis":                    "storyline",
+    "presupuesto estimado":        "presupuesto",
+    "presupuesto":                 "presupuesto",
+    "budget":                      "presupuesto",
+    "financiación":                "financiacion",
+    "financiadores":               "financiacion",
+    "financiamiento":              "financiacion",
+    "moodboard":                   "moodboard",
+    "mood board":                  "moodboard",
+    "referencias visuales":        "moodboard",
+    "paleta":                      "moodboard",
+    "recorrido":                   "recorrido de mercados",
+    "recorrido mercados":          "recorrido de mercados",
+    "mercados":                    "recorrido de mercados",
+    "elenco":                      "elenco tentativo",
+    "actores":                     "elenco tentativo",
+    "reparto":                     "elenco tentativo",
+    "cast":                        "elenco tentativo"
 
 };
 
@@ -612,6 +641,105 @@ B: Ya lo sé.`
         message: "Generando tu código QR de acceso...",
         qrUrl: "https://neurascript.com",  /* ← CAMBIÁ ESTA URL */
         caption: "Escaneá para acceder al portfolio de guiones."
+    },
+
+    /* ══════════════════════════════════════════
+       PELÍCULA — IDEAS PRESTADAS
+       ══════════════════════════════════════════ */
+
+    "ficha tecnica": {
+        type: "ficha",
+        delay: 1800,
+        content: {
+            proyecto:   "Ideas Prestadas",
+            formato:    "Largometraje",
+            genero:     "Comedia Dramática",
+            tono:       "Trágico, Satírico",
+            duracion:   "120 min.",
+            directora:  "Victoria Gariglio",
+            productora: "5 Voces Producciones",
+            guionista:  "Elias Betés",
+            publico:    "25 a 34 años"
+        }
+    },
+
+    "logline": {
+        type: "text",
+        delay: 1400,
+        content: "📖 Logline — Ideas Prestadas\n\nMarcos, un profesor de teatro desesperado por reconocimiento, usa la inteligencia artificial para hacerse famoso."
+    },
+
+    "storyline": {
+        type: "script",
+        delay: 2000,
+        content: `STORYLINE — IDEAS PRESTADAS
+
+Marcos (34), un frustrado actor que sueña con triunfar como guionista, encuentra una innovadora IA llamada NeuraScript que lo lleva a la fama y lo acerca a ser invitado al programa de Freddy Castelli.
+
+Para ello intenta concretar una película junto a una excéntrica actriz, pero enfrenta los constantes sabotajes de su ex amigo Ángel (34), un actor rival.
+
+En el programa, cuando su secreto sale poco a poco a la luz, siente culpa y asume su mentira. Marcos pierde todo lo que había conseguido, y comprende que lo que de verdad necesitaba siempre estuvo en el humilde teatro donde comenzó.`
+    },
+
+    "presupuesto": {
+        type: "presupuesto",
+        delay: 1600,
+        content: {
+            ars: "$2.425.274.948 ARS",
+            usd: "$1.695.997 USD"
+        }
+    },
+
+    "financiacion": {
+        type: "financiacion",
+        delay: 1800,
+        content: [
+            { nombre: "Patagonik Film Group",   foto: "" },
+            { nombre: "Programa Ibermedia",      foto: "" },
+            { nombre: "Coproducción España",     foto: "" },
+            { nombre: "Coproducción Uruguay",    foto: "" }
+        ]
+    },
+
+    "moodboard": {
+        type: "moodboard",
+        delay: 2800,
+        message: "Generando moodboard visual...",
+        /* ── SLIDE 1: 15 imágenes (la última es la paleta de colores) ── */
+        slide1: [
+            /* ⬇️  Reemplazá cada "" con la ruta de tu imagen, ej: "img/mood/foto1.jpg" */
+            "", "", "", "", "",
+            "", "", "", "", "",
+            "", "", "", "", "img/paleta1.jpg"  /* última = paleta */
+        ],
+        /* ── SLIDE 2: 11 imágenes (la última es la paleta de colores) ── */
+        slide2: [
+            "", "", "", "", "",
+            "", "", "", "", "",
+            "img/paleta2.jpg"  /* última = paleta */
+        ]
+    },
+
+    "recorrido de mercados": {
+        type: "recorrido",
+        delay: 2200,
+        message: "Cargando recorrido de mercados..."
+        /* El contenido se edita directamente en la función addRecorrido()
+           buscá el comentario ⬇️ EDITÁ EL RECORRIDO en script.js */
+    },
+
+    "elenco tentativo": {
+        type: "elenco",
+        delay: 2000,
+        content: [
+            /* ⬇️ Completá nombre, rol y foto para cada actor */
+            { nombre: "Actor 1", rol: "Marcos (34)", foto: "" },
+            { nombre: "Actor 2", rol: "Ángel (34)",  foto: "" },
+            { nombre: "Actor 3", rol: "Personaje 3", foto: "" },
+            { nombre: "Actor 4", rol: "Personaje 4", foto: "" },
+            { nombre: "Actor 5", rol: "Personaje 5", foto: "" },
+            { nombre: "Actor 6", rol: "Personaje 6", foto: "" }
+        ]
     }
 
     /* ══════════════════════════════════════════
@@ -778,9 +906,11 @@ function sendMessage() {
         removeTyping();
 
         if (response) {
-            if (response.type === "qr") {
-                /* El QR maneja su propio ciclo de locked/typing */
-                addQR(response);
+            if (["qr","moodboard","recorrido"].includes(response.type)) {
+                /* Estos tipos manejan su propio ciclo de locked/typing */
+                if (response.type === "qr")       addQR(response);
+                if (response.type === "moodboard") addMoodboard(response);
+                if (response.type === "recorrido") addRecorrido(response);
             } else {
                 setInputLocked(false);
                 input.focus();
@@ -788,11 +918,17 @@ function sendMessage() {
                 const content = resolveContent(response);
 
                 switch (response.type) {
-                    case "text":   addMessage(content, "bot"); break;
-                    case "script": addScript(content);         break;
-                    case "image":  addImage(content);           break;
-                    case "list":   addList(content);            break;
-                    default:       addMessage(content, "bot");
+                    case "text":         addMessage(content, "bot");          break;
+                    case "script":       addScript(content);                   break;
+                    case "image":        addImage(content);                    break;
+                    case "list":         addList(content);                     break;
+                    case "ficha":        addFicha(response.content);           break;
+                    case "presupuesto":  addPresupuesto(response.content);     break;
+                    case "financiacion": addFinanciacion(response.content);    break;
+                    case "elenco":       addElenco(response.content);          break;
+                    case "moodboard":    addMoodboard(response);               break;
+                    case "recorrido":    addRecorrido(response);               break;
+                    default:             addMessage(content, "bot");
                 }
             }
         } else {
@@ -805,6 +941,290 @@ function sendMessage() {
 
 sendBtn.addEventListener("click", sendMessage);
 input.addEventListener("keypress", e => { if (e.key === "Enter") sendMessage(); });
+
+/* ===================================================
+   LIGHTBOX — expandir imágenes
+   =================================================== */
+
+(function() {
+    const overlay = document.createElement("div");
+    overlay.id = "lightbox";
+    overlay.style.cssText = `
+        display:none;position:fixed;inset:0;z-index:9999;
+        background:rgba(0,0,0,.88);backdrop-filter:blur(8px);
+        align-items:center;justify-content:center;cursor:zoom-out;
+        animation:fade .2s ease;
+    `;
+    const img = document.createElement("img");
+    img.style.cssText = `
+        max-width:92vw;max-height:88vh;border-radius:12px;
+        box-shadow:0 8px 60px rgba(0,0,0,.6);object-fit:contain;
+        cursor:default;
+    `;
+    const closeBtn = document.createElement("button");
+    closeBtn.textContent = "✕";
+    closeBtn.style.cssText = `
+        position:absolute;top:20px;right:24px;background:rgba(255,255,255,.15);
+        border:none;color:white;font-size:1.4rem;width:44px;height:44px;
+        border-radius:50%;cursor:pointer;transition:background .15s;
+    `;
+    closeBtn.onmouseenter = () => closeBtn.style.background = "rgba(255,255,255,.3)";
+    closeBtn.onmouseleave = () => closeBtn.style.background = "rgba(255,255,255,.15)";
+    overlay.appendChild(img);
+    overlay.appendChild(closeBtn);
+    document.body.appendChild(overlay);
+
+    function closeLightbox() {
+        overlay.style.display = "none";
+        document.body.style.overflow = "";
+    }
+
+    overlay.addEventListener("click", e => { if (e.target === overlay) closeLightbox(); });
+    closeBtn.addEventListener("click", closeLightbox);
+    document.addEventListener("keydown", e => { if (e.key === "Escape") closeLightbox(); });
+
+    window.openLightbox = function(src) {
+        img.src = src;
+        overlay.style.display = "flex";
+        document.body.style.overflow = "hidden";
+    };
+})();
+
+/* Hacer clickeables todas las imágenes que se agreguen al chat */
+function makeChatImagesClickable(container) {
+    container.querySelectorAll("img").forEach(img => {
+        if (img.dataset.lightbox) return;
+        img.dataset.lightbox = "1";
+        img.style.cursor = "zoom-in";
+        img.addEventListener("click", () => openLightbox(img.src));
+    });
+}
+
+/* ===================================================
+   RENDER — FICHA TÉCNICA
+   =================================================== */
+
+function addFicha(data) {
+    const fields = [
+        ["Nombre del Proyecto", data.proyecto],
+        ["Formato",             data.formato],
+        ["Género",              data.genero],
+        ["Tono",                data.tono],
+        ["Duración",            data.duracion],
+        ["Directora",           data.directora],
+        ["Productora",          data.productora],
+        ["Guionista",           data.guionista],
+        ["Público Objetivo",    data.publico]
+    ];
+
+    const div = document.createElement("div");
+    div.className = "message bot ficha-card";
+    div.innerHTML = `
+        <div class="ficha-title">🎬 Ficha Técnica</div>
+        <div class="ficha-subtitle">${data.proyecto}</div>
+        <table class="ficha-table">
+            ${fields.map(([k, v]) => `
+                <tr>
+                    <td class="ficha-key">${k}</td>
+                    <td class="ficha-val">${v}</td>
+                </tr>
+            `).join("")}
+        </table>
+    `;
+    chat.appendChild(div);
+    scrollToBottom();
+}
+
+/* ===================================================
+   RENDER — PRESUPUESTO
+   =================================================== */
+
+function addPresupuesto(data) {
+    const div = document.createElement("div");
+    div.className = "message bot presupuesto-card";
+    div.innerHTML = `
+        <div class="ficha-title">💰 Presupuesto Estimado</div>
+        <div class="presupuesto-row">
+            <span class="presupuesto-label">En Pesos Argentinos</span>
+            <span class="presupuesto-amount ars">${data.ars}</span>
+        </div>
+        <div class="presupuesto-divider"></div>
+        <div class="presupuesto-row">
+            <span class="presupuesto-label">En Dólares</span>
+            <span class="presupuesto-amount usd">${data.usd}</span>
+        </div>
+    `;
+    chat.appendChild(div);
+    scrollToBottom();
+}
+
+/* ===================================================
+   RENDER — FINANCIACIÓN
+   =================================================== */
+
+function addFinanciacion(items) {
+    const div = document.createElement("div");
+    div.className = "message bot financiacion-card";
+    div.innerHTML = `
+        <div class="ficha-title">🤝 Financiación</div>
+        <div class="financiacion-grid">
+            ${items.map(item => `
+                <div class="financiacion-item">
+                    <div class="financiacion-foto">
+                        ${item.foto
+                            ? `<img src="${item.foto}" alt="${item.nombre}">`
+                            : `<span>🏢</span>`
+                        }
+                    </div>
+                    <div class="financiacion-nombre">${item.nombre}</div>
+                </div>
+            `).join("")}
+        </div>
+    `;
+    chat.appendChild(div);
+    /* Hacer clickeables las fotos si las hay */
+    makeChatImagesClickable(div);
+    scrollToBottom();
+}
+
+/* ===================================================
+   RENDER — ELENCO TENTATIVO
+   =================================================== */
+
+function addElenco(actores) {
+    const div = document.createElement("div");
+    div.className = "message bot elenco-card";
+    div.innerHTML = `
+        <div class="ficha-title">🎭 Elenco Tentativo</div>
+        <div class="elenco-grid">
+            ${actores.map(a => `
+                <div class="elenco-item">
+                    <div class="elenco-foto">
+                        ${a.foto
+                            ? `<img src="${a.foto}" alt="${a.nombre}" style="cursor:zoom-in">`
+                            : `<span>👤</span>`
+                        }
+                    </div>
+                    <div class="elenco-nombre">${a.nombre}</div>
+                    <div class="elenco-rol">${a.rol}</div>
+                </div>
+            `).join("")}
+        </div>
+    `;
+    chat.appendChild(div);
+    makeChatImagesClickable(div);
+    scrollToBottom();
+}
+
+/* ===================================================
+   RENDER — MOODBOARD (2 slides)
+   =================================================== */
+
+function addMoodboard(response) {
+    addMessage(response.message || "Generando moodboard...", "bot");
+    setInputLocked(true);
+    showTyping();
+
+    setTimeout(() => {
+        removeTyping();
+        setInputLocked(false);
+        input.focus();
+
+        [response.slide1, response.slide2].forEach((slide, si) => {
+            const cols  = si === 0 ? 5 : 4;   /* slide1: 5 col, slide2: 4 col */
+            const label = si === 0
+                ? `Slide 1 — Moodboard (${slide.length} imágenes)`
+                : `Slide 2 — Moodboard (${slide.length} imágenes)`;
+
+            const div = document.createElement("div");
+            div.className = "message bot moodboard-block";
+            div.innerHTML = `
+                <div class="ficha-title">${label}</div>
+                <div class="moodboard-grid" style="--cols:${cols}">
+                    ${slide.map((src, i) => {
+                        const isPaleta = (i === slide.length - 1);
+                        return `
+                            <div class="moodboard-cell ${isPaleta ? "paleta-cell" : ""}">
+                                ${src
+                                    ? `<img src="${src}" alt="Imagen ${i+1}" style="cursor:zoom-in">`
+                                    : `<div class="moodboard-placeholder">${isPaleta ? "🎨 Paleta" : (i+1)}</div>`
+                                }
+                            </div>
+                        `;
+                    }).join("")}
+                </div>
+            `;
+            chat.appendChild(div);
+            makeChatImagesClickable(div);
+        });
+
+        scrollToBottom();
+    }, 2600);
+}
+
+/* ===================================================
+   RENDER — RECORRIDO DE MERCADOS (animado)
+   ⬇️  EDITÁ EL RECORRIDO ACÁ
+   =================================================== */
+
+function addRecorrido(response) {
+    addMessage(response.message || "Cargando recorrido de mercados...", "bot");
+    setInputLocked(true);
+    showTyping();
+
+    /* ══════════════════════════════════════════════
+       ⬇️  EDITÁ CADA PARADA DEL RECORRIDO:
+         - nombre:  nombre del mercado / festival
+         - lugar:   ciudad, país
+         - fecha:   fecha o período
+         - foto:    ruta a imagen (opcional, ej: "img/mercado1.jpg")
+         - color:   color del punto en el mapa (hex)
+       ══════════════════════════════════════════════ */
+    const paradas = [
+        { nombre: "Mercado 1",    lugar: "Ciudad, País",  fecha: "Fecha",  foto: "", color: "#fff" },
+        { nombre: "Mercado 2",    lugar: "Ciudad, País",  fecha: "Fecha",  foto: "", color: "#fff" },
+        { nombre: "Mercado 3",    lugar: "Ciudad, País",  fecha: "Fecha",  foto: "", color: "#fff" },
+        { nombre: "Mercado 4",    lugar: "Ciudad, País",  fecha: "Fecha",  foto: "", color: "#fff" },
+        { nombre: "Mercado 5",    lugar: "Ciudad, País",  fecha: "Fecha",  foto: "", color: "#fff" }
+    ];
+
+    setTimeout(() => {
+        removeTyping();
+        setInputLocked(false);
+        input.focus();
+
+        const div = document.createElement("div");
+        div.className = "message bot recorrido-block";
+
+        div.innerHTML = `
+            <div class="ficha-title">🗺️ Recorrido de Mercados</div>
+            <div class="recorrido-timeline">
+                ${paradas.map((p, i) => `
+                    <div class="recorrido-parada" style="animation-delay:${i * 0.18}s">
+                        <div class="recorrido-dot" style="background:${p.color}"></div>
+                        <div class="recorrido-line ${i === paradas.length-1 ? "last" : ""}"></div>
+                        <div class="recorrido-info">
+                            ${p.foto ? `<img src="${p.foto}" class="recorrido-foto" alt="${p.nombre}" style="cursor:zoom-in">` : ""}
+                            <div class="recorrido-nombre">${p.nombre}</div>
+                            <div class="recorrido-lugar">📍 ${p.lugar}</div>
+                            <div class="recorrido-fecha">📅 ${p.fecha}</div>
+                        </div>
+                    </div>
+                `).join("")}
+            </div>
+        `;
+
+        chat.appendChild(div);
+        makeChatImagesClickable(div);
+        scrollToBottom();
+
+        /* Animar paradas una por una */
+        div.querySelectorAll(".recorrido-parada").forEach((el, i) => {
+            setTimeout(() => el.classList.add("visible"), i * 180);
+        });
+
+    }, 2000);
+}
 
 /* ===================================================
    SIDEBAR + AUTH + HISTORIAL REAL
@@ -902,20 +1322,34 @@ function renderHistoryItem(chat) {
     historyList.appendChild(btn);
 }
 
-function loadChatMessages(messages) {
+function loadChatMessages(rawMessages) {
     const chatEl = document.getElementById("chat");
     chatEl.innerHTML = "";
-    currentMessages = [];
+
+    /* Parsear si viene como string JSON (comportamiento de Neon/JSONB) */
+    let messages = rawMessages;
+    if (typeof rawMessages === "string") {
+        try { messages = JSON.parse(rawMessages); } catch { messages = []; }
+    }
+    if (!Array.isArray(messages)) messages = [];
+
+    /* Suspender tracking mientras cargamos historial */
+    _loadingHistory = true;
+    currentMessages = [...messages];
     currentLabel    = "";
 
     messages.forEach(m => {
-        if (m.role === "user") {
-            addMessage(m.text, "user");
+        const role = m.role === "user" ? "user" : "bot";
+        const text = m.text || m.content || "";
+        if (!text) return;
+        if (m.type === "script") {
+            _origAddScript(text);
         } else {
-            addMessage(m.text, "bot");
+            _origAddMessage(text, role);
         }
-        currentMessages.push(m);
     });
+
+    _loadingHistory = false;
 }
 
 /* ── Cargar historial al iniciar ── */
@@ -924,6 +1358,9 @@ async function loadHistory() {
     if (chats.length === 0) return;
     chats.forEach(renderHistoryItem);
 }
+
+/* ── Flag para suspender tracking al cargar historial ── */
+let _loadingHistory = false;
 
 /* ── Guardar mensaje en currentMessages ── */
 function trackMessage(role, text) {
@@ -939,18 +1376,17 @@ function trackMessage(role, text) {
 const _origAddMessage = addMessage;
 window.addMessage = function(text, sender) {
     const el = _origAddMessage(text, sender);
-    /* No trackear el mensaje de bienvenida */
-    if (text !== WELCOME_MESSAGE) {
+    if (!_loadingHistory && text !== WELCOME_MESSAGE) {
         trackMessage(sender === "user" ? "user" : "bot", text);
     }
     return el;
 };
 
-/* Mismo para scripts y listas */
+/* Mismo para scripts */
 const _origAddScript = addScript;
 window.addScript = function(text) {
     _origAddScript(text);
-    trackMessage("bot", text);
+    if (!_loadingHistory) trackMessage("bot", text);
 };
 
 /* ── Nuevo chat ── */
