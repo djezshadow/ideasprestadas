@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>NeuraScript — Sobre Nosotros</title>
+<link rel="stylesheet" href="style.css">
+<style>
+
+    html, body {
+        height: auto;
+        min-height: 100vh;
+        min-height: -webkit-fill-available;
+        overflow-y: auto;
+    }
+
+    .about-page {
+        min-height: 100vh;
+        padding: max(40px, env(safe-area-inset-top, 40px)) 20px
+                 max(40px, env(safe-area-inset-bottom, 40px));
+    }
+
+    /* ── Topbar ── */
+    .about-topbar {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        max-width: 900px;
+        margin: 0 auto 40px;
+    }
+
+    .about-back {
+        color: rgba(255,255,255,.65);
+        text-decoration: none;
+        font-size: 1.1rem;
+        padding: 8px 12px;
+        border-radius: 10px;
+        border: 1px solid rgba(255,255,255,.2);
+        transition: all .18s ease;
+        white-space: nowrap;
+    }
+    .about-back:hover { background: rgba(255,255,255,.1); color: white; }
+
+    .about-topbar-brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .about-topbar-brand img { width: 32px; }
+    .about-topbar-brand span {
+        color: white;
+        font-size: 1.05rem;
+        font-weight: 700;
+    }
+
+    /* ── Hero de la película ── */
+    .movie-hero {
+        max-width: 900px;
+        margin: 0 auto 56px;
+        text-align: center;
+    }
+
+    .movie-badge {
+        display: inline-block;
+        background: rgba(255,255,255,.12);
+        border: 1px solid rgba(255,255,255,.25);
+        border-radius: 20px;
+        padding: 5px 16px;
+        color: rgba(255,255,255,.75);
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        margin-bottom: 18px;
+    }
+
+    .movie-title {
+        color: white;
+        font-size: clamp(2rem, 5vw, 3.4rem);
+        font-weight: 800;
+        line-height: 1.1;
+        margin-bottom: 16px;
+        text-shadow: 0 4px 30px rgba(0,0,200,.4);
+    }
+
+    .movie-tagline {
+        color: rgba(255,255,255,.65);
+        font-size: clamp(0.95rem, 2vw, 1.1rem);
+        line-height: 1.6;
+        max-width: 580px;
+        margin: 0 auto 28px;
+    }
+
+    .movie-details {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .movie-chip {
+        background: rgba(255,255,255,.1);
+        border: 1px solid rgba(255,255,255,.18);
+        border-radius: 12px;
+        padding: 7px 16px;
+        color: rgba(255,255,255,.8);
+        font-size: 0.83rem;
+        font-weight: 500;
+    }
+
+    /* ── Divider ── */
+    .section-divider {
+        max-width: 900px;
+        margin: 0 auto 40px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .section-divider::before,
+    .section-divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: rgba(255,255,255,.15);
+    }
+
+    .section-divider span {
+        color: rgba(255,255,255,.4);
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+
+    /* ── Grid de productores ── */
+    .team-grid {
+        max-width: 900px;
+        margin: 0 auto 60px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 20px;
+    }
+
+    .team-card {
+        background: rgba(255,255,255,.09);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255,255,255,.15);
+        border-radius: 18px;
+        padding: 24px 20px;
+        text-align: center;
+        transition: transform .2s ease, background .2s ease;
+    }
+
+    .team-card:hover {
+        transform: translateY(-4px);
+        background: rgba(255,255,255,.14);
+    }
+
+    .team-photo {
+        width: 88px;
+        height: 88px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid rgba(255,255,255,.3);
+        margin: 0 auto 14px;
+        display: block;
+        background: rgba(255,255,255,.08);
+    }
+
+    /* Placeholder si no hay foto */
+    .team-photo-placeholder {
+        width: 88px;
+        height: 88px;
+        border-radius: 50%;
+        background: rgba(255,255,255,.1);
+        border: 3px solid rgba(255,255,255,.2);
+        margin: 0 auto 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+    }
+
+    .team-name {
+        color: white;
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 4px;
+    }
+
+    .team-role {
+        color: rgba(255,255,255,.5);
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+    }
+
+    .team-desc {
+        color: rgba(255,255,255,.65);
+        font-size: 0.84rem;
+        line-height: 1.55;
+    }
+
+    /* ── Footer ── */
+    .about-footer {
+        max-width: 900px;
+        margin: 0 auto;
+        text-align: center;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255,255,255,.1);
+    }
+
+    .about-footer p {
+        color: rgba(255,255,255,.3);
+        font-size: 0.78rem;
+        margin-bottom: 6px;
+    }
+
+    .about-footer a {
+        color: rgba(255,255,255,.5);
+        font-size: 0.78rem;
+        text-decoration: none;
+    }
+    .about-footer a:hover { color: white; }
+
+</style>
+</head>
+<body>
+
+<div class="about-page">
+
+    <!-- Topbar -->
+    <div class="about-topbar">
+        <a href="javascript:history.back()" class="about-back">← Volver</a>
+        <div class="about-topbar-brand">
+            <img src="img/Neura 1.png" alt="NeuraScript">
+            <span>NeuraScript</span>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         SECCIÓN PELÍCULA
+         Completá los datos de tu película acá
+         ══════════════════════════════════════════ -->
+    <div class="movie-hero">
+
+        <div class="movie-badge">🎬 Proyecto Cinematográfico</div>
+
+        <!-- ⬇️ CAMBIÁ EL TÍTULO DE LA PELÍCULA -->
+        <h1 class="movie-title">Título de la Película</h1>
+
+        <!-- ⬇️ CAMBIÁ LA SINOPSIS / TAGLINE -->
+        <p class="movie-tagline">
+            Escribí acá la sinopsis o tagline de la película.
+            Una o dos oraciones que describan de qué se trata.
+        </p>
+
+        <!-- ⬇️ CHIPS CON DATOS DE LA PELÍCULA — editá o agregá los que necesites -->
+        <div class="movie-details">
+            <span class="movie-chip">📅 2025</span>
+            <span class="movie-chip">🎭 Género</span>
+            <span class="movie-chip">⏱ Duración</span>
+            <span class="movie-chip">📍 Argentina</span>
+        </div>
+
+    </div>
+
+    <!-- Divider -->
+    <div class="section-divider"><span>El Equipo</span></div>
+
+    <!-- ══════════════════════════════════════════
+         PRODUCTORES
+         Para cada integrante:
+           - photo: ruta a la imagen (ej: "img/foto1.jpg")
+                    Si no tenés foto, borrá el <img> y dejá el placeholder
+           - name:  nombre completo
+           - role:  rol en el proyecto
+           - desc:  descripción corta
+         ══════════════════════════════════════════ -->
+    <div class="team-grid">
+
+        <!-- PRODUCTOR 1 -->
+        <div class="team-card">
+            <!-- Reemplazá con: <img class="team-photo" src="img/foto1.jpg" alt="Nombre"> -->
+            <div class="team-photo-placeholder">👤</div>
+            <div class="team-name">Nombre Apellido</div>
+            <div class="team-role">Director / Productor</div>
+            <p class="team-desc">
+                Descripción del rol y trayectoria.
+                Dos o tres líneas sobre esta persona.
+            </p>
+        </div>
+
+        <!-- PRODUCTOR 2 -->
+        <div class="team-card">
+            <div class="team-photo-placeholder">👤</div>
+            <div class="team-name">Nombre Apellido</div>
+            <div class="team-role">Guionista</div>
+            <p class="team-desc">
+                Descripción del rol y trayectoria.
+                Dos o tres líneas sobre esta persona.
+            </p>
+        </div>
+
+        <!-- PRODUCTOR 3 -->
+        <div class="team-card">
+            <div class="team-photo-placeholder">👤</div>
+            <div class="team-name">Nombre Apellido</div>
+            <div class="team-role">Director de Fotografía</div>
+            <p class="team-desc">
+                Descripción del rol y trayectoria.
+                Dos o tres líneas sobre esta persona.
+            </p>
+        </div>
+
+        <!-- PRODUCTOR 4 -->
+        <div class="team-card">
+            <div class="team-photo-placeholder">👤</div>
+            <div class="team-name">Nombre Apellido</div>
+            <div class="team-role">Producción Ejecutiva</div>
+            <p class="team-desc">
+                Descripción del rol y trayectoria.
+                Dos o tres líneas sobre esta persona.
+            </p>
+        </div>
+
+        <!-- PRODUCTOR 5 -->
+        <div class="team-card">
+            <div class="team-photo-placeholder">👤</div>
+            <div class="team-name">Nombre Apellido</div>
+            <div class="team-role">Diseño y Tecnología</div>
+            <p class="team-desc">
+                Descripción del rol y trayectoria.
+                Dos o tres líneas sobre esta persona.
+            </p>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="about-footer">
+        <!-- ⬇️ EDITÁ EL AÑO Y LOS DATOS DE CONTACTO -->
+        <p>© 2025 NeuraScript — Todos los derechos reservados</p>
+        <a href="">contacto@neurascript.com</a>
+    </div>
+
+</div>
+
+</body>
+</html>

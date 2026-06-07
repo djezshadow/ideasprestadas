@@ -147,9 +147,7 @@ const ALIASES = {
     "codigo qr":              "qr contacto",
     "código qr":              "qr contacto",
     "link":                   "qr contacto",
-    "enlace":                 "qr contacto",
-    "contact":                 "qr contacto",
-    "rick":                 "qr contacto"
+    "enlace":                 "qr contacto"
 
 };
 
@@ -612,7 +610,7 @@ B: Ya lo sé.`
         type: "qr",
         delay: 3500,
         message: "Generando tu código QR de acceso...",
-        qrUrl: "https://youtu.be/dQw4w9WgXcQ",  /* ← CAMBIÁ ESTA URL */
+        qrUrl: "https://neurascript.com",  /* ← CAMBIÁ ESTA URL */
         caption: "Escaneá para acceder al portfolio de guiones."
     }
 
@@ -701,7 +699,7 @@ function addList(items) {
     scrollToBottom();
 }
 
-/* Muestra QR usando imagen local en img/qr.png */
+/* Muestra QR como imagen local + link clickeable */
 function addQR(response) {
     addMessage(response.message || "Generando código QR...", "bot");
     setInputLocked(true);
@@ -710,15 +708,28 @@ function addQR(response) {
         removeTyping();
         setInputLocked(false);
         input.focus();
+
         const div = document.createElement("div");
         div.className = "message bot qr-block";
+
+        /* Link que envuelve la imagen */
+        const link = document.createElement("a");
+        link.href   = response.qrUrl || "https://youtu.be/dQw4w9WgXcQ";
+        link.target = "_blank";
+        link.rel    = "noopener noreferrer";
+        link.title  = "Abrir enlace";
+
         const img = document.createElement("img");
-        img.src = "img/qr.png";   /* ← archivo /img/qr.png */
-        img.alt = "Código QR";
+        img.src = "img/qr.png";
+        img.alt = "Código QR — tocá para abrir";
+
+        link.appendChild(img);
+
         const caption = document.createElement("p");
         caption.className = "qr-caption";
-        caption.textContent = response.caption || "";
-        div.appendChild(img);
+        caption.textContent = (response.caption || "") + " (tocá para abrir)";
+
+        div.appendChild(link);
         div.appendChild(caption);
         chat.appendChild(div);
         scrollToBottom();
@@ -796,16 +807,34 @@ sendBtn.addEventListener("click", sendMessage);
 input.addEventListener("keypress", e => { if (e.key === "Enter") sendMessage(); });
 
 /* ===================================================
-   SIDEBAR — lógica de historial y drawer mobile
+   SIDEBAR + AUTH + HISTORIAL REAL
    =================================================== */
 
-const sidebar       = document.getElementById("sidebar");
-const sidebarOverlay= document.getElementById("sidebarOverlay");
-const menuBtn       = document.getElementById("menuBtn");
-const newChatBtn    = document.getElementById("newChatBtn");
-const historyList   = document.getElementById("historyList");
+const sidebar        = document.getElementById("sidebar");
+const sidebarOverlay = document.getElementById("sidebarOverlay");
+const menuBtn        = document.getElementById("menuBtn");
+const newChatBtn     = document.getElementById("newChatBtn");
+const historyList    = document.getElementById("historyList");
+const logoutBtn      = document.getElementById("logoutBtn");
 
-/* Abre/cierra sidebar en mobile */
+/* Token y username del usuario logueado */
+const AUTH_TOKEN = localStorage.getItem("ns_token");
+const AUTH_USER  = localStorage.getItem("ns_username") || "usuario";
+
+/* Mostrar nombre en sidebar */
+const sidebarUsernameEl = document.getElementById("sidebarUsername");
+if (sidebarUsernameEl) sidebarUsernameEl.textContent = AUTH_USER;
+
+/* Logout */
+if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+        localStorage.removeItem("ns_token");
+        localStorage.removeItem("ns_username");
+        window.location.href = "auth.html";
+    });
+}
+
+/* Drawer mobile */
 function openSidebar() {
     sidebar.classList.add("open");
     sidebarOverlay.classList.add("active");
@@ -818,62 +847,126 @@ function closeSidebar() {
 menuBtn.addEventListener("click", openSidebar);
 sidebarOverlay.addEventListener("click", closeSidebar);
 
-/* Historial en memoria (se pierde al recargar — sin backend) */
-let chatHistory = [];    /* [{ label, messages[] }] */
-let currentMessages = [];/* mensajes del chat activo */
+/* ── Estado del chat actual ── */
+let currentMessages = []; /* [{ role: "user"|"bot", text }] */
+let currentLabel    = "";
 
-/* Agrega un ítem al panel de historial */
-function addHistoryItem(label) {
+/* ── Helpers de API ── */
+async function apiSaveChat(label, messages) {
+    if (!AUTH_TOKEN || messages.length === 0) return;
+    try {
+        await fetch("/api/history-save", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + AUTH_TOKEN
+            },
+            body: JSON.stringify({ label, messages })
+        });
+    } catch (e) {
+        console.warn("No se pudo guardar el historial:", e);
+    }
+}
+
+async function apiLoadHistory() {
+    if (!AUTH_TOKEN) return [];
+    try {
+        const res = await fetch("/api/history-get", {
+            headers: { "Authorization": "Bearer " + AUTH_TOKEN }
+        });
+        if (!res.ok) return [];
+        const data = await res.json();
+        return data.chats || [];
+    } catch {
+        return [];
+    }
+}
+
+/* ── Renderizar historial en sidebar ── */
+function renderHistoryItem(chat) {
     const empty = historyList.querySelector(".sidebar-empty");
     if (empty) empty.remove();
 
     const btn = document.createElement("button");
     btn.className = "history-item";
-    btn.innerHTML = `<span class="hist-icon">💬</span><span>${label}</span>`;
-    btn.title = label;
+    btn.dataset.chatId = chat.id;
+    btn.innerHTML = `<span class="hist-icon">💬</span><span>${chat.label}</span>`;
+    btn.title = chat.label;
+
     btn.addEventListener("click", () => {
         closeSidebar();
-        /* Solo cierra el sidebar; el historial completo
-           requeriría backend — se puede extender */
+        /* Cargar mensajes de ese chat */
+        loadChatMessages(chat.messages);
     });
-    historyList.insertBefore(btn, historyList.firstChild);
+
+    historyList.appendChild(btn);
 }
 
-/* Intercepta sendMessage para guardar en historial */
-const _origSend = sendMessage;
-window.sendMessage = function() {
-    const userText = document.getElementById("messageInput").value.trim();
-    if (!userText) return;
-    /* Si es el primer mensaje de este chat, agregarlo al historial */
-    if (currentMessages.length === 0) {
-        const label = userText.length > 32
-            ? userText.slice(0, 32) + "…"
-            : userText;
-        addHistoryItem(label);
+function loadChatMessages(messages) {
+    const chatEl = document.getElementById("chat");
+    chatEl.innerHTML = "";
+    currentMessages = [];
+    currentLabel    = "";
+
+    messages.forEach(m => {
+        if (m.role === "user") {
+            addMessage(m.text, "user");
+        } else {
+            addMessage(m.text, "bot");
+        }
+        currentMessages.push(m);
+    });
+}
+
+/* ── Cargar historial al iniciar ── */
+async function loadHistory() {
+    const chats = await apiLoadHistory();
+    if (chats.length === 0) return;
+    chats.forEach(renderHistoryItem);
+}
+
+/* ── Guardar mensaje en currentMessages ── */
+function trackMessage(role, text) {
+    if (role === "user" && currentMessages.length === 0) {
+        currentLabel = text.length > 40 ? text.slice(0, 40) + "…" : text;
+        /* Agregar al sidebar inmediatamente (optimista) */
+        renderHistoryItem({ id: Date.now(), label: currentLabel, messages: [] });
     }
-    currentMessages.push(userText);
-    _origSend();
+    currentMessages.push({ role, text });
+}
+
+/* ── Interceptar addMessage para registrar mensajes ── */
+const _origAddMessage = addMessage;
+window.addMessage = function(text, sender) {
+    const el = _origAddMessage(text, sender);
+    /* No trackear el mensaje de bienvenida */
+    if (text !== WELCOME_MESSAGE) {
+        trackMessage(sender === "user" ? "user" : "bot", text);
+    }
+    return el;
 };
 
-/* Reemplazar los listeners con la versión interceptada */
-sendBtn.removeEventListener("click", sendMessage);
-sendBtn.addEventListener("click", window.sendMessage);
-input.removeEventListener("keypress", e => {});
-input.addEventListener("keypress", e => { if (e.key === "Enter") window.sendMessage(); });
+/* Mismo para scripts y listas */
+const _origAddScript = addScript;
+window.addScript = function(text) {
+    _origAddScript(text);
+    trackMessage("bot", text);
+};
 
-/* Nuevo chat */
-newChatBtn.addEventListener("click", () => {
+/* ── Nuevo chat ── */
+newChatBtn.addEventListener("click", async () => {
     closeSidebar();
-    /* Guardar el chat actual si tenía mensajes */
-    if (currentMessages.length > 0) {
-        chatHistory.push([...currentMessages]);
+    /* Guardar el chat actual antes de limpiar */
+    if (currentMessages.length > 0 && currentLabel) {
+        await apiSaveChat(currentLabel, currentMessages);
     }
     currentMessages = [];
-    /* Limpiar el chat visual */
+    currentLabel    = "";
     const chatEl = document.getElementById("chat");
     chatEl.innerHTML = "";
     addMessage(WELCOME_MESSAGE, "bot");
 });
 
-/* Mensaje inicial */
+/* ── Init ── */
+loadHistory();
 addMessage(WELCOME_MESSAGE, "bot");

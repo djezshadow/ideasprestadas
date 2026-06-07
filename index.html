@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<!-- OVERLAY para cerrar sidebar en mobile -->
+<!-- Tap anywhere to dismiss keyboard on iPhone -->
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
 <div class="layout">
@@ -18,43 +18,44 @@
          ═══════════════════════════════════════ -->
     <aside class="sidebar" id="sidebar">
 
-        <!-- Logo en sidebar -->
         <div class="sidebar-brand">
             <img src="img/Neura 1.png" class="sidebar-logo" alt="NeuraScript">
             <span class="sidebar-title">NeuraScript</span>
         </div>
 
-        <!-- Nuevo chat -->
+        <!-- Usuario logueado -->
+        <div class="sidebar-user">
+            <span class="sidebar-user-icon">👤</span>
+            <span class="sidebar-user-name" id="sidebarUsername">...</span>
+            <button class="sidebar-logout-btn" id="logoutBtn" title="Cerrar sesión">↩</button>
+        </div>
+
         <button class="sidebar-new-chat" id="newChatBtn">
             <span class="icon">✦</span>
             Nuevo chat
         </button>
 
-        <!-- Historial -->
         <div class="sidebar-section-label">Recientes</div>
         <nav class="sidebar-history" id="historyList">
-            <!-- Los ítems se agregan desde JS -->
             <p class="sidebar-empty">Tus conversaciones aparecerán acá.</p>
         </nav>
 
-        <!-- Spacer -->
         <div class="sidebar-spacer"></div>
 
-        <!-- Sección inferior -->
         <div class="sidebar-bottom">
-
-            <a href="https://youtu.be/dQw4w9WgXcQ" class="sidebar-link">
+            <a href="sobre-nosotros.html" class="sidebar-link">
+                <span class="sidebar-link-icon">🎬</span>
+                Sobre Nosotros
+            </a>
+            <a href="" class="sidebar-link">
                 <span class="sidebar-link-icon">⚙</span>
                 Configuración
             </a>
-
-            <a href="https://youtu.be/dQw4w9WgXcQ" class="sidebar-link">
+            <a href="" class="sidebar-link">
                 <span class="sidebar-link-icon">✉</span>
                 Contacto
             </a>
-
-            <div class="sidebar-version">v0.1.1</div>
-
+            <div class="sidebar-version">v1.0.0</div>
         </div>
 
     </aside>
@@ -62,17 +63,17 @@
     <!-- ═══════════════════════════════════════
          ÁREA PRINCIPAL
          ═══════════════════════════════════════ -->
-    <div class="main">
+    <div class="main" id="mainArea">
 
-        <!-- Topbar (visible en mobile) -->
+        <!-- Topbar mobile -->
         <div class="topbar">
             <button class="topbar-menu-btn" id="menuBtn" aria-label="Abrir menú">☰</button>
             <span class="topbar-title">NeuraScript</span>
             <div class="topbar-spacer"></div>
         </div>
 
-        <!-- Logo central (solo en desktop, desaparece en mobile) -->
-        <div class="logo-area" id="logoArea">
+        <!-- Logo desktop -->
+        <div class="logo-area">
             <img src="img/Neura 1.png" class="logo" alt="NeuraScript">
             <div class="title">NeuraScript</div>
         </div>
@@ -89,15 +90,32 @@
                     id="messageInput"
                     placeholder="Escribe tu idea de guion..."
                     autocomplete="off"
+                    autocorrect="off"
+                    autocapitalize="sentences"
                 >
                 <button id="sendBtn" class="send-btn" aria-label="Enviar">➤</button>
             </div>
         </div>
 
-    </div><!-- /main -->
+        <!-- Fondo sólido debajo del input para tapar el gap de Safari -->
+        <div class="safari-bottom-fill"></div>
 
-</div><!-- /layout -->
+    </div>
 
+</div>
+
+<script>
+    /* Redirigir al login si no hay token */
+    const _token = localStorage.getItem("ns_token");
+    if (!_token) window.location.href = "auth.html";
+
+    /* Tap en el área de chat para cerrar teclado en iPhone */
+    document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("chat").addEventListener("touchstart", () => {
+            document.getElementById("messageInput").blur();
+        }, { passive: true });
+    });
+</script>
 <script src="script.js"></script>
 </body>
 </html>

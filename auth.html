@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>NeuraScript — Acceso</title>
+<link rel="stylesheet" href="style.css">
+<style>
+
+    html, body {
+        height: 100%;
+        /* Fix Safari: no usar 100vh en body */
+        min-height: -webkit-fill-available;
+    }
+
+    .auth-screen {
+        min-height: 100vh;
+        min-height: -webkit-fill-available;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: max(24px, env(safe-area-inset-top, 24px)) 16px
+                 max(24px, env(safe-area-inset-bottom, 24px));
+        overflow-y: auto;
+    }
+
+    .auth-card {
+        background: rgba(255,255,255,.1);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255,255,255,.2);
+        border-radius: 20px;
+        padding: 32px 28px;
+        width: 100%;
+        max-width: 400px;
+        animation: fade .3s ease;
+    }
+
+    .auth-logo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 24px;
+    }
+
+    .auth-logo img {
+        width: 55px;
+        filter: drop-shadow(0 0 16px rgba(255,255,255,.25));
+    }
+
+    .auth-logo span {
+        color: white;
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+
+    .auth-tabs {
+        display: flex;
+        background: rgba(0,0,0,.2);
+        border-radius: 10px;
+        padding: 4px;
+        margin-bottom: 22px;
+    }
+
+    .auth-tab {
+        flex: 1;
+        padding: 9px;
+        border: none;
+        background: transparent;
+        color: rgba(255,255,255,.5);
+        font-size: 0.88rem;
+        font-weight: 600;
+        border-radius: 7px;
+        cursor: pointer;
+        transition: all .18s ease;
+    }
+
+    .auth-tab.active {
+        background: white;
+        color: #0000cc;
+    }
+
+    .auth-field {
+        margin-bottom: 13px;
+    }
+
+    .auth-field label {
+        display: block;
+        color: rgba(255,255,255,.65);
+        font-size: 0.78rem;
+        font-weight: 600;
+        margin-bottom: 5px;
+        letter-spacing: .4px;
+        text-transform: uppercase;
+    }
+
+    .auth-field input {
+        width: 100%;
+        padding: 12px 14px;
+        background: rgba(255,255,255,.08);
+        border: 1.5px solid rgba(255,255,255,.22);
+        border-radius: 10px;
+        color: white;
+        font-size: 0.95rem;
+        outline: none;
+        transition: border-color .18s ease;
+        /* Fix iOS zoom on input */
+        font-size: 16px;
+    }
+
+    .auth-field input:focus {
+        border-color: rgba(255,255,255,.6);
+    }
+
+    .auth-field input::placeholder {
+        color: rgba(255,255,255,.3);
+    }
+
+    .auth-hint {
+        font-size: 0.73rem;
+        color: rgba(255,255,255,.38);
+        margin-top: 5px;
+        line-height: 1.4;
+    }
+
+    .auth-btn {
+        width: 100%;
+        padding: 13px;
+        margin-top: 6px;
+        background: white;
+        color: #0000cc;
+        border: none;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: transform .15s ease, opacity .15s ease;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .auth-btn:hover   { opacity: .92; }
+    .auth-btn:active  { transform: scale(0.97); }
+    .auth-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+    .auth-msg {
+        margin-top: 13px;
+        padding: 10px 14px;
+        border-radius: 8px;
+        font-size: 0.83rem;
+        text-align: center;
+        display: none;
+        line-height: 1.4;
+    }
+
+    .auth-msg.error {
+        display: block;
+        background: rgba(255,80,80,.18);
+        border: 1px solid rgba(255,80,80,.35);
+        color: #ffaaaa;
+    }
+
+    .auth-msg.success {
+        display: block;
+        background: rgba(80,255,150,.15);
+        border: 1px solid rgba(80,255,150,.3);
+        color: #aaffcc;
+    }
+
+    /* Link a Sobre Nosotros */
+    .auth-footer {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .auth-footer a {
+        color: rgba(255,255,255,.45);
+        font-size: 0.8rem;
+        text-decoration: none;
+        transition: color .15s;
+    }
+
+    .auth-footer a:hover { color: rgba(255,255,255,.8); }
+
+</style>
+</head>
+<body>
+
+<div class="auth-screen">
+    <div class="auth-card">
+
+        <div class="auth-logo">
+            <img src="img/Neura 1.png" alt="NeuraScript">
+            <span>NeuraScript</span>
+        </div>
+
+        <div class="auth-tabs">
+            <button class="auth-tab active" id="tabLogin"    onclick="showTab('login')">Iniciar sesión</button>
+            <button class="auth-tab"        id="tabRegister" onclick="showTab('register')">Registrarse</button>
+        </div>
+
+        <!-- LOGIN -->
+        <div id="formLogin">
+            <div class="auth-field">
+                <label>Usuario</label>
+                <input type="text" id="loginUser" placeholder="tu_usuario" autocomplete="username">
+            </div>
+            <div class="auth-field">
+                <label>Contraseña</label>
+                <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password">
+            </div>
+            <button class="auth-btn" id="loginBtn" onclick="doLogin()">Entrar</button>
+        </div>
+
+        <!-- REGISTRO -->
+        <div id="formRegister" style="display:none">
+            <div class="auth-field">
+                <label>Usuario</label>
+                <input type="text" id="regUser" placeholder="tu_usuario" autocomplete="username">
+            </div>
+            <div class="auth-field">
+                <label>Email</label>
+                <input type="email" id="regEmail" placeholder="tu@email.com" autocomplete="email">
+                <p class="auth-hint">
+                    📧 Tu email se usará en el futuro para recuperar tu contraseña.
+                </p>
+            </div>
+            <div class="auth-field">
+                <label>Contraseña</label>
+                <input type="password" id="regPass" placeholder="••••••••" autocomplete="new-password">
+                <p class="auth-hint">
+                    ⚠️ Usá una contraseña genérica — no uses contraseñas de otros servicios.
+                </p>
+            </div>
+            <button class="auth-btn" id="registerBtn" onclick="doRegister()">Crear cuenta</button>
+        </div>
+
+        <div class="auth-msg" id="authMsg"></div>
+
+        <div class="auth-footer">
+            <a href="sobre-nosotros.html">Sobre Nosotros ↗</a>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    if (localStorage.getItem("ns_token")) {
+        window.location.href = "index.html";
+    }
+
+    function showTab(tab) {
+        const isLogin = tab === "login";
+        document.getElementById("tabLogin").classList.toggle("active", isLogin);
+        document.getElementById("tabRegister").classList.toggle("active", !isLogin);
+        document.getElementById("formLogin").style.display    = isLogin ? "block" : "none";
+        document.getElementById("formRegister").style.display = isLogin ? "none"  : "block";
+        hideMsg();
+    }
+
+    function showMsg(text, type) {
+        const el = document.getElementById("authMsg");
+        el.textContent = text;
+        el.className = `auth-msg ${type}`;
+    }
+    function hideMsg() {
+        document.getElementById("authMsg").className = "auth-msg";
+    }
+
+    async function doLogin() {
+        const username = document.getElementById("loginUser").value.trim();
+        const password = document.getElementById("loginPass").value;
+        if (!username || !password) return showMsg("Completá todos los campos.", "error");
+
+        const btn = document.getElementById("loginBtn");
+        btn.disabled = true;
+        btn.textContent = "Entrando...";
+
+        try {
+            const res  = await fetch("/api/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, password })
+            });
+            const data = await res.json();
+            if (!res.ok) return showMsg(data.error, "error");
+
+            localStorage.setItem("ns_token",    data.token);
+            localStorage.setItem("ns_username", data.username);
+            window.location.href = "index.html";
+        } catch {
+            showMsg("Error de conexión. Intentá de nuevo.", "error");
+        } finally {
+            btn.disabled = false;
+            btn.textContent = "Entrar";
+        }
+    }
+
+    async function doRegister() {
+        const username = document.getElementById("regUser").value.trim();
+        const email    = document.getElementById("regEmail").value.trim();
+        const password = document.getElementById("regPass").value;
+
+        if (!username || !email || !password) return showMsg("Completá todos los campos.", "error");
+
+        const btn = document.getElementById("registerBtn");
+        btn.disabled = true;
+        btn.textContent = "Creando cuenta...";
+
+        try {
+            const res  = await fetch("/api/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, email, password })
+            });
+            const data = await res.json();
+            if (!res.ok) return showMsg(data.error, "error");
+
+            showMsg("¡Cuenta creada! Iniciando sesión...", "success");
+            setTimeout(() => doAutoLogin(username, password), 900);
+        } catch {
+            showMsg("Error de conexión. Intentá de nuevo.", "error");
+        } finally {
+            btn.disabled = false;
+            btn.textContent = "Crear cuenta";
+        }
+    }
+
+    async function doAutoLogin(username, password) {
+        const res  = await fetch("/api/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+        if (res.ok) {
+            localStorage.setItem("ns_token",    data.token);
+            localStorage.setItem("ns_username", data.username);
+            window.location.href = "index.html";
+        }
+    }
+
+    document.addEventListener("keypress", e => {
+        if (e.key !== "Enter") return;
+        const loginVisible = document.getElementById("formLogin").style.display !== "none";
+        loginVisible ? doLogin() : doRegister();
+    });
+</script>
+
+</body>
+</html>

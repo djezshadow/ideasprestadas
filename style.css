@@ -7,22 +7,31 @@
     padding: 0;
     box-sizing: border-box;
     font-family: Segoe UI, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Fix Safari 100vh bug */
+html {
+    height: -webkit-fill-available;
 }
 
 body {
     background: linear-gradient(160deg, #0414ff 0%, #0000cc 100%);
+    /* Altura real en Safari sin el bounce */
     height: 100vh;
+    height: -webkit-fill-available;
     overflow: hidden;
 }
 
 /* =====================================================
-   LAYOUT RAÍZ: sidebar fijo + main flexible
+   LAYOUT RAÍZ
    ===================================================== */
 
 .layout {
     display: flex;
     width: 100%;
     height: 100vh;
+    height: -webkit-fill-available;
     overflow: hidden;
 }
 
@@ -33,9 +42,10 @@ body {
 .sidebar {
     flex-shrink: 0;
     width: 240px;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.30);
+    height: 100%;
+    background: rgba(0,0,0,.30);
     backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border-right: 1px solid rgba(255,255,255,.12);
     display: flex;
     flex-direction: column;
@@ -44,14 +54,13 @@ body {
     z-index: 100;
 }
 
-/* Branding dentro del sidebar */
 .sidebar-brand {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 0 6px 20px;
+    padding: 0 6px 16px;
     border-bottom: 1px solid rgba(255,255,255,.1);
-    margin-bottom: 14px;
+    margin-bottom: 10px;
 }
 
 .sidebar-logo {
@@ -68,47 +77,72 @@ body {
     letter-spacing: .3px;
 }
 
-/* Botón nuevo chat */
+/* Usuario logueado */
+.sidebar-user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    background: rgba(255,255,255,.07);
+    border-radius: 10px;
+    margin-bottom: 12px;
+}
+
+.sidebar-user-icon { font-size: 0.9rem; flex-shrink: 0; }
+
+.sidebar-user-name {
+    flex: 1;
+    color: rgba(255,255,255,.85);
+    font-size: 0.82rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sidebar-logout-btn {
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,.4);
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 2px 4px;
+    border-radius: 4px;
+    transition: color .15s ease;
+}
+.sidebar-logout-btn:hover { color: rgba(255,255,255,.9); }
+
+/* Nuevo chat */
 .sidebar-new-chat {
     display: flex;
     align-items: center;
     gap: 8px;
     width: 100%;
     padding: 10px 14px;
-    background: rgba(255,255,255,.15);
-    border: 1px solid rgba(255,255,255,.25);
+    background: rgba(255,255,255,.14);
+    border: 1px solid rgba(255,255,255,.22);
     border-radius: 10px;
     color: white;
     font-size: 0.92rem;
     font-weight: 600;
     cursor: pointer;
     transition: background .18s ease, transform .12s ease;
-    margin-bottom: 18px;
+    margin-bottom: 16px;
 }
+.sidebar-new-chat:hover  { background: rgba(255,255,255,.22); }
+.sidebar-new-chat:active { transform: scale(0.97); }
+.sidebar-new-chat .icon  { font-size: 1rem; }
 
-.sidebar-new-chat:hover {
-    background: rgba(255,255,255,.22);
-}
-
-.sidebar-new-chat:active {
-    transform: scale(0.97);
-}
-
-.sidebar-new-chat .icon {
-    font-size: 1rem;
-}
-
-/* Label de sección */
 .sidebar-section-label {
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     font-weight: 600;
     letter-spacing: 1px;
     text-transform: uppercase;
-    color: rgba(255,255,255,.45);
+    color: rgba(255,255,255,.4);
     padding: 0 6px 8px;
 }
 
-/* Historial */
 .sidebar-history {
     flex: 1;
     overflow-y: auto;
@@ -126,7 +160,7 @@ body {
 
 .sidebar-empty {
     font-size: 0.8rem;
-    color: rgba(255,255,255,.35);
+    color: rgba(255,255,255,.3);
     padding: 6px 6px;
     line-height: 1.4;
 }
@@ -137,8 +171,8 @@ body {
     gap: 8px;
     padding: 8px 10px;
     border-radius: 8px;
-    color: rgba(255,255,255,.75);
-    font-size: 0.84rem;
+    color: rgba(255,255,255,.7);
+    font-size: 0.83rem;
     cursor: pointer;
     transition: background .15s ease;
     white-space: nowrap;
@@ -149,27 +183,14 @@ body {
     width: 100%;
     text-align: left;
 }
+.history-item:hover { background: rgba(255,255,255,.1); color: white; }
+.history-item .hist-icon { flex-shrink: 0; font-size: 0.82rem; opacity: .55; }
 
-.history-item:hover {
-    background: rgba(255,255,255,.1);
-    color: white;
-}
+.sidebar-spacer { flex: 0 0 10px; }
 
-.history-item .hist-icon {
-    flex-shrink: 0;
-    font-size: 0.85rem;
-    opacity: .6;
-}
-
-/* Spacer empuja la sección inferior al fondo */
-.sidebar-spacer {
-    flex: 0 0 12px;
-}
-
-/* Sección inferior del sidebar */
 .sidebar-bottom {
     border-top: 1px solid rgba(255,255,255,.1);
-    padding-top: 12px;
+    padding-top: 10px;
     display: flex;
     flex-direction: column;
     gap: 2px;
@@ -181,29 +202,20 @@ body {
     gap: 10px;
     padding: 9px 10px;
     border-radius: 8px;
-    color: rgba(255,255,255,.7);
-    font-size: 0.87rem;
+    color: rgba(255,255,255,.65);
+    font-size: 0.86rem;
     text-decoration: none;
     transition: background .15s ease, color .15s ease;
 }
-
-.sidebar-link:hover {
-    background: rgba(255,255,255,.1);
-    color: white;
-}
-
-.sidebar-link-icon {
-    font-size: 1rem;
-    opacity: .8;
-}
+.sidebar-link:hover { background: rgba(255,255,255,.1); color: white; }
+.sidebar-link-icon  { font-size: 1rem; opacity: .8; }
 
 .sidebar-version {
-    margin-top: 10px;
+    margin-top: 8px;
     text-align: right;
-    font-size: 0.72rem;
-    color: rgba(255,255,255,.3);
+    font-size: 0.7rem;
+    color: rgba(255,255,255,.25);
     padding-right: 4px;
-    letter-spacing: .5px;
 }
 
 /* =====================================================
@@ -213,13 +225,16 @@ body {
 .main {
     flex: 1;
     min-width: 0;
+    /* Safari: usar fill-available en lugar de 100vh */
     height: 100vh;
+    height: -webkit-fill-available;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    position: relative;
 }
 
-/* Topbar — solo visible en mobile */
+/* Topbar mobile */
 .topbar {
     display: none;
     flex-shrink: 0;
@@ -235,7 +250,7 @@ body {
     color: white;
     font-size: 1.4rem;
     cursor: pointer;
-    padding: 4px 8px 4px 0;
+    padding: 4px 10px 4px 0;
     line-height: 1;
 }
 
@@ -247,30 +262,30 @@ body {
 
 .topbar-spacer { flex: 1; }
 
-/* Logo central desktop */
+/* Logo desktop */
 .logo-area {
     flex-shrink: 0;
-    padding: 28px 20px 10px;
+    padding: 24px 20px 8px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 .logo {
-    width: 72px;
+    width: 68px;
     filter: drop-shadow(0 0 20px rgba(255,255,255,.2));
 }
 
 .title {
     color: white;
-    font-size: 2.2rem;
+    font-size: 2.1rem;
     font-weight: 700;
-    margin-top: 8px;
+    margin-top: 7px;
     text-shadow: 0 4px 20px rgba(255,255,255,.15);
 }
 
 /* =====================================================
-   CHAT
+   CHAT — scroll solo aquí
    ===================================================== */
 
 .chat-container {
@@ -288,16 +303,14 @@ body {
     flex: 1;
     min-height: 0;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     padding: 10px 4px 6px;
     scroll-behavior: smooth;
 }
 
-.chat::-webkit-scrollbar { width: 6px; }
+.chat::-webkit-scrollbar { width: 5px; }
 .chat::-webkit-scrollbar-track { background: transparent; }
-.chat::-webkit-scrollbar-thumb {
-    background: rgba(255,255,255,.2);
-    border-radius: 3px;
-}
+.chat::-webkit-scrollbar-thumb { background: rgba(255,255,255,.18); border-radius: 3px; }
 
 /* =====================================================
    MENSAJES
@@ -323,18 +336,19 @@ body {
 .bot {
     background: rgba(255,255,255,.12);
     backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     color: white;
-    border: 1px solid rgba(255,255,255,.14);
+    border: 1px solid rgba(255,255,255,.13);
     border-bottom-left-radius: 4px;
 }
 
 .script {
     white-space: pre-wrap;
     font-family: Consolas, 'Courier New', monospace;
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     line-height: 1.7;
     background: rgba(0,0,0,.28);
-    border: 1px solid rgba(255,255,255,.18);
+    border: 1px solid rgba(255,255,255,.16);
 }
 
 .bot img {
@@ -343,7 +357,6 @@ body {
     display: block;
 }
 
-/* Lista */
 .message-list {
     list-style: none;
     padding: 0;
@@ -359,7 +372,7 @@ body {
     content: "•";
     position: absolute;
     left: 0;
-    color: rgba(255,255,255,.6);
+    color: rgba(255,255,255,.55);
 }
 
 /* =====================================================
@@ -372,20 +385,32 @@ body {
     align-items: center;
     gap: 12px;
     padding: 20px 18px;
-    max-width: 280px !important; /* ← sobreescribe el max-width del .message */
+    max-width: 240px !important;
+}
+
+.qr-block a {
+    display: block;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 4px solid white;
+    transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.qr-block a:hover {
+    transform: scale(1.04);
+    box-shadow: 0 0 24px rgba(255,255,255,.25);
 }
 
 .qr-block img {
-    width: 180px;
-    height: 180px;
-    border-radius: 10px;
-    border: 4px solid white;
+    width: 170px;
+    height: 170px;
     display: block;
+    border: none;
 }
 
 .qr-caption {
-    font-size: 0.82rem;
-    color: rgba(255,255,255,.65);
+    font-size: 0.8rem;
+    color: rgba(255,255,255,.6);
     text-align: center;
     line-height: 1.4;
 }
@@ -415,7 +440,7 @@ body {
 
 @keyframes blink {
     0%, 80%, 100% { opacity: .2; transform: scale(.8); }
-    40%           { opacity: 1;  transform: scale(1); }
+    40%            { opacity: 1;  transform: scale(1); }
 }
 
 /* =====================================================
@@ -427,12 +452,13 @@ body {
     width: 100%;
     max-width: 900px;
     margin: 0 auto;
-    padding: 10px 20px 20px;
+    /* Subir el input — más espacio arriba que abajo */
+    padding: 10px 20px 14px;
 }
 
 .input-box {
     background: rgba(255,255,255,.08);
-    border: 2px solid rgba(255,255,255,.55);
+    border: 2px solid rgba(255,255,255,.5);
     border-radius: 30px;
     display: flex;
     align-items: center;
@@ -445,12 +471,13 @@ body {
     border: none;
     outline: none;
     color: white;
-    font-size: 1rem;
-    padding: 9px 8px;
+    /* font-size 16px evita zoom automático en iPhone */
+    font-size: 16px;
+    padding: 8px 8px;
 }
 
-.input-box input::placeholder { color: rgba(255,255,255,.6); }
-.input-box input:disabled { opacity: .65; }
+.input-box input::placeholder { color: rgba(255,255,255,.55); }
+.input-box input:disabled      { opacity: .6; }
 
 .send-btn {
     flex-shrink: 0;
@@ -469,8 +496,21 @@ body {
     justify-content: center;
 }
 
-.send-btn:hover:not(:disabled) { transform: scale(1.08); }
+.send-btn:hover:not(:disabled)  { transform: scale(1.08); }
 .send-btn:active:not(:disabled) { transform: scale(0.94); }
+
+/* =====================================================
+   FIX SAFARI — relleno debajo del input
+   Safari en iPhone deja un gap blanco debajo del input
+   cuando el teclado está cerrado. Este div lo tapa.
+   ===================================================== */
+
+.safari-bottom-fill {
+    flex-shrink: 0;
+    /* Usar el safe-area-inset-bottom real */
+    height: env(safe-area-inset-bottom, 0px);
+    background: #0000cc; /* mismo color que el fondo del gradiente */
+}
 
 /* =====================================================
    ANIMACIONES
@@ -482,7 +522,7 @@ body {
 }
 
 /* =====================================================
-   OVERLAY (mobile sidebar)
+   OVERLAY — sidebar mobile
    ===================================================== */
 
 .sidebar-overlay {
@@ -496,74 +536,59 @@ body {
 .sidebar-overlay.active { display: block; }
 
 /* =====================================================
-   RESPONSIVE — TABLET
+   RESPONSIVE TABLET
    ===================================================== */
 
 @media (max-width: 900px) {
     .sidebar { width: 210px; }
-    .title { font-size: 1.9rem; }
+    .title   { font-size: 1.9rem; }
 }
 
 /* =====================================================
-   RESPONSIVE — MOBILE (< 700px)
-   El sidebar se convierte en drawer deslizable
+   RESPONSIVE MOBILE
    ===================================================== */
 
 @media (max-width: 700px) {
 
-    /* Sidebar fuera de pantalla por defecto */
     .sidebar {
         position: fixed;
         left: 0;
         top: 0;
-        width: 260px;
+        height: 100%;
+        width: 270px;
         transform: translateX(-100%);
+        /* Safe area top para el notch */
+        padding-top: max(20px, env(safe-area-inset-top, 20px));
     }
 
-    /* Cuando está abierto */
     .sidebar.open {
         transform: translateX(0);
-        box-shadow: 4px 0 30px rgba(0,0,0,.4);
+        box-shadow: 4px 0 32px rgba(0,0,0,.45);
     }
 
-    /* Topbar visible en mobile */
-    .topbar { display: flex; }
+    .topbar {
+        display: flex;
+        /* Notch / Dynamic Island */
+        padding-top: max(14px, env(safe-area-inset-top, 14px));
+        padding-bottom: 12px;
+    }
 
-    /* Logo central se oculta — demasiado alto en mobile */
+    /* Logo se oculta en mobile */
     .logo-area { display: none; }
 
     .chat-container { padding: 0 10px; }
 
-    .input-area { padding: 8px 10px 14px; }
+    .input-area {
+        padding: 8px 10px 10px;
+    }
 
     .message {
         max-width: 92%;
         font-size: 0.93rem;
     }
 
-    .qr-block { max-width: 240px !important; }
-    .qr-block img { width: 150px; height: 150px; }
+    .qr-block     { max-width: 200px !important; }
+    .qr-block img { width: 140px; height: 140px; }
 
     .send-btn { width: 42px; height: 42px; font-size: 17px; }
-}
-
-/* =====================================================
-   SAFE AREAS — iPhone notch / Dynamic Island / home bar
-   max() con fallback fijo de 44px (altura standard notch)
-   ===================================================== */
-
-@media (max-width: 700px) {
-    .topbar {
-        padding-top: max(44px, env(safe-area-inset-top, 44px));
-        padding-bottom: 12px;
-        height: auto;
-    }
-
-    .sidebar {
-        padding-top: max(44px, env(safe-area-inset-top, 44px));
-    }
-
-    .input-area {
-        padding-bottom: max(20px, env(safe-area-inset-bottom, 20px));
-    }
 }
