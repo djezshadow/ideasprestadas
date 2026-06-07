@@ -547,7 +547,16 @@ body {
     .send-btn { width: 42px; height: 42px; font-size: 17px; }
 }
 
-/* Safe area iPhone (notch / home bar) */
+/* Safe area iPhone (notch / Dynamic Island / home bar) */
+@supports (padding-top: env(safe-area-inset-top)) {
+    .topbar {
+        padding-top: calc(12px + env(safe-area-inset-top));
+    }
+    .sidebar {
+        padding-top: calc(20px + env(safe-area-inset-top));
+    }
+}
+
 @supports (padding-bottom: env(safe-area-inset-bottom)) {
     .input-area {
         padding-bottom: calc(14px + env(safe-area-inset-bottom));
