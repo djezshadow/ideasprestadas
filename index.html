@@ -637,7 +637,7 @@ function renderSbSobreNosotros() {
                         text-transform:uppercase;font-weight:700">5 Voces Producciones</div>
         </div>
 
-        <!-- Equipo — grid de tarjetas con foto circular y bio -->
+        <!-- Equipo — lista vertical compacta -->
         <div class="sobre-nosotros-equipo-list">
             ${equipo.map(m => `
                 <div class="sobre-nosotros-miembro">
@@ -648,7 +648,6 @@ function renderSbSobreNosotros() {
                     <div class="sobre-nosotros-info">
                         <div class="sobre-nosotros-nombre">${m.nombre}</div>
                         <div class="sobre-nosotros-rol">${m.rol}</div>
-                        <div class="sobre-nosotros-bio">${m.bio}</div>
                     </div>
                 </div>`).join("")}
         </div>

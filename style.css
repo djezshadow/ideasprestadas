@@ -1463,99 +1463,74 @@ body {
     padding: 28px 24px;
 }
 
-/* Grid del equipo — tarjetas centradas con foto redonda */
+/* Lista del equipo — filas horizontales con foto a la izquierda */
 .sobre-nosotros-equipo-list {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     margin-top: 16px;
-}
-
-/* Las dos últimas tarjetas (4ta y 5ta) se centran en la fila */
-.sobre-nosotros-equipo-list .sobre-nosotros-miembro:nth-child(4) {
-    grid-column: 1 / 2;
-}
-.sobre-nosotros-equipo-list .sobre-nosotros-miembro:nth-child(5) {
-    grid-column: 3 / 4;
 }
 
 .sobre-nosotros-miembro {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    text-align: center;
-    gap: 0;
-    padding: 18px 10px 16px;
-    background: rgba(255,255,255,.07);
-    border: 1px solid rgba(255,255,255,.12);
-    border-radius: 18px;
-    transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
+    gap: 14px;
+    padding: 10px 4px;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    transition: opacity .18s ease;
+}
+.sobre-nosotros-miembro:last-child {
+    border-bottom: none;
 }
 .sobre-nosotros-miembro:hover {
-    background: rgba(255,255,255,.13);
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(0,0,0,.2), 0 0 30px rgba(60,80,255,.12);
+    opacity: .75;
 }
 
-/* Foto redonda grande tipo avatar de perfil */
+/* Foto redonda — override de .bot img { width:100% } */
 .sobre-nosotros-foto {
-    width: 76px;
-    height: 76px;
+    width: 44px !important;
+    height: 44px !important;
     border-radius: 100%;
     object-fit: cover;
     object-position: center top;
-    border: 3px solid rgba(255,255,255,.32);
+    border: 2px solid rgba(255,255,255,.28);
     background: rgba(255,255,255,.08);
     flex-shrink: 0;
-    margin-bottom: 12px;
-    box-shadow: 0 0 0 4px rgba(255,255,255,.07), 0 4px 20px rgba(0,0,0,.25);
 }
 .sobre-nosotros-foto-placeholder {
-    width: 76px;
-    height: 76px;
+    width: 44px;
+    height: 44px;
     border-radius: 100%;
     background: rgba(255,255,255,.08);
-    border: 3px solid rgba(255,255,255,.15);
+    border: 2px solid rgba(255,255,255,.15);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2rem;
+    font-size: 1.3rem;
     flex-shrink: 0;
-    margin-bottom: 12px;
 }
 
 .sobre-nosotros-info {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 3px;
-    width: 100%;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
 }
 
 .sobre-nosotros-nombre {
     color: white;
-    font-size: .86rem;
-    font-weight: 800;
+    font-size: .92rem;
+    font-weight: 700;
     line-height: 1.2;
 }
 .sobre-nosotros-rol {
     color: rgba(255,255,255,.45);
     font-size: .62rem;
     font-weight: 700;
-    letter-spacing: 1.2px;
+    letter-spacing: 1.1px;
     text-transform: uppercase;
-    margin-bottom: 8px;
-}
-/* Descripción corta de cada integrante */
-.sobre-nosotros-bio {
-    color: rgba(255,255,255,.58);
-    font-size: .73rem;
-    line-height: 1.5;
-    font-weight: 400;
-    border-top: 1px solid rgba(255,255,255,.1);
-    padding-top: 8px;
-    width: 100%;
-    text-align: center;
 }
 
 /* Botón "Ver Página Completa" */
@@ -1590,24 +1565,8 @@ body {
 @media (max-width: 540px) {
     #sandboxPanel.sandbox--fullscreen { padding: 12px; }
     .sandbox--fullscreen .ficha-card.sobre-nosotros-card { padding: 18px 14px; border-radius: 12px; }
-    /* En mobile: 2 columnas, las últimas 2 tarjetas se centran */
-    .sobre-nosotros-equipo-list {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-    }
-    .sobre-nosotros-equipo-list .sobre-nosotros-miembro:nth-child(4) {
-        grid-column: auto;
-    }
-    .sobre-nosotros-equipo-list .sobre-nosotros-miembro:nth-child(5) {
-        grid-column: auto;
-    }
-    /* La 5ta tarjeta sola en su fila → centrarla */
-    .sobre-nosotros-equipo-list .sobre-nosotros-miembro:last-child:nth-child(odd) {
-        grid-column: 1 / -1;
-        max-width: calc(50% - 5px);
-        margin: 0 auto;
-    }
-    .sobre-nosotros-foto { width: 60px; height: 60px; }
+    .sobre-nosotros-nombre { font-size: .85rem; }
+    .sobre-nosotros-circulo { font-size: 1rem; }
 }
 
 /* ═══════════════════════════════════════
