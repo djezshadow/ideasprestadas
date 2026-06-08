@@ -250,20 +250,35 @@
 /* Opción destacada — Usar la IA */
 .welcome-chip--ai {
     grid-column: 1 / -1;
+    width: 60%;          /* un poco más ancho que sobrenosotros */
+    margin: 0 auto;      /* centrado */
     background: rgba(255,255,255,.22);
     border-color: rgba(255,255,255,.7);
     font-size: clamp(0.95rem, 2vw, 1.1rem);
-    padding: 22px 20px;
+    padding: 18px 20px;
     letter-spacing: .2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border-radius: 14px;
     box-shadow: 0 0 40px rgba(255,255,255,.1), inset 0 1px 0 rgba(255,255,255,.25);
 }
 
-.welcome-chip--ai .wc-icon { font-size: 2rem; }
+.welcome-chip--ai .wc-icon {
+    display: inline;
+    font-size: 1.4rem;
+    margin-bottom: 0;
+}
 
 .welcome-chip--ai:hover {
     background: rgba(255,255,255,.35);
-    transform: translateY(-4px);
+    transform: translateY(-3px);
     box-shadow: 0 8px 50px rgba(255,255,255,.18);
+}
+
+@media (max-width: 540px) {
+    .welcome-chip--ai { width: 80%; }
 }
 
 /* ═══════════════════════════════════════
@@ -617,7 +632,7 @@ splashBtn.addEventListener("click", () => {
 const MENU_TOP = {
     icon:  "🎬",
     label: "Sobre Nosotros",
-    href:  "sobre-nosotros.html"   // ← cambiá la URL si querés
+    key:   "__sobrenosotros__"   // clave interna — no la cambies
 };
 
 /* ═══════════════════════════════════════════════════════════
@@ -671,6 +686,19 @@ function showSandbox(key) {
        Necesitamos esperar a que script.js esté cargado — usamos un pequeño
        retry si aún no está disponible. */
     function tryRender() {
+        /* Caso especial: Sobre Nosotros se renderiza directo sin BOT_RESPONSES */
+        if (key === "__sobrenosotros__") {
+            const loader = document.createElement("div");
+            loader.className = "message bot typing-indicator";
+            loader.innerHTML = "<span></span><span></span><span></span>";
+            sandboxContent.appendChild(loader);
+            setTimeout(() => {
+                loader.remove();
+                renderSbSobreNosotros();
+            }, 900);
+            return;
+        }
+
         if (typeof BOT_RESPONSES === "undefined") {
             return setTimeout(tryRender, 50);
         }
@@ -954,6 +982,57 @@ function renderSbQR(response) {
     sandboxContent.appendChild(d);
 }
 
+/* ── Render especial: Sobre Nosotros ── */
+function renderSbSobreNosotros() {
+    const div = document.createElement("div");
+    div.className = "message bot ficha-card";
+    div.innerHTML = `
+        <div class="ficha-title">🎬 Sobre Nosotros</div>
+        <img src="img/5voces.png" alt="5 Voces Producciones"
+             style="display:block;width:180px;margin:0 auto 16px;filter:drop-shadow(0 0 12px rgba(255,255,255,.2))">
+        <div class="ficha-subtitle" style="text-align:center;margin-bottom:18px">Ideas Prestadas — 2028</div>
+
+        <table class="ficha-table">
+            <tr><td class="ficha-key">Género</td>      <td class="ficha-val">Comedia Dramática</td></tr>
+            <tr><td class="ficha-key">Tono</td>        <td class="ficha-val">Trágico, Satírico</td></tr>
+            <tr><td class="ficha-key">Duración</td>    <td class="ficha-val">120 min.</td></tr>
+            <tr><td class="ficha-key">País</td>        <td class="ficha-val">Argentina</td></tr>
+            <tr><td class="ficha-key">Año</td>         <td class="ficha-val">2028</td></tr>
+            <tr><td class="ficha-key">Productora</td>  <td class="ficha-val">5 Voces Producciones</td></tr>
+        </table>
+
+        <div style="margin-top:18px;padding-top:14px;border-top:1px solid rgba(255,255,255,.12)">
+            <div class="ficha-title" style="margin-bottom:12px">El Equipo</div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+                ${[
+                    ["Victoria Gariglio",  "Directora / Productora"],
+                    ["Eliás Betés",        "Guionista"],
+                    ["Serena Arcuri",      "Productora"],
+                    ["Ezequiel Sánchez",   "Productor"],
+                    ["Isabel Rabanal",     "Productora"]
+                ].map(([n, r]) => `
+                    <div style="display:flex;justify-content:space-between;align-items:center;
+                                padding:8px 10px;background:rgba(255,255,255,.05);
+                                border-radius:8px;border:1px solid rgba(255,255,255,.08)">
+                        <span style="color:white;font-weight:700;font-size:.9rem">${n}</span>
+                        <span style="color:rgba(255,255,255,.5);font-size:.75rem;font-weight:600;
+                                     text-transform:uppercase;letter-spacing:.8px">${r}</span>
+                    </div>`).join("")}
+            </div>
+        </div>
+
+        <div style="margin-top:14px;text-align:center">
+            <a href="sobre-nosotros.html" target="_blank"
+               style="color:rgba(255,255,255,.5);font-size:.8rem;text-decoration:none;
+                      border-bottom:1px solid rgba(255,255,255,.2);padding-bottom:1px;
+                      transition:color .15s">
+                Ver página completa ↗
+            </a>
+        </div>
+    `;
+    sandboxContent.appendChild(div);
+}
+
 /* ── Volver al menú desde el sandbox ── */
 sandboxBackBtn.addEventListener("click", () => {
     sandboxPanel.classList.remove("active");
@@ -970,7 +1049,7 @@ const welcomeTopEl = document.getElementById("welcomeTop");
     btn.className = "welcome-chip welcome-chip--sobrenosotros";
     btn.innerHTML = `<span class="wc-icon">${MENU_TOP.icon}</span>${MENU_TOP.label}`;
     btn.addEventListener("click", () => {
-        window.open(MENU_TOP.href, "_blank");
+        showSandbox(MENU_TOP.key);
     });
     welcomeTopEl.appendChild(btn);
 })();
