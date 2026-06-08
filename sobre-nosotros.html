@@ -64,6 +64,13 @@
     }
     .about-back:hover { background: rgba(255,255,255,.18); color: white; transform: translateX(-2px); }
 
+    a.about-topbar-brand {
+        text-decoration: none;
+        transition: opacity .18s ease;
+        -webkit-tap-highlight-color: transparent;
+    }
+    a.about-topbar-brand:hover { opacity: .7; }
+
     .about-topbar-brand {
         display: flex;
         align-items: center;
@@ -327,11 +334,11 @@
 
     <!-- Topbar -->
     <div class="about-topbar">
-        <a href="javascript:history.back()" class="about-back">← Volver</a>
-        <div class="about-topbar-brand">
+        <a href="index.html#menu" class="about-back">← Volver</a>
+        <a href="index.html#menu" class="about-topbar-brand" title="Volver al menú">
             <img src="img/Neura 1.png" alt="NeuraScript">
             <span>NeuraScript</span>
-        </div>
+        </a>
     </div>
 
     <!-- ══════════════════════════════════════════

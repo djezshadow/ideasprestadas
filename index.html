@@ -646,9 +646,13 @@
         </div>
 
         <!-- Logo desktop -->
-        <div class="logo-area" id="logoHomeBtnDesktop" title="Volver al menú" style="cursor:pointer">
-            <img src="img/Neura 1.png" class="logo" alt="NeuraScript">
-            <div class="title">NeuraScript</div>
+        <div class="logo-area">
+            <span id="logoHomeBtnDesktop" title="Volver al menú"
+                  style="cursor:pointer;display:inline-flex;flex-direction:column;
+                         align-items:center;gap:inherit">
+                <img src="img/Neura 1.png" class="logo" alt="NeuraScript">
+                <div class="title">NeuraScript</div>
+            </span>
         </div>
 
         <!-- Chat -->
@@ -1281,6 +1285,16 @@ document.addEventListener("DOMContentLoaded", () => {
         const el = document.getElementById(id);
         if (el) el.addEventListener("click", goHome);
     });
+});
+
+/* ── Detectar #menu en la URL al cargar (viene de sobre-nosotros) ── */
+window.addEventListener("load", () => {
+    if (window.location.hash === "#menu") {
+        /* Limpiar el hash sin recargar */
+        history.replaceState(null, "", window.location.pathname);
+        /* Abrir el menú directamente */
+        goHome();
+    }
 });
 
 /* ── Desbloquear el chat (solo al elegir "Usar la IA") ── */
