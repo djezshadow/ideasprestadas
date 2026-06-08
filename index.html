@@ -143,6 +143,44 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
+    gap: 16px;
+}
+
+/* Fila superior — Sobre Nosotros */
+.welcome-row-top {
+    width: 100%;
+    max-width: 680px;
+}
+
+/* Fila inferior — Usar la IA */
+.welcome-row-bottom {
+    width: 100%;
+    max-width: 680px;
+}
+
+/* Chip de Sobre Nosotros — ancho completo, tono más sutil */
+.welcome-chip--sobrenosotros {
+    grid-column: 1 / -1;
+    width: 100%;
+    background: rgba(255,255,255,.08);
+    border-color: rgba(255,255,255,.22);
+    font-size: clamp(0.88rem, 1.8vw, 1rem);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border-radius: 14px;
+}
+.welcome-chip--sobrenosotros .wc-icon {
+    display: inline;
+    font-size: 1.2rem;
+    margin-bottom: 0;
+}
+.welcome-chip--sobrenosotros:hover {
+    background: rgba(255,255,255,.15);
+    border-color: rgba(255,255,255,.4);
+    transform: translateY(-2px);
 }
 
 .welcome-heading {
@@ -380,8 +418,16 @@
     <!-- Vista principal: el menú de chips -->
     <div id="welcomeMenu">
         <div class="welcome-heading">¿Qué querés explorar?</div>
-        <div class="welcome-sub">Elegí una sección del proyecto o usá la IA para escribir libremente.</div>
+        <div class="welcome-sub">Exploré el proyecto o entrá a la IA para escribir libremente.</div>
+
+        <!-- ── Fila superior: Sobre Nosotros (sandbox) ── -->
+        <div class="welcome-row-top" id="welcomeTop"></div>
+
+        <!-- ── Grilla central: las 9 opciones editables ── -->
         <div class="welcome-chips" id="welcomeChips"></div>
+
+        <!-- ── Fila inferior: Usar la IA (desbloquea el chat) ── -->
+        <div class="welcome-row-bottom" id="welcomeBottom"></div>
     </div>
 
     <!-- Vista sandbox: respuesta de la opción elegida -->
@@ -561,21 +607,53 @@ splashBtn.addEventListener("click", () => {
     }, 2400);
 });
 
-/* ─── MENÚ PRINCIPAL (welcome overlay) ─── */
+/* ═══════════════════════════════════════════════════════════
+   MENÚ PRINCIPAL — tres zonas editables
+   ═══════════════════════════════════════════════════════════
+
+   ZONA SUPERIOR: solo "Sobre Nosotros" (abre página nueva).
+   Podés cambiar el icon, label o href.
+   ─────────────────────────────────────────────────────────── */
+const MENU_TOP = {
+    icon:  "🎬",
+    label: "Sobre Nosotros",
+    href:  "sobre-nosotros.html"   // ← cambiá la URL si querés
+};
+
+/* ═══════════════════════════════════════════════════════════
+   ZONA CENTRAL: las 9 opciones del sandbox.
+   ───────────────────────────────────────────────────────────
+   Cada objeto tiene:
+     icon  → emoji que aparece arriba del label
+     label → texto del botón
+     key   → palabra clave que se busca en BOT_RESPONSES
+              (y en ALIASES) de script.js
+
+   Para AGREGAR una opción: copiá un bloque { ... } con su coma.
+   Para ELIMINAR una opción: borrá el bloque completo.
+   Para CAMBIAR el contenido que muestra: editá BOT_RESPONSES
+   en script.js buscando la key correspondiente.
+   ─────────────────────────────────────────────────────────── */
 const MENU_ITEMS = [
-    /* Opción especial — ir a la IA */
-    { icon: "🤖", label: "Usar la IA",        key: "__ai__",               highlight: true },
-    /* Secciones de la película */
-    { icon: "🎬", label: "Ficha Técnica",      key: "ficha tecnica" },
-    { icon: "📖", label: "Logline",            key: "logline" },
-    { icon: "📜", label: "Storyline",          key: "storyline" },
-    { icon: "🎨", label: "Moodboard",          key: "moodboard" },
-    { icon: "💰", label: "Presupuesto",        key: "presupuesto" },
-    { icon: "🤝", label: "Financiamiento",     key: "financiacion" },
-    { icon: "🎭", label: "Elenco",             key: "elenco tentativo" },
-    { icon: "🗺️", label: "Recorrido",          key: "recorrido de mercados" },
-    { icon: "🎞", label: "Teaser",             key: "teaser" },
+    { icon: "🎬", label: "Ficha Técnica",  key: "ficha tecnica"        },
+    { icon: "📖", label: "Logline",        key: "logline"               },
+    { icon: "📜", label: "Storyline",      key: "storyline"             },
+    { icon: "🎨", label: "Moodboard",      key: "moodboard"             },
+    { icon: "💰", label: "Presupuesto",    key: "presupuesto"           },
+    { icon: "🤝", label: "Financiamiento", key: "financiacion"          },
+    { icon: "🎭", label: "Elenco",         key: "elenco tentativo"      },
+    { icon: "🗺️", label: "Recorrido",      key: "recorrido de mercados" },
+    { icon: "🎞", label: "Teaser",         key: "teaser"                },
 ];
+
+/* ═══════════════════════════════════════════════════════════
+   ZONA INFERIOR: solo "Usar la IA" (desbloquea el chat).
+   Podés cambiar el icon y el label, pero no el key "__ai__".
+   ─────────────────────────────────────────────────────────── */
+const MENU_BOTTOM = {
+    icon:  "🤖",
+    label: "Usar la IA"
+};
 
 /* ─── SANDBOX: render de respuesta dentro del overlay ─── */
 const welcomeMenu    = document.getElementById("welcomeMenu");
@@ -884,22 +962,44 @@ sandboxBackBtn.addEventListener("click", () => {
 });
 
 /* ── Construir los chips del menú ── */
-const welcomeChipsEl = document.getElementById("welcomeChips");
-MENU_ITEMS.forEach(({ icon, label, key, highlight }) => {
+
+/* — Zona superior: Sobre Nosotros — */
+const welcomeTopEl = document.getElementById("welcomeTop");
+(function() {
     const btn = document.createElement("button");
-    btn.className = "welcome-chip" + (highlight ? " welcome-chip--ai" : "");
+    btn.className = "welcome-chip welcome-chip--sobrenosotros";
+    btn.innerHTML = `<span class="wc-icon">${MENU_TOP.icon}</span>${MENU_TOP.label}`;
+    btn.addEventListener("click", () => {
+        window.open(MENU_TOP.href, "_blank");
+    });
+    welcomeTopEl.appendChild(btn);
+})();
+
+/* — Zona central: las 9 opciones editables (sandbox) — */
+const welcomeChipsEl = document.getElementById("welcomeChips");
+MENU_ITEMS.forEach(({ icon, label, key }) => {
+    const btn = document.createElement("button");
+    btn.className = "welcome-chip";
     btn.innerHTML = `<span class="wc-icon">${icon}</span>${label}`;
     btn.addEventListener("click", () => {
-        if (key === "__ai__") {
-            /* Solo "Usar la IA" desbloquea el chat */
-            unlockChat();
-        } else {
-            /* Todas las demás → sandbox dentro del overlay */
-            showSandbox(key);
-        }
+        /* Abre la respuesta en modo sandbox dentro del overlay */
+        showSandbox(key);
     });
     welcomeChipsEl.appendChild(btn);
 });
+
+/* — Zona inferior: Usar la IA — */
+const welcomeBottomEl = document.getElementById("welcomeBottom");
+(function() {
+    const btn = document.createElement("button");
+    btn.className = "welcome-chip welcome-chip--ai";
+    btn.innerHTML = `<span class="wc-icon">${MENU_BOTTOM.icon}</span>${MENU_BOTTOM.label}`;
+    btn.addEventListener("click", () => {
+        /* Único botón que cierra el overlay y habilita el chat */
+        unlockChat();
+    });
+    welcomeBottomEl.appendChild(btn);
+})();
 
 /* ── Desbloquear el chat (solo al elegir "Usar la IA") ── */
 function unlockChat() {
