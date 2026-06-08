@@ -128,6 +128,7 @@
     padding: 24px 16px;
     animation: fade .35s ease;
     transition: opacity .4s ease, visibility .4s ease;
+    overflow-y: auto;
 }
 
 #welcomeOverlay.hidden {
@@ -136,25 +137,13 @@
     pointer-events: none;
 }
 
-.welcome-close {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: rgba(255,255,255,.15);
-    border: 1px solid rgba(255,255,255,.3);
-    color: white;
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    font-size: 1.1rem;
-    cursor: pointer;
+/* welcomeMenu ocupa todo el overlay centrado */
+#welcomeMenu {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    transition: background .18s ease;
-    -webkit-tap-highlight-color: transparent;
+    width: 100%;
 }
-.welcome-close:hover { background: rgba(255,255,255,.28); }
 
 .welcome-heading {
     color: white;
@@ -222,7 +211,7 @@
 
 /* Opción destacada — Usar la IA */
 .welcome-chip--ai {
-    grid-column: 1 / -1;          /* ocupa todo el ancho */
+    grid-column: 1 / -1;
     background: rgba(255,255,255,.22);
     border-color: rgba(255,255,255,.7);
     font-size: clamp(0.95rem, 2vw, 1.1rem);
@@ -237,6 +226,88 @@
     background: rgba(255,255,255,.35);
     transform: translateY(-4px);
     box-shadow: 0 8px 50px rgba(255,255,255,.18);
+}
+
+/* ═══════════════════════════════════════
+   SANDBOX PANEL — respuesta dentro del overlay
+   ═══════════════════════════════════════ */
+#sandboxPanel {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 24px 16px max(24px, env(safe-area-inset-bottom, 24px));
+    overflow-y: auto;
+    animation: sandboxIn .3s ease;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s ease;
+}
+
+#sandboxPanel.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+@keyframes sandboxIn {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.sandbox-back-btn {
+    align-self: flex-start;
+    margin-bottom: 20px;
+    padding: 9px 18px;
+    background: rgba(255,255,255,.12);
+    border: 1.5px solid rgba(255,255,255,.28);
+    border-radius: 50px;
+    color: rgba(255,255,255,.85);
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all .18s ease;
+    -webkit-tap-highlight-color: transparent;
+    flex-shrink: 0;
+}
+.sandbox-back-btn:hover {
+    background: rgba(255,255,255,.22);
+    color: white;
+    transform: translateX(-2px);
+}
+
+.sandbox-content {
+    width: 100%;
+    max-width: 680px;
+    animation: sandboxIn .35s ease .05s both;
+}
+
+/* Los mensajes bot dentro del sandbox usan los mismos estilos del chat */
+.sandbox-content .message {
+    margin-bottom: 12px;
+}
+
+/* ═══════════════════════════════════════
+   CHAT BLOQUEADO — overlay sobre el área principal
+   ═══════════════════════════════════════ */
+#chatLockOverlay {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    cursor: not-allowed;
+    border-radius: inherit;
+}
+
+.main { position: relative; }
+
+/* Input y chips deshabilitados visualmente */
+.chat-locked .input-area,
+.chat-locked .chips-bar {
+    opacity: 0.35;
+    pointer-events: none;
+    filter: blur(1px);
+    user-select: none;
 }
 
 /* ═══════════════════════════════════════
@@ -305,10 +376,20 @@
      WELCOME OVERLAY — chips grandes
      ══════════════════════════════════════════ -->
 <div id="welcomeOverlay" class="hidden">
-    <button class="welcome-close" id="welcomeClose" title="Cerrar">✕</button>
-    <div class="welcome-heading">¿Qué querés explorar?</div>
-    <div class="welcome-sub">Elegí una opción para comenzar o escribí directamente en el chat.</div>
-    <div class="welcome-chips" id="welcomeChips"></div>
+
+    <!-- Vista principal: el menú de chips -->
+    <div id="welcomeMenu">
+        <div class="welcome-heading">¿Qué querés explorar?</div>
+        <div class="welcome-sub">Elegí una sección del proyecto o usá la IA para escribir libremente.</div>
+        <div class="welcome-chips" id="welcomeChips"></div>
+    </div>
+
+    <!-- Vista sandbox: respuesta de la opción elegida -->
+    <div id="sandboxPanel">
+        <button class="sandbox-back-btn" id="sandboxBackBtn">← Volver al menú</button>
+        <div class="sandbox-content" id="sandboxContent"></div>
+    </div>
+
 </div>
 
 <!-- Tap anywhere to dismiss keyboard on iPhone -->
@@ -367,7 +448,10 @@
     <!-- ═══════════════════════════════════════
          ÁREA PRINCIPAL
          ═══════════════════════════════════════ -->
-    <div class="main" id="mainArea">
+    <div class="main chat-locked" id="mainArea">
+
+        <!-- Bloqueo de chat hasta elegir "Usar la IA" -->
+        <div id="chatLockOverlay"></div>
 
         <!-- Topbar mobile -->
         <div class="topbar">
@@ -493,6 +577,313 @@ const MENU_ITEMS = [
     { icon: "🎞", label: "Teaser",             key: "teaser" },
 ];
 
+/* ─── SANDBOX: render de respuesta dentro del overlay ─── */
+const welcomeMenu    = document.getElementById("welcomeMenu");
+const sandboxPanel   = document.getElementById("sandboxPanel");
+const sandboxContent = document.getElementById("sandboxContent");
+const sandboxBackBtn = document.getElementById("sandboxBackBtn");
+
+function showSandbox(key) {
+    /* Ocultar menú, mostrar panel */
+    welcomeMenu.style.display = "none";
+    sandboxPanel.classList.add("active");
+    sandboxContent.innerHTML = "";
+
+    /* Render de la respuesta usando el mismo BOT_RESPONSES de script.js.
+       Necesitamos esperar a que script.js esté cargado — usamos un pequeño
+       retry si aún no está disponible. */
+    function tryRender() {
+        if (typeof BOT_RESPONSES === "undefined") {
+            return setTimeout(tryRender, 50);
+        }
+
+        /* Resolver alias */
+        const resolvedKey = (typeof ALIASES !== "undefined" && ALIASES[key]) ? ALIASES[key] : key;
+        const response = BOT_RESPONSES[resolvedKey];
+
+        if (!response) {
+            sandboxContent.innerHTML = `<div class="message bot" style="opacity:.7">No hay información disponible para esta sección todavía.</div>`;
+            return;
+        }
+
+        /* Indicador de carga */
+        const loader = document.createElement("div");
+        loader.className = "message bot typing-indicator";
+        loader.innerHTML = "<span></span><span></span><span></span>";
+        sandboxContent.appendChild(loader);
+
+        const delay = response.delay || 1200;
+
+        setTimeout(() => {
+            loader.remove();
+            renderSandboxResponse(response, resolvedKey);
+        }, delay);
+    }
+    tryRender();
+}
+
+function renderSandboxResponse(response, key) {
+    /* Redirige al mismo sistema de render de script.js
+       pero dentro de sandboxContent en lugar del chat global */
+
+    /* Helper local para crear elementos dentro del sandbox */
+    function sbAppend(el) {
+        sandboxContent.appendChild(el);
+    }
+    function sbText(text) {
+        const d = document.createElement("div");
+        d.className = "message bot";
+        d.textContent = text;
+        sbAppend(d);
+    }
+    function sbScript(text) {
+        const d = document.createElement("div");
+        d.className = "message bot script";
+        d.textContent = text;
+        sbAppend(d);
+    }
+    function sbList(items) {
+        const d = document.createElement("div");
+        d.className = "message bot";
+        const ul = document.createElement("ul");
+        ul.className = "message-list";
+        items.forEach(i => { const li = document.createElement("li"); li.textContent = i; ul.appendChild(li); });
+        d.appendChild(ul);
+        sbAppend(d);
+    }
+
+    /* Elegir variante */
+    let content = response.content;
+    if (response.multi && response.variants && response.variants.length > 0) {
+        content = response.variants[Math.floor(Math.random() * response.variants.length)];
+    }
+
+    switch (response.type) {
+        case "text":
+            sbText(content);
+            break;
+        case "script":
+            sbScript(content);
+            break;
+        case "list":
+            sbList(content);
+            break;
+        case "ficha":
+            renderSbFicha(response.content);
+            break;
+        case "presupuesto":
+            renderSbPresupuesto(response.content);
+            break;
+        case "financiacion":
+            renderSbFinanciacion(response.content);
+            break;
+        case "elenco":
+            renderSbElenco(response.content);
+            break;
+        case "moodboard":
+            renderSbMoodboard(response);
+            break;
+        case "recorrido":
+            renderSbRecorrido();
+            break;
+        case "youtube":
+            renderSbYoutube(response);
+            break;
+        case "qr":
+            renderSbQR(response);
+            break;
+        default:
+            sbText(content || "");
+    }
+
+    /* Lightbox en imágenes del sandbox */
+    sandboxContent.querySelectorAll("img").forEach(img => {
+        img.style.cursor = "zoom-in";
+        img.addEventListener("click", () => {
+            if (typeof openLightbox === "function") openLightbox(img.src);
+        });
+    });
+}
+
+/* ── Renders específicos para sandbox (misma lógica que script.js pero sin el chat global) ── */
+
+function renderSbFicha(data) {
+    const fields = [
+        ["Nombre del Proyecto", data.proyecto],
+        ["Formato",             data.formato],
+        ["Género",              data.genero],
+        ["Tono",                data.tono],
+        ["Duración",            data.duracion],
+        ["Directora",           data.directora],
+        ["Productora",          data.productora],
+        ["Guionista",           data.guionista],
+        ["Público Objetivo",    data.publico]
+    ];
+    const div = document.createElement("div");
+    div.className = "message bot ficha-card";
+    div.innerHTML = `
+        <div class="ficha-title">🎬 Ficha Técnica</div>
+        <img src="img/ideasprestadas.webp" class="ficha-portada" alt="Portada" style="cursor:zoom-in" onerror="this.style.display='none'">
+        <div class="ficha-subtitle">${data.proyecto}</div>
+        <table class="ficha-table">
+            ${fields.map(([k,v]) => `<tr><td class="ficha-key">${k}</td><td class="ficha-val">${v}</td></tr>`).join("")}
+        </table>`;
+    sandboxContent.appendChild(div);
+}
+
+function renderSbPresupuesto(data) {
+    const div = document.createElement("div");
+    div.className = "message bot presupuesto-card";
+    div.innerHTML = `
+        <div class="ficha-title">💰 Presupuesto Estimado</div>
+        <div class="presupuesto-row">
+            <span class="presupuesto-label">En Pesos Argentinos</span>
+            <span class="presupuesto-amount ars">${data.ars}</span>
+        </div>
+        <div class="presupuesto-divider"></div>
+        <div class="presupuesto-row">
+            <span class="presupuesto-label">En Dólares</span>
+            <span class="presupuesto-amount usd">${data.usd}</span>
+        </div>`;
+    sandboxContent.appendChild(div);
+}
+
+function renderSbFinanciacion(items) {
+    const div = document.createElement("div");
+    div.className = "message bot financiacion-card";
+    div.innerHTML = `
+        <div class="ficha-title">🤝 Financiación</div>
+        <div class="financiacion-grid">
+            ${items.map(item => `
+                <div class="financiacion-item">
+                    <div class="financiacion-foto">${item.foto ? `<img src="${item.foto}" alt="${item.nombre}">` : `<span>🏢</span>`}</div>
+                    <div class="financiacion-nombre">${item.nombre}</div>
+                </div>`).join("")}
+        </div>`;
+    sandboxContent.appendChild(div);
+}
+
+function renderSbElenco(actores) {
+    const div = document.createElement("div");
+    div.className = "message bot elenco-card";
+    div.innerHTML = `
+        <div class="ficha-title">🎭 Elenco Tentativo</div>
+        <div class="elenco-grid">
+            ${actores.map(a => `
+                <div class="elenco-item">
+                    <div class="elenco-foto">${a.foto ? `<img src="${a.foto}" alt="${a.nombre}" style="cursor:zoom-in">` : `<span>👤</span>`}</div>
+                    <div class="elenco-nombre">${a.nombre}</div>
+                    <div class="elenco-rol">${a.rol}</div>
+                </div>`).join("")}
+        </div>`;
+    sandboxContent.appendChild(div);
+}
+
+function renderSbMoodboard(response) {
+    const loader2 = document.createElement("div");
+    loader2.className = "message bot typing-indicator";
+    loader2.innerHTML = "<span></span><span></span><span></span>";
+    sandboxContent.appendChild(loader2);
+
+    setTimeout(() => {
+        loader2.remove();
+        [response.slide1, response.slide2].forEach((slide, si) => {
+            const cols  = si === 0 ? 5 : 4;
+            const label = `Slide ${si+1} — Moodboard (${slide.length} imágenes)`;
+            const div = document.createElement("div");
+            div.className = "message bot moodboard-block";
+            div.innerHTML = `
+                <div class="ficha-title">${label}</div>
+                <div class="moodboard-grid" style="--cols:${cols}">
+                    ${slide.map((src, i) => {
+                        const isPaleta = (i === slide.length - 1);
+                        return `<div class="moodboard-cell ${isPaleta ? "paleta-cell" : ""}">
+                            ${src ? `<img src="${src}" alt="Imagen ${i+1}" style="cursor:zoom-in">` : `<div class="moodboard-placeholder">${isPaleta ? "🎨 Paleta" : (i+1)}</div>`}
+                        </div>`;
+                    }).join("")}
+                </div>`;
+            sandboxContent.appendChild(div);
+            div.querySelectorAll("img").forEach(img => {
+                img.addEventListener("click", () => { if (typeof openLightbox === "function") openLightbox(img.src); });
+            });
+        });
+    }, 1800);
+}
+
+function renderSbRecorrido() {
+    /* Reutilizar la misma función de script.js pero redirigiendo al sandboxContent */
+    const paradas = [
+        { nombre: "Mercado 1", lugar: "Ciudad, País", fecha: "Fecha", foto: "", color: "#fff" },
+        { nombre: "Mercado 2", lugar: "Ciudad, País", fecha: "Fecha", foto: "", color: "#fff" },
+        { nombre: "Mercado 3", lugar: "Ciudad, País", fecha: "Fecha", foto: "", color: "#fff" },
+        { nombre: "Mercado 4", lugar: "Ciudad, País", fecha: "Fecha", foto: "", color: "#fff" },
+        { nombre: "Mercado 5", lugar: "Ciudad, País", fecha: "Fecha", foto: "", color: "#fff" },
+    ];
+    const div = document.createElement("div");
+    div.className = "message bot recorrido-block";
+    div.innerHTML = `
+        <div class="ficha-title">🗺️ Recorrido de Mercados</div>
+        <div class="recorrido-timeline">
+            ${paradas.map((p, i) => `
+                <div class="recorrido-parada visible" style="animation-delay:${i * 0.18}s">
+                    <div class="recorrido-dot" style="background:${p.color}"></div>
+                    <div class="recorrido-line ${i === paradas.length-1 ? "last" : ""}"></div>
+                    <div class="recorrido-info">
+                        ${p.foto ? `<img src="${p.foto}" class="recorrido-foto" alt="${p.nombre}" style="cursor:zoom-in">` : ""}
+                        <div class="recorrido-nombre">${p.nombre}</div>
+                        <div class="recorrido-lugar">📍 ${p.lugar}</div>
+                        <div class="recorrido-fecha">📅 ${p.fecha}</div>
+                    </div>
+                </div>`).join("")}
+        </div>`;
+    sandboxContent.appendChild(div);
+}
+
+function renderSbYoutube(response) {
+    const div = document.createElement("div");
+    div.className = "message bot youtube-block";
+    div.innerHTML = `
+        <div class="ficha-title">🎬 ${response.caption || "Video"}</div>
+        <div class="youtube-wrapper">
+            <iframe
+                src="https://www.youtube.com/embed/${response.youtubeId}?rel=0"
+                title="${response.caption || "Video"}"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+            ></iframe>
+        </div>`;
+    sandboxContent.appendChild(div);
+}
+
+function renderSbQR(response) {
+    const d = document.createElement("div");
+    d.className = "message bot qr-block";
+    const link = document.createElement("a");
+    link.href = response.qrUrl || "#";
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    const img = document.createElement("img");
+    img.src = "img/qr.png";
+    img.alt = "Código QR";
+    link.appendChild(img);
+    const caption = document.createElement("p");
+    caption.className = "qr-caption";
+    caption.textContent = (response.caption || "") + " (tocá para abrir)";
+    d.appendChild(link);
+    d.appendChild(caption);
+    sandboxContent.appendChild(d);
+}
+
+/* ── Volver al menú desde el sandbox ── */
+sandboxBackBtn.addEventListener("click", () => {
+    sandboxPanel.classList.remove("active");
+    sandboxContent.innerHTML = "";
+    welcomeMenu.style.display = "";
+});
+
+/* ── Construir los chips del menú ── */
 const welcomeChipsEl = document.getElementById("welcomeChips");
 MENU_ITEMS.forEach(({ icon, label, key, highlight }) => {
     const btn = document.createElement("button");
@@ -500,25 +891,29 @@ MENU_ITEMS.forEach(({ icon, label, key, highlight }) => {
     btn.innerHTML = `<span class="wc-icon">${icon}</span>${label}`;
     btn.addEventListener("click", () => {
         if (key === "__ai__") {
-            /* Cerrar overlay y dejar al usuario escribir libremente */
-            closeWelcome();
-            setTimeout(() => document.getElementById("messageInput").focus(), 350);
+            /* Solo "Usar la IA" desbloquea el chat */
+            unlockChat();
         } else {
-            closeWelcome();
-            setTimeout(() => {
-                document.getElementById("messageInput").value = key;
-                if (typeof sendMessage === "function") sendMessage();
-            }, 350);
+            /* Todas las demás → sandbox dentro del overlay */
+            showSandbox(key);
         }
     });
     welcomeChipsEl.appendChild(btn);
 });
 
-function closeWelcome() {
+/* ── Desbloquear el chat (solo al elegir "Usar la IA") ── */
+function unlockChat() {
+    /* Cerrar overlay */
     document.getElementById("welcomeOverlay").classList.add("hidden");
+    /* Quitar clase de bloqueo y el overlay */
+    const mainArea = document.getElementById("mainArea");
+    mainArea.classList.remove("chat-locked");
+    const lockEl = document.getElementById("chatLockOverlay");
+    if (lockEl) lockEl.remove();
+    /* Foco en el input */
+    setTimeout(() => document.getElementById("messageInput").focus(), 350);
 }
 
-document.getElementById("welcomeClose").addEventListener("click", closeWelcome);
 
 </script>
 <script src="script.js"></script>
