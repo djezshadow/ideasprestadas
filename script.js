@@ -675,7 +675,7 @@ B: Ya lo sé.`
             directora:  "Victoria Gariglio",
             productora: "5 Voces Producciones",
             guionista:  "Elias Betés",
-            publico:    "25 a 34 años"
+            publico:    "25 a 35 años"
         }
     },
 
