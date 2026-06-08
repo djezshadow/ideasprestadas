@@ -185,7 +185,14 @@ const ALIASES = {
     "ver teaser":                  "teaser",
     "ver trailer":                 "teaser",
     "mostrar teaser":              "teaser",
-    "mostrar trailer":             "teaser"
+    "mostrar trailer":             "teaser",
+
+    /* Portada */
+    "portada":             "portada",
+    "poster":             "portada",
+    "imagen":             "portada",
+    "portada cine":             "portada",
+    "portada pelicula":             "portada"
 
 };
 
@@ -747,9 +754,7 @@ En el programa, cuando su secreto sale poco a poco a la luz, siente culpa y asum
             { nombre: "DIEGO MARTÍN", rol: "Mario (Productor)", foto: "" },
             { nombre: "MARIBEL VERDÚ", rol: "Luz de la Vega", foto: "" }
         ]
-    }
-
-    ,
+    },
 
     /* ══════════════════════════════════════════
        TEASER / TRAILER
@@ -761,6 +766,19 @@ En el programa, cuando su secreto sale poco a poco a la luz, siente culpa y asum
         message: "Cargando el Teaser Oficial de Ideas Prestadas...",
         youtubeId: "QgG4actvdaU",
         caption: "IDEAS PRESTADAS — Teaser Oficial"
+    },
+
+    /* ══════════════════════════════════════════
+       Portada
+       ══════════════════════════════════════════ */
+"portada": {
+    type: "portada",
+    delay: 2000,
+    message: "Generando portada...",
+    images: [
+        "img/portada-vertical.png",
+        "img/portada-horizontal.webp"
+       ]
     }
 
     /* ══════════════════════════════════════════
@@ -927,11 +945,12 @@ function sendMessage() {
         removeTyping();
 
         if (response) {
-            if (["qr","moodboard","recorrido","youtube"].includes(response.type)) {
+            if (["qr","moodboard","recorrido","youtube","portada"].includes(response.type)) {
                 if (response.type === "qr")        addQR(response);
                 if (response.type === "moodboard") addMoodboard(response);
                 if (response.type === "recorrido") addRecorrido(response);
                 if (response.type === "youtube")   addYoutube(response);
+                if (response.type === "portada")   addPortada(response);
             } else {
                 setInputLocked(false);
                 input.focus();
@@ -1230,6 +1249,48 @@ function addMoodboard(response) {
 
         scrollToBottom();
     }, 2600);
+}
+
+/* ===================================================
+   RENDER — 2 portadas
+   =================================================== */
+
+function addPortada(response) {
+    addMessage(response.message || "Generando portada...", "bot");
+
+    setInputLocked(true);
+    showTyping();
+
+    setTimeout(() => {
+        removeTyping();
+        setInputLocked(false);
+
+        response.images.forEach((src, index) => {
+
+            setTimeout(() => {
+
+                const div = document.createElement("div");
+                div.className = "message bot portada-block";
+
+                div.innerHTML = `
+                    <img
+                        src="${src}"
+                        alt="Portada ${index + 1}"
+                        class="portada-img"
+                        style="cursor:zoom-in"
+                    >
+                `;
+
+                chat.appendChild(div);
+
+                makeChatImagesClickable(div);
+                scrollToBottom();
+
+            }, index * 1200); // 1.2 segundos entre imágenes
+
+        });
+
+    }, 2000);
 }
 
 /* ===================================================
@@ -1662,6 +1723,7 @@ window.addEventListener("beforeunload", () => {
 
 /* ── CHIPS DE SUGERENCIAS ── */
 const SUGGESTION_CHIPS = [
+    { label: "🖼️ Portada",        key: "portada" },
     { label: "🎬 Ficha Técnica",  key: "ficha tecnica" },
     { label: "📖 Logline",         key: "logline" },
     { label: "📜 Storyline",       key: "storyline" },

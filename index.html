@@ -256,6 +256,7 @@ const MENU_TOP = {
    en script.js buscando la key correspondiente.
    ─────────────────────────────────────────────────────────── */
 const MENU_ITEMS = [
+    { icon: "🖼️", label: "Portada",        key: "portada"        },
     { icon: "🎬", label: "Ficha Técnica",  key: "ficha tecnica"        },
     { icon: "📖", label: "Logline",        key: "logline"               },
     { icon: "📜", label: "Storyline",      key: "storyline"             },
@@ -405,6 +406,9 @@ function renderSandboxResponse(response, key) {
         case "qr":
             renderSbQR(response);
             break;
+        case "portada":
+            renderPortada(response);
+            break;
         default:
             sbText(content || "");
     }
@@ -550,6 +554,39 @@ function renderSbRecorrido() {
                 </div>`).join("")}
         </div>`;
     sandboxContent.appendChild(div);
+}
+
+function renderPortada(response) {
+
+    const container = document.createElement("div");
+    container.className = "message bot portada-block";
+
+    response.images.forEach(src => {
+
+        const img = document.createElement("img");
+
+        img.src = src;
+        img.alt = "Portada";
+
+        img.style.width = "100%";
+        img.style.maxWidth = "100%";
+        img.style.height = "auto";
+        img.style.display = "block";
+        img.style.borderRadius = "16px";
+        img.style.marginBottom = "12px";
+        img.style.cursor = "zoom-in";
+        img.style.objectFit = "contain";
+
+        img.addEventListener("click", () => {
+            if (typeof openLightbox === "function") {
+                openLightbox(img.src);
+            }
+        });
+
+        container.appendChild(img);
+    });
+
+    sandboxContent.appendChild(container);
 }
 
 function renderSbYoutube(response) {
