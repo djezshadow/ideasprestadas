@@ -379,12 +379,20 @@
     padding: 28px 24px;
 }
 
-/* Grid del equipo en fullscreen */
-.sobre-nosotros-equipo-grid {
+/* Grid del equipo — tarjetas centradas con foto redonda */
+.sobre-nosotros-equipo-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 14px;
-    margin-top: 12px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 16px;
+}
+
+/* Las dos últimas tarjetas (4ta y 5ta) se centran en la fila */
+.sobre-nosotros-equipo-list .sobre-nosotros-miembro:nth-child(4) {
+    grid-column: 1 / 2;
+}
+.sobre-nosotros-equipo-list .sobre-nosotros-miembro:nth-child(5) {
+    grid-column: 3 / 4;
 }
 
 .sobre-nosotros-miembro {
@@ -392,63 +400,130 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 16px 12px;
-    background: rgba(255,255,255,.06);
-    border: 1px solid rgba(255,255,255,.1);
-    border-radius: 14px;
-    gap: 6px;
-    transition: background .2s ease;
+    gap: 0;
+    padding: 18px 10px 16px;
+    background: rgba(255,255,255,.07);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 18px;
+    transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
 }
 .sobre-nosotros-miembro:hover {
-    background: rgba(255,255,255,.11);
+    background: rgba(255,255,255,.13);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,.2), 0 0 30px rgba(60,80,255,.12);
 }
 
+/* Foto redonda grande tipo avatar de perfil */
 .sobre-nosotros-foto {
-    width: 72px;
-    height: 72px;
+    width: 76px;
+    height: 76px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid rgba(255,255,255,.25);
+    object-position: center top;
+    border: 3px solid rgba(255,255,255,.32);
     background: rgba(255,255,255,.08);
-    margin-bottom: 4px;
+    flex-shrink: 0;
+    margin-bottom: 12px;
+    box-shadow: 0 0 0 4px rgba(255,255,255,.07), 0 4px 20px rgba(0,0,0,.25);
 }
 .sobre-nosotros-foto-placeholder {
-    width: 72px;
-    height: 72px;
+    width: 76px;
+    height: 76px;
     border-radius: 50%;
     background: rgba(255,255,255,.08);
-    border: 2px solid rgba(255,255,255,.15);
+    border: 3px solid rgba(255,255,255,.15);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.6rem;
-    margin-bottom: 4px;
+    font-size: 2rem;
+    flex-shrink: 0;
+    margin-bottom: 12px;
+}
+
+.sobre-nosotros-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    width: 100%;
 }
 
 .sobre-nosotros-nombre {
     color: white;
-    font-size: .88rem;
+    font-size: .86rem;
     font-weight: 800;
     line-height: 1.2;
 }
 .sobre-nosotros-rol {
     color: rgba(255,255,255,.45);
-    font-size: .68rem;
+    font-size: .62rem;
     font-weight: 700;
     letter-spacing: 1.2px;
     text-transform: uppercase;
+    margin-bottom: 8px;
 }
-.sobre-nosotros-desc {
-    color: rgba(255,255,255,.6);
-    font-size: .78rem;
-    line-height: 1.55;
-    margin-top: 4px;
+/* Descripción corta de cada integrante */
+.sobre-nosotros-bio {
+    color: rgba(255,255,255,.58);
+    font-size: .73rem;
+    line-height: 1.5;
+    font-weight: 400;
+    border-top: 1px solid rgba(255,255,255,.1);
+    padding-top: 8px;
+    width: 100%;
+    text-align: center;
 }
+
+/* Botón "Ver Página Completa" */
+.sobre-nosotros-fullpage-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    margin-top: 20px;
+    padding: 16px 20px;
+    background: white;
+    color: #0000cc;
+    border: none;
+    border-radius: 14px;
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 6px 30px rgba(0,0,0,.2), 0 0 40px rgba(255,255,255,.08);
+    transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+    -webkit-tap-highlight-color: transparent;
+    letter-spacing: .2px;
+}
+.sobre-nosotros-fullpage-btn:hover {
+    opacity: .92;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 40px rgba(0,0,0,.3), 0 0 60px rgba(255,255,255,.12);
+}
+.sobre-nosotros-fullpage-btn:active { transform: scale(0.97); }
 
 @media (max-width: 540px) {
     #sandboxPanel.sandbox--fullscreen { padding: 12px; }
     .sandbox--fullscreen .ficha-card.sobre-nosotros-card { padding: 18px 14px; border-radius: 12px; }
-    .sobre-nosotros-equipo-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    /* En mobile: 2 columnas, las últimas 2 tarjetas se centran */
+    .sobre-nosotros-equipo-list {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    .sobre-nosotros-equipo-list .sobre-nosotros-miembro:nth-child(4) {
+        grid-column: auto;
+    }
+    .sobre-nosotros-equipo-list .sobre-nosotros-miembro:nth-child(5) {
+        grid-column: auto;
+    }
+    /* La 5ta tarjeta sola en su fila → centrarla */
+    .sobre-nosotros-equipo-list .sobre-nosotros-miembro:last-child:nth-child(odd) {
+        grid-column: 1 / -1;
+        max-width: calc(50% - 5px);
+        margin: 0 auto;
+    }
+    .sobre-nosotros-foto { width: 60px; height: 60px; }
 }
 
 /* ═══════════════════════════════════════
@@ -806,12 +881,7 @@ function showSandbox(key) {
     /* Ocultar menú, mostrar panel */
     welcomeMenu.style.display = "none";
     sandboxPanel.classList.add("active");
-    /* Sobre Nosotros ocupa toda la pantalla */
-    if (key === "__sobrenosotros__") {
-        sandboxPanel.classList.add("sandbox--fullscreen");
-    } else {
-        sandboxPanel.classList.remove("sandbox--fullscreen");
-    }
+    sandboxPanel.classList.remove("sandbox--fullscreen");
     sandboxContent.innerHTML = "";
 
     /* Render de la respuesta usando el mismo BOT_RESPONSES de script.js.
@@ -1114,39 +1184,39 @@ function renderSbQR(response) {
     sandboxContent.appendChild(d);
 }
 
-/* ── Render especial: Sobre Nosotros (fullscreen) ── */
+/* ── Render especial: Sobre Nosotros (resumido en sandbox) ── */
 function renderSbSobreNosotros() {
     const equipo = [
         {
             nombre: "Victoria Gariglio",
-            rol:    "Directora / Productora",
-            foto:   "img/vicky.webp",
-            desc:   "Estudia Diseño de imagen y sonido en la UBA. Participó en cortometrajes independientes seleccionados en festivales regionales y en el Festival Buenos Aires Rojo Sangre."
+            rol: "Directora / Productora",
+            foto: "img/vicky.webp",
+            bio: "Diseño de Imagen y Sonido (UBA). Cortometrajes en festivales regionales y el Festival Buenos Aires Rojo Sangre."
         },
         {
             nombre: "Eliás Betés",
-            rol:    "Guionista",
-            foto:   "img/eli.jpg",
-            desc:   "Estudia Diseño de Imagen y Sonido en la UBA. Asistente de dirección en un corto documental. Le apasiona crear historias conectadas a la realidad."
+            rol: "Guionista",
+            foto: "img/eli.jpg",
+            bio: "Diseño de Imagen y Sonido (UBA). Asistente de dirección en documental. Crea historias conectadas a la realidad."
         },
         {
             nombre: "Serena Arcuri",
-            rol:    "Productora",
-            foto:   "img/sere.webp",
-            desc:   "Alumna avanzada de Diseño de Imagen y Sonido en la UBA, con experiencia en dirección, fotografía, montaje y dirección de arte."
+            rol: "Productora",
+            foto: "img/sere.webp",
+            bio: "Alumna avanzada de DIS (UBA). Experiencia en dirección, fotografía, montaje y dirección de arte."
         },
         {
             nombre: "Ezequiel Sánchez",
-            rol:    "Productor",
-            foto:   "img/emi.jpg",
-            desc:   "Estudia Diseño de Imagen y Sonido en la UBA. Recorrido en Diseño 3D y freelancer como camarógrafo para eventos."
+            rol: "Productor",
+            foto: "img/emi.jpg",
+            bio: "Diseño de Imagen y Sonido (UBA). Diseño 3D y camarógrafo freelancer para eventos."
         },
         {
             nombre: "Isabel Rabanal",
-            rol:    "Productora",
-            foto:   "img/isa.webp",
-            desc:   "Estudia Diseño de imagen y sonido en la UBA. Participó en video clips y cortos universitarios."
-        }
+            rol: "Productora",
+            foto: "img/isa.webp",
+            bio: "Diseño de Imagen y Sonido (UBA). Participó en videoclips y cortometrajes universitarios."
+        },
     ];
 
     const div = document.createElement("div");
@@ -1155,50 +1225,33 @@ function renderSbSobreNosotros() {
         <!-- Logo + título -->
         <div style="text-align:center;margin-bottom:20px">
             <img src="img/5voces.png" alt="5 Voces Producciones"
-                 style="width:140px;margin:0 auto 10px;display:block;
+                 style="width:120px;margin:0 auto 10px;display:block;
                         filter:drop-shadow(0 0 14px rgba(255,255,255,.22))">
-            <div class="ficha-title" style="margin-bottom:4px">Sobre Nosotros</div>
-            <div style="color:rgba(255,255,255,.45);font-size:.8rem;letter-spacing:1.5px;
+            <div class="ficha-title" style="margin-bottom:4px">El Equipo</div>
+            <div style="color:rgba(255,255,255,.45);font-size:.78rem;letter-spacing:1.5px;
                         text-transform:uppercase;font-weight:700">5 Voces Producciones</div>
         </div>
 
-        <!-- Película -->
-        <div style="display:flex;gap:16px;align-items:center;
-                    padding:14px;background:rgba(255,255,255,.05);
-                    border:1px solid rgba(255,255,255,.1);border-radius:12px;
-                    margin-bottom:20px">
-            <img src="img/ideasprestadas.webp" alt="Ideas Prestadas"
-                 style="width:70px;border-radius:8px;flex-shrink:0;cursor:zoom-in"
-                 onerror="this.style.display='none'"
-                 onclick="if(typeof openLightbox==='function') openLightbox(this.src)">
-            <div>
-                <div style="color:white;font-weight:800;font-size:1rem;margin-bottom:4px">Ideas Prestadas</div>
-                <div style="color:rgba(255,255,255,.5);font-size:.78rem;line-height:1.5">
-                    Comedia Dramática · 120 min · Argentina · 2028
-                </div>
-            </div>
-        </div>
-
-        <!-- Equipo -->
-        <div class="ficha-title" style="margin-bottom:12px">El Equipo</div>
-        <div class="sobre-nosotros-equipo-grid">
+        <!-- Equipo — grid de tarjetas con foto circular y bio -->
+        <div class="sobre-nosotros-equipo-list">
             ${equipo.map(m => `
                 <div class="sobre-nosotros-miembro">
                     ${m.foto
                         ? `<img src="${m.foto}" class="sobre-nosotros-foto" alt="${m.nombre}" onerror="this.style.display='none'">`
                         : `<div class="sobre-nosotros-foto-placeholder">👤</div>`
                     }
-                    <div class="sobre-nosotros-nombre">${m.nombre}</div>
-                    <div class="sobre-nosotros-rol">${m.rol}</div>
-                    <div class="sobre-nosotros-desc">${m.desc}</div>
+                    <div class="sobre-nosotros-info">
+                        <div class="sobre-nosotros-nombre">${m.nombre}</div>
+                        <div class="sobre-nosotros-rol">${m.rol}</div>
+                        <div class="sobre-nosotros-bio">${m.bio}</div>
+                    </div>
                 </div>`).join("")}
         </div>
 
-        <!-- Footer -->
-        <div style="margin-top:20px;padding-top:14px;border-top:1px solid rgba(255,255,255,.1);
-                    text-align:center;color:rgba(255,255,255,.28);font-size:.75rem">
-            © 2026 NeuraScript — Todos los derechos reservados
-        </div>
+        <!-- Botón Ver Página Completa -->
+        <a href="sobre-nosotros.html" target="_blank" class="sobre-nosotros-fullpage-btn">
+            🎬 Ver Página Completa ↗
+        </a>
     `;
     sandboxContent.appendChild(div);
 }
