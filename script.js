@@ -682,7 +682,7 @@ B: Ya lo sé.`
     "logline": {
         type: "text",
         delay: 1400,
-        content: "📖 Logline — Ideas Prestadas\n\nMarcos, un profesor de teatro desesperado por reconocimiento, usa la inteligencia artificial para hacerse famoso."
+        content: "📖 Logline — Ideas Prestadas. \n\nMarcos, un profesor de teatro desesperado por reconocimiento, usa la inteligencia artificial para hacerse famoso."
     },
 
     "storyline": {
