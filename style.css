@@ -1501,7 +1501,7 @@ body {
 .sobre-nosotros-foto {
     width: 76px;
     height: 76px;
-    border-radius: 50%;
+    border-radius: 100%;
     object-fit: cover;
     object-position: center top;
     border: 3px solid rgba(255,255,255,.32);
@@ -1513,7 +1513,7 @@ body {
 .sobre-nosotros-foto-placeholder {
     width: 76px;
     height: 76px;
-    border-radius: 50%;
+    border-radius: 100%;
     background: rgba(255,255,255,.08);
     border: 3px solid rgba(255,255,255,.15);
     display: flex;
