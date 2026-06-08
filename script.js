@@ -740,12 +740,12 @@ En el programa, cuando su secreto sale poco a poco a la luz, siente culpa y asum
         delay: 2000,
         content: [
             /* ⬇️ Completá nombre, rol y foto para cada actor */
-            { nombre: "Actor 1", rol: "Marcos (34)", foto: "" },
-            { nombre: "Actor 2", rol: "Ángel (34)",  foto: "" },
-            { nombre: "Actor 3", rol: "Personaje 3", foto: "" },
-            { nombre: "Actor 4", rol: "Personaje 4", foto: "" },
-            { nombre: "Actor 5", rol: "Personaje 5", foto: "" },
-            { nombre: "Actor 6", rol: "Personaje 6", foto: "" }
+            { nombre: "NICOLAS FURTADO", rol: "Marcos", foto: "" },
+            { nombre: "SANTIAGO TALLEDO", rol: "Ángel",  foto: "" },
+            { nombre: "MARTIN SLIPAK", rol: "Felipe", foto: "" },
+            { nombre: "CÉSAR TRONCOSO", rol: "EL GENIO", foto: "" },
+            { nombre: "DIEGO MARTÍN", rol: "Mario (Productor)", foto: "" },
+            { nombre: "MARIBEL VERDÚ", rol: "Luz de la Vega", foto: "" }
         ]
     }
 
@@ -779,7 +779,7 @@ const BASE_TYPING_DELAY = 1400;
 
 const FALLBACK_MESSAGE = "No tengo una respuesta para eso todavía. Probá con 'ayuda' para ver qué puedo hacer, o usá 'géneros' para elegir un tipo de guion.";
 
-const WELCOME_MESSAGE = "Bienvenido a NeuraScript. Soy tu asistente especializado en guiones. Escribí 'ayuda' para ver todo lo que puedo hacer, o contame directamente qué tipo de historia querés crear.";
+const WELCOME_MESSAGE = "Bienvenido a NeuraScript. Estoy acá para ayudarte a explorar contenido creativo, personajes, mundos e ideas. Escribí 'ayuda' para comenzar.";
 
 
 /* ===================================================
