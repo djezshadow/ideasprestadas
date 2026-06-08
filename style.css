@@ -1092,3 +1092,596 @@ body {
 @media (max-width: 700px) {
     .ficha-portada { max-height: 160px; }
 }
+
+/* ═══════════════════════════════════════
+   SPLASH SCREEN
+   ═══════════════════════════════════════ */
+#splash {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: linear-gradient(160deg, #0414ff 0%, #0000cc 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity .7s ease, visibility .7s ease;
+}
+
+#splash.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* Fase 1: solo el botón */
+#splashPhase1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: fadeIn .5s ease .1s both;
+}
+
+/* Fase 2: logo + nombre + tagline — oculto hasta que el usuario toca */
+#splashPhase2 {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+}
+
+#splashPhase2.active { display: flex; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.splash-logo {
+    width: 120px;
+    opacity: 0;
+    transform: scale(0.6);
+    filter: drop-shadow(0 0 40px rgba(255,255,255,.5));
+    animation: splashLogoIn 1s cubic-bezier(.34,1.56,.64,1) .1s forwards;
+}
+
+@keyframes splashLogoIn {
+    to { opacity: 1; transform: scale(1); }
+}
+
+.splash-name {
+    color: white;
+    font-size: 2.4rem;
+    font-weight: 800;
+    letter-spacing: .5px;
+    opacity: 0;
+    transform: translateY(14px);
+    margin-top: 18px;
+    text-shadow: 0 4px 30px rgba(100,100,255,.4);
+    animation: splashTextIn .7s ease .9s forwards;
+}
+
+.splash-tagline {
+    color: rgba(255,255,255,.5);
+    font-size: 0.95rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0;
+    margin-top: 8px;
+    animation: splashTextIn .6s ease 1.3s forwards;
+}
+
+@keyframes splashTextIn {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.splash-start-btn {
+    padding: 20px 64px;
+    background: white;
+    color: #0000cc;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: 800;
+    letter-spacing: .3px;
+    cursor: pointer;
+    box-shadow: 0 8px 40px rgba(0,0,0,.25), 0 0 60px rgba(255,255,255,.15);
+    transition: transform .18s ease, box-shadow .18s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.splash-start-btn:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 14px 50px rgba(0,0,0,.3), 0 0 80px rgba(255,255,255,.2);
+}
+
+.splash-start-btn:active { transform: scale(0.97); }
+
+/* ═══════════════════════════════════════
+   WELCOME OVERLAY — chips grandes
+   ═══════════════════════════════════════ */
+#welcomeOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    background: rgba(0, 0, 180, 0.55);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    animation: fade .35s ease;
+    transition: opacity .4s ease, visibility .4s ease;
+    overflow-y: auto;
+}
+
+#welcomeOverlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* welcomeMenu ocupa todo el overlay centrado */
+#welcomeMenu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 16px;
+}
+
+/* Fila superior — Sobre Nosotros */
+.welcome-row-top {
+    width: 100%;
+    max-width: 680px;
+}
+
+/* Fila inferior — Usar la IA */
+.welcome-row-bottom {
+    width: 100%;
+    max-width: 680px;
+}
+
+/* Chip de Sobre Nosotros — ancho completo, tono más sutil */
+.welcome-chip--sobrenosotros {
+    grid-column: 1 / -1;
+    width: 100%;
+    background: rgba(255,255,255,.08);
+    border-color: rgba(255,255,255,.22);
+    font-size: clamp(0.88rem, 1.8vw, 1rem);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border-radius: 14px;
+}
+.welcome-chip--sobrenosotros .wc-icon {
+    display: inline;
+    font-size: 1.2rem;
+    margin-bottom: 0;
+}
+.welcome-chip--sobrenosotros:hover {
+    background: rgba(255,255,255,.15);
+    border-color: rgba(255,255,255,.4);
+    transform: translateY(-2px);
+}
+
+.welcome-heading {
+    color: white;
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 8px;
+    text-shadow: 0 4px 20px rgba(0,0,200,.4);
+}
+
+.welcome-sub {
+    color: rgba(255,255,255,.65);
+    font-size: clamp(0.88rem, 2vw, 1rem);
+    text-align: center;
+    margin-bottom: 36px;
+    max-width: 480px;
+    line-height: 1.6;
+}
+
+.welcome-chips {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    max-width: 680px;
+    width: 100%;
+}
+
+.welcome-chip {
+    padding: 20px 14px;
+    background: rgba(255,255,255,.12);
+    border: 1.5px solid rgba(255,255,255,.28);
+    border-radius: 18px;
+    color: white;
+    font-size: clamp(0.78rem, 1.5vw, 0.92rem);
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    line-height: 1.35;
+    transition: background .18s ease, transform .15s ease, border-color .18s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.welcome-chip:hover {
+    background: rgba(255,255,255,.22);
+    border-color: rgba(255,255,255,.55);
+    transform: translateY(-3px);
+}
+
+.welcome-chip:active { transform: scale(0.96); }
+
+.welcome-chip .wc-icon {
+    display: block;
+    font-size: 1.6rem;
+    margin-bottom: 8px;
+}
+
+@media (max-width: 540px) {
+    .welcome-chips {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    .welcome-chip { padding: 16px 10px; }
+    .welcome-chip .wc-icon { font-size: 1.3rem; }
+}
+
+/* Opción destacada — Usar la IA */
+.welcome-chip--ai {
+    grid-column: 1 / -1;
+    width: 60%;          /* un poco más ancho que sobrenosotros */
+    margin: 0 auto;      /* centrado */
+    background: rgba(255,255,255,.22);
+    border-color: rgba(255,255,255,.7);
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
+    padding: 18px 20px;
+    letter-spacing: .2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border-radius: 14px;
+    box-shadow: 0 0 40px rgba(255,255,255,.1), inset 0 1px 0 rgba(255,255,255,.25);
+}
+
+.welcome-chip--ai .wc-icon {
+    display: inline;
+    font-size: 1.4rem;
+    margin-bottom: 0;
+}
+
+.welcome-chip--ai:hover {
+    background: rgba(255,255,255,.35);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 50px rgba(255,255,255,.18);
+}
+
+@media (max-width: 540px) {
+    .welcome-chip--ai { width: 80%; }
+}
+
+/* ═══════════════════════════════════════
+   SANDBOX PANEL — respuesta dentro del overlay
+   ═══════════════════════════════════════ */
+#sandboxPanel {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 24px 16px max(24px, env(safe-area-inset-bottom, 24px));
+    overflow-y: auto;
+    animation: sandboxIn .3s ease;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s ease;
+}
+
+#sandboxPanel.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+@keyframes sandboxIn {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.sandbox-back-btn {
+    align-self: flex-start;
+    margin-bottom: 20px;
+    padding: 9px 18px;
+    background: rgba(255,255,255,.12);
+    border: 1.5px solid rgba(255,255,255,.28);
+    border-radius: 50px;
+    color: rgba(255,255,255,.85);
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all .18s ease;
+    -webkit-tap-highlight-color: transparent;
+    flex-shrink: 0;
+}
+.sandbox-back-btn:hover {
+    background: rgba(255,255,255,.22);
+    color: white;
+    transform: translateX(-2px);
+}
+
+.sandbox-content {
+    width: 100%;
+    max-width: 680px;
+    animation: sandboxIn .35s ease .05s both;
+}
+
+/* Los mensajes bot dentro del sandbox usan los mismos estilos del chat */
+.sandbox-content .message {
+    margin-bottom: 12px;
+}
+
+/* ═══════════════════════════════════════
+   SANDBOX FULLSCREEN — Sobre Nosotros
+   ═══════════════════════════════════════ */
+
+/* Cuando el panel tiene esta clase, el contenido ocupa toda la pantalla */
+#sandboxPanel.sandbox--fullscreen {
+    padding: 20px;                       /* padding visible → el contorno glass se ve */
+    align-items: stretch;                /* el hijo se estira al ancho completo */
+    justify-content: flex-start;
+}
+
+#sandboxPanel.sandbox--fullscreen .sandbox-back-btn {
+    align-self: flex-start;
+    margin-bottom: 16px;
+    flex-shrink: 0;
+}
+
+/* El contenido ocupa todo el espacio restante */
+#sandboxPanel.sandbox--fullscreen .sandbox-content {
+    max-width: none;                     /* sin límite de ancho */
+    flex: 1;                             /* crece para llenar el alto */
+    animation: none;
+}
+
+/* La card de Sobre Nosotros en modo fullscreen */
+.sandbox--fullscreen .ficha-card.sobre-nosotros-card {
+    height: 100%;
+    overflow-y: auto;
+    border-radius: 16px;
+    background: rgba(255,255,255,.1);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,.2);
+    box-shadow: 0 0 0 1px rgba(255,255,255,.08),
+                0 24px 80px rgba(0,0,60,.4);
+    padding: 28px 24px;
+}
+
+/* Grid del equipo — tarjetas centradas con foto redonda */
+.sobre-nosotros-equipo-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 16px;
+}
+
+/* Las dos últimas tarjetas (4ta y 5ta) se centran en la fila */
+.sobre-nosotros-equipo-list .sobre-nosotros-miembro:nth-child(4) {
+    grid-column: 1 / 2;
+}
+.sobre-nosotros-equipo-list .sobre-nosotros-miembro:nth-child(5) {
+    grid-column: 3 / 4;
+}
+
+.sobre-nosotros-miembro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0;
+    padding: 18px 10px 16px;
+    background: rgba(255,255,255,.07);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 18px;
+    transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+.sobre-nosotros-miembro:hover {
+    background: rgba(255,255,255,.13);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,.2), 0 0 30px rgba(60,80,255,.12);
+}
+
+/* Foto redonda grande tipo avatar de perfil */
+.sobre-nosotros-foto {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center top;
+    border: 3px solid rgba(255,255,255,.32);
+    background: rgba(255,255,255,.08);
+    flex-shrink: 0;
+    margin-bottom: 12px;
+    box-shadow: 0 0 0 4px rgba(255,255,255,.07), 0 4px 20px rgba(0,0,0,.25);
+}
+.sobre-nosotros-foto-placeholder {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.08);
+    border: 3px solid rgba(255,255,255,.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    flex-shrink: 0;
+    margin-bottom: 12px;
+}
+
+.sobre-nosotros-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    width: 100%;
+}
+
+.sobre-nosotros-nombre {
+    color: white;
+    font-size: .86rem;
+    font-weight: 800;
+    line-height: 1.2;
+}
+.sobre-nosotros-rol {
+    color: rgba(255,255,255,.45);
+    font-size: .62rem;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+/* Descripción corta de cada integrante */
+.sobre-nosotros-bio {
+    color: rgba(255,255,255,.58);
+    font-size: .73rem;
+    line-height: 1.5;
+    font-weight: 400;
+    border-top: 1px solid rgba(255,255,255,.1);
+    padding-top: 8px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Botón "Ver Página Completa" */
+.sobre-nosotros-fullpage-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    margin-top: 20px;
+    padding: 16px 20px;
+    background: white;
+    color: #0000cc;
+    border: none;
+    border-radius: 14px;
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 6px 30px rgba(0,0,0,.2), 0 0 40px rgba(255,255,255,.08);
+    transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+    -webkit-tap-highlight-color: transparent;
+    letter-spacing: .2px;
+}
+.sobre-nosotros-fullpage-btn:hover {
+    opacity: .92;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 40px rgba(0,0,0,.3), 0 0 60px rgba(255,255,255,.12);
+}
+.sobre-nosotros-fullpage-btn:active { transform: scale(0.97); }
+
+@media (max-width: 540px) {
+    #sandboxPanel.sandbox--fullscreen { padding: 12px; }
+    .sandbox--fullscreen .ficha-card.sobre-nosotros-card { padding: 18px 14px; border-radius: 12px; }
+    /* En mobile: 2 columnas, las últimas 2 tarjetas se centran */
+    .sobre-nosotros-equipo-list {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    .sobre-nosotros-equipo-list .sobre-nosotros-miembro:nth-child(4) {
+        grid-column: auto;
+    }
+    .sobre-nosotros-equipo-list .sobre-nosotros-miembro:nth-child(5) {
+        grid-column: auto;
+    }
+    /* La 5ta tarjeta sola en su fila → centrarla */
+    .sobre-nosotros-equipo-list .sobre-nosotros-miembro:last-child:nth-child(odd) {
+        grid-column: 1 / -1;
+        max-width: calc(50% - 5px);
+        margin: 0 auto;
+    }
+    .sobre-nosotros-foto { width: 60px; height: 60px; }
+}
+
+/* ═══════════════════════════════════════
+   CHAT BLOQUEADO — overlay sobre el área principal
+   ═══════════════════════════════════════ */
+#chatLockOverlay {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    cursor: not-allowed;
+    border-radius: inherit;
+}
+
+.main { position: relative; }
+
+/* Input y chips deshabilitados visualmente */
+.chat-locked .input-area,
+.chat-locked .chips-bar {
+    opacity: 0.35;
+    pointer-events: none;
+    filter: blur(1px);
+    user-select: none;
+}
+
+/* ═══════════════════════════════════════
+   BOTÓN LOGIN en topbar (usuario invitado)
+   ═══════════════════════════════════════ */
+.topbar-login-btn {
+    flex-shrink: 0;
+    padding: 7px 14px;
+    background: rgba(255,255,255,.15);
+    border: 1px solid rgba(255,255,255,.3);
+    border-radius: 20px;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background .18s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+.topbar-login-btn:hover { background: rgba(255,255,255,.28); }
+
+/* Badge "Invitado" en sidebar */
+.sidebar-guest-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    background: rgba(255,200,0,.1);
+    border: 1px solid rgba(255,200,0,.2);
+    border-radius: 10px;
+    margin-bottom: 12px;
+    color: rgba(255,220,100,.8);
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.sidebar-guest-badge a {
+    color: rgba(255,220,100,.95);
+    text-decoration: none;
+    font-weight: 700;
+    margin-left: auto;
+    font-size: 0.75rem;
+}
+
+/* ── Logos clickeables → menú principal ── */
+#logoHomeBtn,
+#logoHomeBtnDesktop,
+#logoHomeBtnMobile {
+    transition: opacity .18s ease;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+#logoHomeBtn:hover,
+#logoHomeBtnDesktop:hover,
+#logoHomeBtnMobile:hover { opacity: .65; }
