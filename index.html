@@ -342,6 +342,116 @@
 }
 
 /* ═══════════════════════════════════════
+   SANDBOX FULLSCREEN — Sobre Nosotros
+   ═══════════════════════════════════════ */
+
+/* Cuando el panel tiene esta clase, el contenido ocupa toda la pantalla */
+#sandboxPanel.sandbox--fullscreen {
+    padding: 20px;                       /* padding visible → el contorno glass se ve */
+    align-items: stretch;                /* el hijo se estira al ancho completo */
+    justify-content: flex-start;
+}
+
+#sandboxPanel.sandbox--fullscreen .sandbox-back-btn {
+    align-self: flex-start;
+    margin-bottom: 16px;
+    flex-shrink: 0;
+}
+
+/* El contenido ocupa todo el espacio restante */
+#sandboxPanel.sandbox--fullscreen .sandbox-content {
+    max-width: none;                     /* sin límite de ancho */
+    flex: 1;                             /* crece para llenar el alto */
+    animation: none;
+}
+
+/* La card de Sobre Nosotros en modo fullscreen */
+.sandbox--fullscreen .ficha-card.sobre-nosotros-card {
+    height: 100%;
+    overflow-y: auto;
+    border-radius: 16px;
+    background: rgba(255,255,255,.1);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,.2);
+    box-shadow: 0 0 0 1px rgba(255,255,255,.08),
+                0 24px 80px rgba(0,0,60,.4);
+    padding: 28px 24px;
+}
+
+/* Grid del equipo en fullscreen */
+.sobre-nosotros-equipo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+    margin-top: 12px;
+}
+
+.sobre-nosotros-miembro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 16px 12px;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 14px;
+    gap: 6px;
+    transition: background .2s ease;
+}
+.sobre-nosotros-miembro:hover {
+    background: rgba(255,255,255,.11);
+}
+
+.sobre-nosotros-foto {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255,255,255,.25);
+    background: rgba(255,255,255,.08);
+    margin-bottom: 4px;
+}
+.sobre-nosotros-foto-placeholder {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.08);
+    border: 2px solid rgba(255,255,255,.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    margin-bottom: 4px;
+}
+
+.sobre-nosotros-nombre {
+    color: white;
+    font-size: .88rem;
+    font-weight: 800;
+    line-height: 1.2;
+}
+.sobre-nosotros-rol {
+    color: rgba(255,255,255,.45);
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+}
+.sobre-nosotros-desc {
+    color: rgba(255,255,255,.6);
+    font-size: .78rem;
+    line-height: 1.55;
+    margin-top: 4px;
+}
+
+@media (max-width: 540px) {
+    #sandboxPanel.sandbox--fullscreen { padding: 12px; }
+    .sandbox--fullscreen .ficha-card.sobre-nosotros-card { padding: 18px 14px; border-radius: 12px; }
+    .sobre-nosotros-equipo-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+}
+
+/* ═══════════════════════════════════════
    CHAT BLOQUEADO — overlay sobre el área principal
    ═══════════════════════════════════════ */
 #chatLockOverlay {
@@ -405,6 +515,18 @@
     font-size: 0.75rem;
 }
 
+/* ── Logos clickeables → menú principal ── */
+#logoHomeBtn,
+#logoHomeBtnDesktop,
+#logoHomeBtnMobile {
+    transition: opacity .18s ease;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+#logoHomeBtn:hover,
+#logoHomeBtnDesktop:hover,
+#logoHomeBtnMobile:hover { opacity: .65; }
+
 </style>
 </head>
 <body>
@@ -463,7 +585,7 @@
          ═══════════════════════════════════════ -->
     <aside class="sidebar" id="sidebar">
 
-        <div class="sidebar-brand">
+        <div class="sidebar-brand" id="logoHomeBtn" title="Volver al menú" style="cursor:pointer">
             <img src="img/Neura 1.png" class="sidebar-logo" alt="NeuraScript">
             <span class="sidebar-title">NeuraScript</span>
         </div>
@@ -517,14 +639,14 @@
         <!-- Topbar mobile -->
         <div class="topbar">
             <button class="topbar-menu-btn" id="menuBtn" aria-label="Abrir menú">☰</button>
-            <span class="topbar-title">NeuraScript</span>
+            <span class="topbar-title" id="logoHomeBtnMobile" title="Volver al menú" style="cursor:pointer">NeuraScript</span>
             <div class="topbar-spacer"></div>
             <!-- Botón login para invitados -->
             <div id="topbarLoginArea"></div>
         </div>
 
         <!-- Logo desktop -->
-        <div class="logo-area">
+        <div class="logo-area" id="logoHomeBtnDesktop" title="Volver al menú" style="cursor:pointer">
             <img src="img/Neura 1.png" class="logo" alt="NeuraScript">
             <div class="title">NeuraScript</div>
         </div>
@@ -680,6 +802,12 @@ function showSandbox(key) {
     /* Ocultar menú, mostrar panel */
     welcomeMenu.style.display = "none";
     sandboxPanel.classList.add("active");
+    /* Sobre Nosotros ocupa toda la pantalla */
+    if (key === "__sobrenosotros__") {
+        sandboxPanel.classList.add("sandbox--fullscreen");
+    } else {
+        sandboxPanel.classList.remove("sandbox--fullscreen");
+    }
     sandboxContent.innerHTML = "";
 
     /* Render de la respuesta usando el mismo BOT_RESPONSES de script.js.
@@ -982,52 +1110,90 @@ function renderSbQR(response) {
     sandboxContent.appendChild(d);
 }
 
-/* ── Render especial: Sobre Nosotros ── */
+/* ── Render especial: Sobre Nosotros (fullscreen) ── */
 function renderSbSobreNosotros() {
+    const equipo = [
+        {
+            nombre: "Victoria Gariglio",
+            rol:    "Directora / Productora",
+            foto:   "img/vicky.webp",
+            desc:   "Estudia Diseño de imagen y sonido en la UBA. Participó en cortometrajes independientes seleccionados en festivales regionales y en el Festival Buenos Aires Rojo Sangre."
+        },
+        {
+            nombre: "Eliás Betés",
+            rol:    "Guionista",
+            foto:   "img/eli.jpg",
+            desc:   "Estudia Diseño de Imagen y Sonido en la UBA. Asistente de dirección en un corto documental. Le apasiona crear historias conectadas a la realidad."
+        },
+        {
+            nombre: "Serena Arcuri",
+            rol:    "Productora",
+            foto:   "img/sere.webp",
+            desc:   "Alumna avanzada de Diseño de Imagen y Sonido en la UBA, con experiencia en dirección, fotografía, montaje y dirección de arte."
+        },
+        {
+            nombre: "Ezequiel Sánchez",
+            rol:    "Productor",
+            foto:   "img/emi.jpg",
+            desc:   "Estudia Diseño de Imagen y Sonido en la UBA. Recorrido en Diseño 3D y freelancer como camarógrafo para eventos."
+        },
+        {
+            nombre: "Isabel Rabanal",
+            rol:    "Productora",
+            foto:   "img/isa.webp",
+            desc:   "Estudia Diseño de imagen y sonido en la UBA. Participó en video clips y cortos universitarios."
+        }
+    ];
+
     const div = document.createElement("div");
-    div.className = "message bot ficha-card";
+    div.className = "message bot ficha-card sobre-nosotros-card";
     div.innerHTML = `
-        <div class="ficha-title">🎬 Sobre Nosotros</div>
-        <img src="img/5voces.png" alt="5 Voces Producciones"
-             style="display:block;width:180px;margin:0 auto 16px;filter:drop-shadow(0 0 12px rgba(255,255,255,.2))">
-        <div class="ficha-subtitle" style="text-align:center;margin-bottom:18px">Ideas Prestadas — 2028</div>
+        <!-- Logo + título -->
+        <div style="text-align:center;margin-bottom:20px">
+            <img src="img/5voces.png" alt="5 Voces Producciones"
+                 style="width:140px;margin:0 auto 10px;display:block;
+                        filter:drop-shadow(0 0 14px rgba(255,255,255,.22))">
+            <div class="ficha-title" style="margin-bottom:4px">Sobre Nosotros</div>
+            <div style="color:rgba(255,255,255,.45);font-size:.8rem;letter-spacing:1.5px;
+                        text-transform:uppercase;font-weight:700">5 Voces Producciones</div>
+        </div>
 
-        <table class="ficha-table">
-            <tr><td class="ficha-key">Género</td>      <td class="ficha-val">Comedia Dramática</td></tr>
-            <tr><td class="ficha-key">Tono</td>        <td class="ficha-val">Trágico, Satírico</td></tr>
-            <tr><td class="ficha-key">Duración</td>    <td class="ficha-val">120 min.</td></tr>
-            <tr><td class="ficha-key">País</td>        <td class="ficha-val">Argentina</td></tr>
-            <tr><td class="ficha-key">Año</td>         <td class="ficha-val">2028</td></tr>
-            <tr><td class="ficha-key">Productora</td>  <td class="ficha-val">5 Voces Producciones</td></tr>
-        </table>
-
-        <div style="margin-top:18px;padding-top:14px;border-top:1px solid rgba(255,255,255,.12)">
-            <div class="ficha-title" style="margin-bottom:12px">El Equipo</div>
-            <div style="display:flex;flex-direction:column;gap:10px">
-                ${[
-                    ["Victoria Gariglio",  "Directora / Productora"],
-                    ["Eliás Betés",        "Guionista"],
-                    ["Serena Arcuri",      "Productora"],
-                    ["Ezequiel Sánchez",   "Productor"],
-                    ["Isabel Rabanal",     "Productora"]
-                ].map(([n, r]) => `
-                    <div style="display:flex;justify-content:space-between;align-items:center;
-                                padding:8px 10px;background:rgba(255,255,255,.05);
-                                border-radius:8px;border:1px solid rgba(255,255,255,.08)">
-                        <span style="color:white;font-weight:700;font-size:.9rem">${n}</span>
-                        <span style="color:rgba(255,255,255,.5);font-size:.75rem;font-weight:600;
-                                     text-transform:uppercase;letter-spacing:.8px">${r}</span>
-                    </div>`).join("")}
+        <!-- Película -->
+        <div style="display:flex;gap:16px;align-items:center;
+                    padding:14px;background:rgba(255,255,255,.05);
+                    border:1px solid rgba(255,255,255,.1);border-radius:12px;
+                    margin-bottom:20px">
+            <img src="img/ideasprestadas.webp" alt="Ideas Prestadas"
+                 style="width:70px;border-radius:8px;flex-shrink:0;cursor:zoom-in"
+                 onerror="this.style.display='none'"
+                 onclick="if(typeof openLightbox==='function') openLightbox(this.src)">
+            <div>
+                <div style="color:white;font-weight:800;font-size:1rem;margin-bottom:4px">Ideas Prestadas</div>
+                <div style="color:rgba(255,255,255,.5);font-size:.78rem;line-height:1.5">
+                    Comedia Dramática · 120 min · Argentina · 2028
+                </div>
             </div>
         </div>
 
-        <div style="margin-top:14px;text-align:center">
-            <a href="sobre-nosotros.html" target="_blank"
-               style="color:rgba(255,255,255,.5);font-size:.8rem;text-decoration:none;
-                      border-bottom:1px solid rgba(255,255,255,.2);padding-bottom:1px;
-                      transition:color .15s">
-                Ver página completa ↗
-            </a>
+        <!-- Equipo -->
+        <div class="ficha-title" style="margin-bottom:12px">El Equipo</div>
+        <div class="sobre-nosotros-equipo-grid">
+            ${equipo.map(m => `
+                <div class="sobre-nosotros-miembro">
+                    ${m.foto
+                        ? `<img src="${m.foto}" class="sobre-nosotros-foto" alt="${m.nombre}" onerror="this.style.display='none'">`
+                        : `<div class="sobre-nosotros-foto-placeholder">👤</div>`
+                    }
+                    <div class="sobre-nosotros-nombre">${m.nombre}</div>
+                    <div class="sobre-nosotros-rol">${m.rol}</div>
+                    <div class="sobre-nosotros-desc">${m.desc}</div>
+                </div>`).join("")}
+        </div>
+
+        <!-- Footer -->
+        <div style="margin-top:20px;padding-top:14px;border-top:1px solid rgba(255,255,255,.1);
+                    text-align:center;color:rgba(255,255,255,.28);font-size:.75rem">
+            © 2026 NeuraScript — Todos los derechos reservados
         </div>
     `;
     sandboxContent.appendChild(div);
@@ -1036,6 +1202,7 @@ function renderSbSobreNosotros() {
 /* ── Volver al menú desde el sandbox ── */
 sandboxBackBtn.addEventListener("click", () => {
     sandboxPanel.classList.remove("active");
+    sandboxPanel.classList.remove("sandbox--fullscreen");
     sandboxContent.innerHTML = "";
     welcomeMenu.style.display = "";
 });
@@ -1079,6 +1246,42 @@ const welcomeBottomEl = document.getElementById("welcomeBottom");
     });
     welcomeBottomEl.appendChild(btn);
 })();
+
+/* ── Ir al menú principal (salteando la animación) ── */
+function goHome() {
+    /* 1. Resetear sandbox por si estaba abierto */
+    sandboxPanel.classList.remove("active");
+    sandboxPanel.classList.remove("sandbox--fullscreen");
+    sandboxContent.innerHTML = "";
+    welcomeMenu.style.display = "";
+
+    /* 2. Cerrar sidebar mobile si está abierto */
+    if (typeof closeSidebar === "function") closeSidebar();
+
+    /* 3. Mostrar el overlay del menú directamente (sin splash) */
+    document.getElementById("splash").classList.add("hidden");
+    document.getElementById("welcomeOverlay").classList.remove("hidden");
+
+    /* 4. Re-bloquear el chat (por si ya había entrado a "Usar la IA") */
+    const mainArea = document.getElementById("mainArea");
+    if (!mainArea.classList.contains("chat-locked")) {
+        mainArea.classList.add("chat-locked");
+        /* Reinsertar el overlay de bloqueo si fue eliminado */
+        if (!document.getElementById("chatLockOverlay")) {
+            const lock = document.createElement("div");
+            lock.id = "chatLockOverlay";
+            mainArea.insertBefore(lock, mainArea.firstChild);
+        }
+    }
+}
+
+/* Conectar los tres puntos de acceso al logo */
+document.addEventListener("DOMContentLoaded", () => {
+    ["logoHomeBtn", "logoHomeBtnDesktop", "logoHomeBtnMobile"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener("click", goHome);
+    });
+});
 
 /* ── Desbloquear el chat (solo al elegir "Usar la IA") ── */
 function unlockChat() {
