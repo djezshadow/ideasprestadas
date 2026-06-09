@@ -1105,7 +1105,7 @@ function showLimitPopup() {
                     class="limit-popup-btn"
                     id="limitPopupBtnNext"
                 >
-                    Siguiente
+                    Finalizar
                 </a>
             </div>
         </div>
@@ -1130,7 +1130,7 @@ function showLimitPopup() {
                     class="limit-popup-btn"
                     id="limitPopupBtnFinal"
                 >
-                    Finalizar
+                    Volver al Menu Principal
                 </a>
             </div>
         </div>
