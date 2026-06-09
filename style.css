@@ -1754,14 +1754,14 @@ body {
 }
 
 .personaje-nombre {
-    font-size: .95rem;
+    font-size: 1.30rem;
     font-weight: 700;
     color: #fff;
     letter-spacing: .3px;
 }
 
 .personaje-desc {
-    font-size: .82rem;
+    font-size: 1.10rem;
     color: rgba(255,255,255,.6);
     line-height: 1.45;
 }
