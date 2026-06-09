@@ -1854,3 +1854,37 @@ body {
     transform: translateY(-2px);
     box-shadow: 0 8px 28px rgba(0,0,0,.35);
 }
+
+
+/* =====================================================
+   POPUP LÍMITE — paso 2 (despedida) y transiciones
+   ===================================================== */
+
+.limit-popup--hidden {
+    display: none;
+}
+
+.limit-popup--exit {
+    animation: popupOut .26s ease forwards;
+}
+
+@keyframes popupOut {
+    to { opacity: 0; transform: translateY(-20px) scale(.95); }
+}
+
+.limit-popup--enter {
+    animation: popupIn .3s cubic-bezier(.34,1.56,.64,1) both;
+}
+
+.limit-popup-farewell-icon {
+    font-size: 2.2rem;
+    color: rgba(255,255,255,.5);
+    letter-spacing: 4px;
+    margin-bottom: 4px;
+}
+
+.limit-popup-msg--farewell {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: rgba(255,255,255,.92);
+}

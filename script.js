@@ -1077,8 +1077,9 @@ function showLimitPopup() {
     const overlay = document.createElement("div");
     overlay.id = "limitPopupOverlay";
 
+    /* ── PASO 1: Mensaje de límite ── */
     overlay.innerHTML = `
-        <div class="limit-popup">
+        <div class="limit-popup" id="limitPopupStep1">
 
             <!-- ↓ Zona para imagen opcional: reemplazá el src vacío con tu ruta -->
             <img
@@ -1090,22 +1091,46 @@ function showLimitPopup() {
 
             <div class="limit-popup-body">
                 <p class="limit-popup-msg">
-                    Kpo, no me delegues la creatividad a mí,<br>
-                    <strong>usá un poco tu cabeza también 😏</strong>
+                    "Has delegado mucho tu creatividad a NeuraScript. Si deseas continuar, puedes seguir trabajando en ello con tu esfuerzo y dedicación"
                 </p>
 
                 <!--
                 ╔══════════════════════════════════════════╗
-                ║  BOTÓN SUSCRIBIRSE                       ║
-                ║  Cambiá el href para apuntar a tu página ║
+                ║  BOTÓN SIGUIENTE                         ║
+                ║  Lleva al segundo popup de despedida     ║
                 ╚══════════════════════════════════════════╝
                 -->
                 <a
                     href="#"
                     class="limit-popup-btn"
-                    id="limitPopupBtn"
+                    id="limitPopupBtnNext"
                 >
-                    ✦ Suscribirse para seguir usando NeuraScript
+                    Siguiente
+                </a>
+            </div>
+        </div>
+
+        <!-- ── PASO 2: Despedida (oculta al inicio) ── -->
+        <div class="limit-popup limit-popup--hidden" id="limitPopupStep2">
+            <div class="limit-popup-body">
+                <p class="limit-popup-farewell-icon">✦</p>
+                <p class="limit-popup-msg limit-popup-msg--farewell">
+                    Gracias por probar el simulador de <strong>NeuraScript</strong>,<br>
+                    esperamos que hayas disfrutado la experiencia.
+                </p>
+
+                <!--
+                ╔══════════════════════════════════════════╗
+                ║  BOTÓN FINALIZAR                         ║
+                ║  Cambiá el href si querés redirigir      ║
+                ╚══════════════════════════════════════════╝
+                -->
+                <a
+                    href="#"
+                    class="limit-popup-btn"
+                    id="limitPopupBtnFinal"
+                >
+                    Finalizar
                 </a>
             </div>
         </div>
@@ -1117,17 +1142,30 @@ function showLimitPopup() {
     const img = document.getElementById("limitPopupImg");
     if (!img.src || img.src === window.location.href) img.style.display = "none";
 
-    /* Al hacer click en el botón → volver al inicio */
-    document.getElementById("limitPopupBtn").addEventListener("click", (e) => {
+    /* Animación de entrada */
+    requestAnimationFrame(() => overlay.classList.add("visible"));
+
+    /* Paso 1 → Paso 2: animar transición */
+    document.getElementById("limitPopupBtnNext").addEventListener("click", (e) => {
+        e.preventDefault();
+        const step1 = document.getElementById("limitPopupStep1");
+        const step2 = document.getElementById("limitPopupStep2");
+        step1.classList.add("limit-popup--exit");
+        setTimeout(() => {
+            step1.style.display = "none";
+            step2.classList.remove("limit-popup--hidden");
+            step2.classList.add("limit-popup--enter");
+        }, 260);
+    });
+
+    /* Paso 2 → Finalizar: volver al inicio */
+    document.getElementById("limitPopupBtnFinal").addEventListener("click", (e) => {
         e.preventDefault();
         /* ↓ Si querés ir a una URL externa, cambiá el href del <a> de arriba
            y comentá las líneas de goHome() de abajo */
         overlay.remove();
         if (typeof goHome === "function") goHome();
     });
-
-    /* Animación de entrada */
-    requestAnimationFrame(() => overlay.classList.add("visible"));
 }
 
 sendBtn.addEventListener("click", sendMessage);
