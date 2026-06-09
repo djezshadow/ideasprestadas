@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>NeuraScript — Contacto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+
+    html, body {
+        height: auto;
+        min-height: 100vh;
+        min-height: -webkit-fill-available;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    /* ── Fondo brillante (igual al de sobre-nosotros) ── */
+    .contact-hero-bg {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        background:
+            radial-gradient(ellipse 80% 60% at 50% -10%, rgba(80,100,255,.55) 0%, transparent 70%),
+            radial-gradient(ellipse 60% 40% at 80% 110%, rgba(0,0,200,.4) 0%, transparent 60%);
+    }
+
+    .contact-page {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        padding: max(40px, env(safe-area-inset-top, 40px)) 20px
+                 max(60px, env(safe-area-inset-bottom, 60px));
+    }
+
+    /* ── Topbar ── */
+    .contact-topbar {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        max-width: 960px;
+        margin: 0 auto 56px;
+        animation: slideDown .5s ease both;
+    }
+
+    @keyframes slideDown {
+        from { opacity:0; transform: translateY(-16px); }
+        to   { opacity:1; transform: translateY(0); }
+    }
+
+    .contact-back {
+        color: rgba(255,255,255,.75);
+        text-decoration: none;
+        font-size: 0.95rem;
+        font-weight: 700;
+        padding: 9px 16px;
+        border-radius: 50px;
+        border: 1.5px solid rgba(255,255,255,.28);
+        background: rgba(255,255,255,.08);
+        backdrop-filter: blur(8px);
+        transition: all .18s ease;
+        white-space: nowrap;
+    }
+    .contact-back:hover { background: rgba(255,255,255,.18); color: white; transform: translateX(-2px); }
+
+    a.contact-topbar-brand {
+        text-decoration: none;
+        transition: opacity .18s ease;
+        -webkit-tap-highlight-color: transparent;
+    }
+    a.contact-topbar-brand:hover { opacity: .7; }
+
+    .contact-topbar-brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .contact-topbar-brand img {
+        width: 34px;
+        filter: drop-shadow(0 0 10px rgba(255,255,255,.3));
+    }
+    .contact-topbar-brand span {
+        color: white;
+        font-size: 1.05rem;
+        font-weight: 800;
+    }
+
+    /* ── Cuerpo principal ── */
+    .contact-body {
+        max-width: 560px;
+        margin: 0 auto;
+        text-align: center;
+        animation: fadeUp .7s ease .1s both;
+    }
+
+    @keyframes fadeUp {
+        from { opacity:0; transform: translateY(24px); }
+        to   { opacity:1; transform: translateY(0); }
+    }
+
+    .contact-logo {
+        width: 300px;
+        max-width: 70vw;
+        margin: 0 auto 36px;
+        display: block;
+        filter: drop-shadow(0 0 20px rgba(255,255,255,.2));
+    }
+
+    /* ── Card de contacto ── */
+    .contact-card {
+        background: rgba(255,255,255,.08);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255,255,255,.14);
+        border-radius: 24px;
+        padding: 38px 32px;
+        margin-bottom: 40px;
+    }
+
+    .contact-item {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 16px 0;
+        border-bottom: 1px solid rgba(255,255,255,.08);
+        text-align: left;
+    }
+
+    .contact-item:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .contact-item:first-child {
+        padding-top: 0;
+    }
+
+    .contact-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        background: rgba(255,255,255,.1);
+        border: 1px solid rgba(255,255,255,.18);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        flex-shrink: 0;
+    }
+
+    .contact-info {
+        flex: 1;
+    }
+
+    .contact-label {
+        color: rgba(255,255,255,.45);
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 1.8px;
+        text-transform: uppercase;
+        margin-bottom: 3px;
+    }
+
+    .contact-value {
+        color: rgba(255,255,255,.9);
+        font-size: 0.95rem;
+        font-weight: 500;
+        word-break: break-all;
+    }
+
+    .contact-value a {
+        color: rgba(255,255,255,.9);
+        text-decoration: none;
+        transition: color .15s ease;
+    }
+    .contact-value a:hover { color: white; text-decoration: underline; }
+
+
+    /* ════════════════════════════════════════
+       FORMULARIO DE CONTACTO
+       (comentado por defecto — descomenta el
+       bloque <div class="contact-form-wrap">
+       para activarlo)
+       ════════════════════════════════════════ */
+    /*
+    .contact-form-wrap {
+        background: rgba(255,255,255,.07);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255,255,255,.13);
+        border-radius: 24px;
+        padding: 36px 32px;
+        margin-bottom: 40px;
+        text-align: left;
+    }
+
+    .contact-form-title {
+        color: white;
+        font-size: 1.1rem;
+        font-weight: 800;
+        margin-bottom: 24px;
+        text-align: center;
+        letter-spacing: -.2px;
+    }
+
+    .cf-field {
+        margin-bottom: 16px;
+    }
+
+    .cf-label {
+        display: block;
+        color: rgba(255,255,255,.5);
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        margin-bottom: 7px;
+    }
+
+    .cf-input,
+    .cf-textarea {
+        width: 100%;
+        box-sizing: border-box;
+        background: rgba(255,255,255,.07);
+        border: 1.5px solid rgba(255,255,255,.16);
+        border-radius: 12px;
+        padding: 12px 16px;
+        color: white;
+        font-family: inherit;
+        font-size: 0.92rem;
+        outline: none;
+        transition: border-color .18s ease, background .18s ease;
+    }
+
+    .cf-input::placeholder,
+    .cf-textarea::placeholder {
+        color: rgba(255,255,255,.28);
+    }
+
+    .cf-input:focus,
+    .cf-textarea:focus {
+        border-color: rgba(120,140,255,.7);
+        background: rgba(255,255,255,.1);
+    }
+
+    .cf-textarea {
+        resize: vertical;
+        min-height: 110px;
+    }
+
+    .cf-submit {
+        width: 100%;
+        margin-top: 8px;
+        padding: 14px;
+        border-radius: 50px;
+        border: none;
+        background: linear-gradient(135deg, #5060ff, #2030cc);
+        color: white;
+        font-family: inherit;
+        font-size: 0.95rem;
+        font-weight: 700;
+        cursor: pointer;
+        letter-spacing: .3px;
+        transition: opacity .18s ease, transform .18s ease;
+    }
+
+    .cf-submit:hover { opacity: .88; transform: translateY(-1px); }
+    .cf-submit:active { transform: translateY(0); }
+    */
+
+
+    /* ── Footer ── */
+    .contact-footer {
+        max-width: 560px;
+        margin: 0 auto;
+        text-align: center;
+        padding-top: 28px;
+        border-top: 1px solid rgba(255,255,255,.1);
+    }
+
+    .contact-footer p {
+        color: rgba(255,255,255,.3);
+        font-size: 0.78rem;
+    }
+
+</style>
+</head>
+<body>
+
+<!-- Fondo con glow -->
+<div class="contact-hero-bg"></div>
+
+<div class="contact-page">
+
+    <!-- ── Topbar ── -->
+    <div class="contact-topbar">
+        <a href="javascript:history.back()" class="contact-back">← Volver</a>
+        <a href="index.html#menu" class="contact-topbar-brand" title="Volver al menú">
+            <img src="img/Neura 1.png" alt="NeuraScript">
+            <span>NeuraScript</span>
+        </a>
+    </div>
+
+    <!-- ── Cuerpo ── -->
+    <div class="contact-body">
+
+        <img class="contact-logo" src="img/5voces.png" alt="5 Voces Producciones">
+
+        <!-- ── Datos de contacto ── -->
+        <div class="contact-card">
+
+            <div class="contact-item">
+                <div class="contact-icon">✉️</div>
+                <div class="contact-info">
+                    <div class="contact-label">Email</div>
+                    <div class="contact-value">
+                        <a href="mailto:productora@5vocesproducciones.com">productora@5vocesproducciones.com</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-item">
+                <div class="contact-icon">📞</div>
+                <div class="contact-info">
+                    <div class="contact-label">Número</div>
+                    <div class="contact-value">
+                        <a href="tel:+5491133573386">+54 9 11 3357-3386</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-item">
+                <div class="contact-icon">🌐</div>
+                <div class="contact-info">
+                    <div class="contact-label">Website</div>
+                    <div class="contact-value">
+                        <a href="https://www.5vocesproducciones.com" target="_blank" rel="noopener">www.5vocesproducciones.com</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- ════════════════════════════════════════
+             FORMULARIO DE CONTACTO
+             Descomenta este bloque completo para activarlo.
+             ════════════════════════════════════════ -->
+        <!--
+        <div class="contact-form-wrap">
+            <div class="contact-form-title">Envianos un mensaje</div>
+
+            <div class="cf-field">
+                <label class="cf-label" for="cf-nombre">Nombre</label>
+                <input class="cf-input" id="cf-nombre" type="text" placeholder="Tu nombre">
+            </div>
+
+            <div class="cf-field">
+                <label class="cf-label" for="cf-email">Email</label>
+                <input class="cf-input" id="cf-email" type="email" placeholder="tu@email.com">
+            </div>
+
+            <div class="cf-field">
+                <label class="cf-label" for="cf-asunto">Asunto</label>
+                <input class="cf-input" id="cf-asunto" type="text" placeholder="¿De qué se trata?">
+            </div>
+
+            <div class="cf-field">
+                <label class="cf-label" for="cf-mensaje">Mensaje</label>
+                <textarea class="cf-textarea" id="cf-mensaje" placeholder="Escribí tu mensaje acá..."></textarea>
+            </div>
+
+            <button class="cf-submit" onclick="alert('Función de envío no implementada todavía.')">
+                Enviar mensaje ✦
+            </button>
+        </div>
+        -->
+
+
+    </div>
+
+    <!-- Footer -->
+    <div class="contact-footer">
+        <p>© 2026 NeuraScript — Todos los derechos reservados</p>
+    </div>
+
+</div>
+
+</body>
+</html>
