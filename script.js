@@ -1374,7 +1374,7 @@ function showLimitPopup() {
 
             <div class="limit-popup-body">
                 <p class="limit-popup-msg">
-                    "Has delegado mucho tu creatividad a NeuraScript. Si deseas continuar, puedes seguir trabajando en ello con tu esfuerzo y dedicación"
+                    Has delegado mucho tu creatividad a NeuraScript. Si deseas continuar, puedes seguir trabajando en ello con tu esfuerzo y dedicación
                 </p>
 
                 <!--
@@ -1442,7 +1442,7 @@ function showThanksPopup() {
     document.getElementById("thanksPopupBtn").addEventListener("click", (e) => {
         e.preventDefault();
         overlay.remove();
-        aiUseCount = 0;   /* ← Resetear el contador recién acá */
+        aiUseCount = -15;   /* ← Resetear el contador recién acá */
         if (typeof goHome === "function") goHome();
     });
 
