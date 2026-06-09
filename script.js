@@ -1091,7 +1091,7 @@ function showLimitPopup() {
 
             <div class="limit-popup-body">
                 <p class="limit-popup-msg">
-                    "Has delegado mucho tu creatividad a NeuraScript. Si deseas continuar, puedes seguir trabajando en ello con tu esfuerzo y dedicación"
+                    Has delegado mucho tu creatividad a NeuraScript. Si deseas continuar, puedes seguir trabajando en ello con tu esfuerzo y dedicación.
                 </p>
 
                 <!--
