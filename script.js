@@ -1015,13 +1015,11 @@ En el programa, cuando su secreto sale poco a poco a la luz, siente culpa y asum
         /* ── SLIDE 1: 15 imágenes (la última es la paleta de colores) ── */
         slide1: [
             /* ⬇️  Reemplazá cada "" con la ruta de tu imagen, ej: "img/mood/foto1.jpg" */
-            "img/moodboard/01/001.webp", "img/moodboard/01/002.webp", "img/moodboard/01/paleta_noia.webp"  /* última = paleta */
+            "img/moodboard/01/001.webp", "img/moodboard/01/002.webp", "img/moodboard/01/003.webp", "img/moodboard/01/004.webp", "img/moodboard/01/005.webp", "img/moodboard/01/paleta_noia.webp"  /* última = paleta */
         ],
         /* ── SLIDE 2: 11 imágenes (la última es la paleta de colores) ── */
         slide2: [
-            "", "", "", "", "",
-            "", "", "", "", "",
-            "img/paleta2.jpg"  /* última = paleta */
+            "img/moodboard/02/001.webp", "img/moodboard/02/002.webp", "img/moodboard/02/003.webp", "img/moodboard/02/004.webp", "img/moodboard/02/005.webp", "img/moodboard/02/paleta_siia.webp"  /* última = paleta */
         ]
     },
 
