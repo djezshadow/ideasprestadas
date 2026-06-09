@@ -202,19 +202,138 @@ const ALIASES = {
     "quiénes son":         "__personajes__",
 
     /* ¿Cómo estás? */
-    "como estas":          "como estas",
-    "cómo estás":          "como estas",
-    "como estas?":         "como estas",
-    "cómo estás?":         "como estas",
-    "como te va":          "como estas",
-    "cómo te va":          "como estas",
-    "como andas":          "como estas",
-    "cómo andás":          "como estas",
-    "todo bien?":          "como estas",
-    "todo bien":           "como estas",
-    "como te encontras":   "como estas",
-    "que tal":             "como estas",
-    "qué tal":             "como estas",
+    "como estas": "como estas",
+    "cómo estás": "como estas",
+    "como estas?": "como estas",
+    "cómo estás?": "como estas",
+    "¿como estas?": "como estas",
+    "¿cómo estás?": "como estas",
+    
+    "como te va": "como estas",
+    "cómo te va": "como estas",
+    "como te va?": "como estas",
+    "cómo te va?": "como estas",
+    "¿como te va?": "como estas",
+    "¿cómo te va?": "como estas",
+    
+    "como andas": "como estas",
+    "cómo andas": "como estas",
+    "como andás": "como estas",
+    "cómo andás": "como estas",
+    "como andas?": "como estas",
+    "como andás?": "como estas",
+    "¿como andas?": "como estas",
+    "¿cómo andás?": "como estas",
+    
+    "que tal": "como estas",
+    "qué tal": "como estas",
+    "que tal?": "como estas",
+    "qué tal?": "como estas",
+    "¿que tal?": "como estas",
+    "¿qué tal?": "como estas",
+    
+    "todo bien": "como estas",
+    "todo bien?": "como estas",
+    "¿todo bien?": "como estas",
+    
+    "todo tranquilo": "como estas",
+    "todo tranquilo?": "como estas",
+    "¿todo tranquilo?": "como estas",
+    
+    "como va todo": "como estas",
+    "cómo va todo": "como estas",
+    "como va todo?": "como estas",
+    "¿cómo va todo?": "como estas",
+    
+    "como viene la mano": "como estas",
+    "cómo viene la mano": "como estas",
+    "como viene la mano?": "como estas",
+    
+    "como te encuentras": "como estas",
+    "cómo te encuentras": "como estas",
+    "como te encuentras?": "como estas",
+    "¿cómo te encuentras?": "como estas",
+    
+    "como te encontras": "como estas",
+    "cómo te encontrás": "como estas",
+    "como te encontras?": "como estas",
+    "¿cómo te encontrás?": "como estas",
+    
+    "como andamos": "como estas",
+    "cómo andamos": "como estas",
+    "como andamos?": "como estas",
+    
+    "como va": "como estas",
+    "cómo va": "como estas",
+    "como va?": "como estas",
+    "¿cómo va?": "como estas",
+    
+    "que onda": "como estas",
+    "qué onda": "como estas",
+    "que onda?": "como estas",
+    "¿qué onda?": "como estas",
+    
+    "todo ok": "como estas",
+    "todo ok?": "como estas",
+    "¿todo ok?": "como estas",
+    
+    "todo joya": "como estas",
+    "todo joya?": "como estas",
+    "¿todo joya?": "como estas",
+    
+    "todo piola": "como estas",
+    "todo piola?": "como estas",
+    
+    "como venis": "como estas",
+    "cómo venís": "como estas",
+    "como venis?": "como estas",
+    "¿cómo venís?": "como estas",
+    
+    "como va tu dia": "como estas",
+    "cómo va tu día": "como estas",
+    "como va tu dia?": "como estas",
+    "¿cómo va tu día?": "como estas",
+    
+    "que contas": "como estas",
+    "qué contás": "como estas",
+    "que contas?": "como estas",
+    "¿qué contás?": "como estas",
+    
+    "que haces": "como estas",
+    "qué hacés": "como estas",
+    "que haces?": "como estas",
+    "¿qué hacés?": "como estas",
+    
+    "como va la vida": "como estas",
+    "cómo va la vida": "como estas",
+    "como va la vida?": "como estas",
+    "¿cómo va la vida?": "como estas",
+    
+    "como marcha todo": "como estas",
+    "cómo marcha todo": "como estas",
+    "como marcha todo?": "como estas",
+    
+    "como pinta": "como estas",
+    "cómo pinta": "como estas",
+    "como pinta?": "como estas",
+    
+    "que hay de nuevo": "como estas",
+    "qué hay de nuevo": "como estas",
+    "que hay de nuevo?": "como estas",
+    "¿qué hay de nuevo?": "como estas",
+    
+    "como sigue todo": "como estas",
+    "cómo sigue todo": "como estas",
+    "como sigue todo?": "como estas",
+    
+    "todo en orden": "como estas",
+    "todo en orden?": "como estas",
+    "¿todo en orden?": "como estas",
+    
+    "que me contas": "como estas",
+    "qué me contás": "como estas",
+    "que me contas?": "como estas",
+    "¿qué me contás?": "como estas"
 
     /* ══════════════════════════════════════════════════════
        ⬇️  ZONA DE PALABRAS PERSONALIZADAS — añadí las tuyas
