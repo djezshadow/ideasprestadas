@@ -1121,7 +1121,7 @@ const PERSONAJES = [
         nombre: "El Genio (50)",
         emoji:  "🧞",
         // ↓ Añadí la descripción de El Genio acá
-        descripcion: "(interpretado por César Troncoso) Es un singular empleado de Bugel, que desarrolla Apps de Inteligencia Artificial para \"las mentes artísticas\". Él le da a Marcos una App llamada NeuraScript, especializada en la creación y corrección de la escritura cinematográfica."
+        descripcion: "(interpretado por César Troncoso) Es un singular empleado de Bügel, que desarrolla Apps de Inteligencia Artificial para \"las mentes artísticas\". Él le da a Marcos una App llamada NeuraScript, especializada en la creación y corrección de la escritura cinematográfica."
     },
     {
         nombre: "Freddy Castelli (63)",
