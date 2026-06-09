@@ -199,7 +199,60 @@ const ALIASES = {
     "ver personajes":      "__personajes__",
     "lista de personajes": "__personajes__",
     "quienes son":         "__personajes__",
-    "quiénes son":         "__personajes__"
+    "quiénes son":         "__personajes__",
+
+    /* ¿Cómo estás? */
+    "como estas":          "como estas",
+    "cómo estás":          "como estas",
+    "como estas?":         "como estas",
+    "cómo estás?":         "como estas",
+    "como te va":          "como estas",
+    "cómo te va":          "como estas",
+    "como andas":          "como estas",
+    "cómo andás":          "como estas",
+    "todo bien?":          "como estas",
+    "todo bien":           "como estas",
+    "como te encontras":   "como estas",
+    "que tal":             "como estas",
+    "qué tal":             "como estas",
+
+    /* ══════════════════════════════════════════════════════
+       ⬇️  ZONA DE PALABRAS PERSONALIZADAS — añadí las tuyas
+       ──────────────────────────────────────────────────────
+       Formato: "lo que escribe el usuario": "key del diccionario"
+       La key del diccionario tiene que coincidir con una entrada
+       que crees más abajo en BOT_RESPONSES.
+       ══════════════════════════════════════════════════════ */
+
+    /* Palabra 1 — descomentá y completá */
+    // "ESCRIBÍ ACÁ LO QUE TIPEA EL USUARIO": "palabra_1",
+
+    /* Palabra 2 */
+    // "ESCRIBÍ ACÁ LO QUE TIPEA EL USUARIO": "palabra_2",
+
+    /* Palabra 3 */
+    // "ESCRIBÍ ACÁ LO QUE TIPEA EL USUARIO": "palabra_3",
+
+    /* Palabra 4 */
+    // "ESCRIBÍ ACÁ LO QUE TIPEA EL USUARIO": "palabra_4",
+
+    /* Palabra 5 */
+    // "ESCRIBÍ ACÁ LO QUE TIPEA EL USUARIO": "palabra_5",
+
+    /* Palabra 6 */
+    // "ESCRIBÍ ACÁ LO QUE TIPEA EL USUARIO": "palabra_6",
+
+    /* Palabra 7 */
+    // "ESCRIBÍ ACÁ LO QUE TIPEA EL USUARIO": "palabra_7",
+
+    /* Palabra 8 */
+    // "ESCRIBÍ ACÁ LO QUE TIPEA EL USUARIO": "palabra_8",
+
+    /* Palabra 9 */
+    // "ESCRIBÍ ACÁ LO QUE TIPEA EL USUARIO": "palabra_9",
+
+    /* Palabra 10 */
+    // "ESCRIBÍ ACÁ LO QUE TIPEA EL USUARIO": "palabra_10"
 
 };
 
@@ -229,6 +282,118 @@ const BOT_RESPONSES = {
             "Hola. Contame tu idea y la convertimos en escenas."
         ]
     },
+
+    /* ══════════════════════════════════════════
+       ¿CÓMO ESTÁS?
+       ──────────────────────────────────────────
+       Cambiá el texto dentro de las comillas.
+       Si querés una sola respuesta fija: borrá
+       el multi:true y los variants, y usá solo:
+         type: "text",
+         content: "Tu respuesta acá."
+       ══════════════════════════════════════════ */
+    "como estas": {
+        type: "text",
+        multi: true,
+        variants: [
+            // ↓ Respuesta 1 — cambiala
+            "Funcionando a pleno. ¿Arrancamos con algo?",
+            // ↓ Respuesta 2 — cambiala
+            "Todo en orden por acá. ¿Qué historia tenés en mente?",
+            // ↓ Respuesta 3 — cambiala
+            "Lista para escribir. ¿Qué necesitás hoy?"
+        ]
+    },
+
+    /* ══════════════════════════════════════════════════════════
+       ⬇️  ZONA DE RESPUESTAS PERSONALIZADAS
+       ────────────────────────────────────────────────────────
+       Para activar cada entrada:
+         1. Descomentá el bloque (quitá los  /* y  * /)
+         2. Cambiá el texto de content por tu respuesta
+         3. En ALIASES (arriba) descomentá la línea
+            correspondiente y escribí el disparador
+       ════════════════════════════════════════════════════════ */
+
+    /* — Palabra 1 ─────────────────────────────────────────── */
+    /*
+    "palabra_1": {
+        type: "text",
+        content: "ESCRIBÍ ACÁ LA RESPUESTA PARA PALABRA 1."
+    },
+    */
+
+    /* — Palabra 2 ─────────────────────────────────────────── */
+    /*
+    "palabra_2": {
+        type: "text",
+        content: "ESCRIBÍ ACÁ LA RESPUESTA PARA PALABRA 2."
+    },
+    */
+
+    /* — Palabra 3 ─────────────────────────────────────────── */
+    /*
+    "palabra_3": {
+        type: "text",
+        content: "ESCRIBÍ ACÁ LA RESPUESTA PARA PALABRA 3."
+    },
+    */
+
+    /* — Palabra 4 ─────────────────────────────────────────── */
+    /*
+    "palabra_4": {
+        type: "text",
+        content: "ESCRIBÍ ACÁ LA RESPUESTA PARA PALABRA 4."
+    },
+    */
+
+    /* — Palabra 5 ─────────────────────────────────────────── */
+    /*
+    "palabra_5": {
+        type: "text",
+        content: "ESCRIBÍ ACÁ LA RESPUESTA PARA PALABRA 5."
+    },
+    */
+
+    /* — Palabra 6 ─────────────────────────────────────────── */
+    /*
+    "palabra_6": {
+        type: "text",
+        content: "ESCRIBÍ ACÁ LA RESPUESTA PARA PALABRA 6."
+    },
+    */
+
+    /* — Palabra 7 ─────────────────────────────────────────── */
+    /*
+    "palabra_7": {
+        type: "text",
+        content: "ESCRIBÍ ACÁ LA RESPUESTA PARA PALABRA 7."
+    },
+    */
+
+    /* — Palabra 8 ─────────────────────────────────────────── */
+    /*
+    "palabra_8": {
+        type: "text",
+        content: "ESCRIBÍ ACÁ LA RESPUESTA PARA PALABRA 8."
+    },
+    */
+
+    /* — Palabra 9 ─────────────────────────────────────────── */
+    /*
+    "palabra_9": {
+        type: "text",
+        content: "ESCRIBÍ ACÁ LA RESPUESTA PARA PALABRA 9."
+    },
+    */
+
+    /* — Palabra 10 ────────────────────────────────────────── */
+    /*
+    "palabra_10": {
+        type: "text",
+        content: "ESCRIBÍ ACÁ LA RESPUESTA PARA PALABRA 10."
+    },
+    */
 
     /* ══════════════════════════════════════════
        AYUDA
@@ -1077,9 +1242,8 @@ function showLimitPopup() {
     const overlay = document.createElement("div");
     overlay.id = "limitPopupOverlay";
 
-    /* ── PASO 1: Mensaje de límite ── */
     overlay.innerHTML = `
-        <div class="limit-popup" id="limitPopupStep1">
+        <div class="limit-popup">
 
             <!-- ↓ Zona para imagen opcional: reemplazá el src vacío con tu ruta -->
             <img
@@ -1091,46 +1255,21 @@ function showLimitPopup() {
 
             <div class="limit-popup-body">
                 <p class="limit-popup-msg">
-                    Has delegado mucho tu creatividad a NeuraScript. Si deseas continuar, puedes seguir trabajando en ello con tu esfuerzo y dedicación.
+                    "Has delegado mucho tu creatividad a NeuraScript. Si deseas continuar, puedes seguir trabajando en ello con tu esfuerzo y dedicación"
                 </p>
 
                 <!--
                 ╔══════════════════════════════════════════╗
-                ║  BOTÓN SIGUIENTE                         ║
-                ║  Lleva al segundo popup de despedida     ║
+                ║  BOTÓN SUSCRIBIRSE                       ║
+                ║  Cambiá el href para apuntar a tu página ║
                 ╚══════════════════════════════════════════╝
                 -->
                 <a
                     href="#"
                     class="limit-popup-btn"
-                    id="limitPopupBtnNext"
+                    id="limitPopupBtn"
                 >
                     Finalizar
-                </a>
-            </div>
-        </div>
-
-        <!-- ── PASO 2: Despedida (oculta al inicio) ── -->
-        <div class="limit-popup limit-popup--hidden" id="limitPopupStep2">
-            <div class="limit-popup-body">
-                <p class="limit-popup-farewell-icon">✦</p>
-                <p class="limit-popup-msg limit-popup-msg--farewell">
-                    Gracias por probar el simulador de <strong>NeuraScript</strong>,<br>
-                    esperamos que hayas disfrutado la experiencia.
-                </p>
-
-                <!--
-                ╔══════════════════════════════════════════╗
-                ║  BOTÓN FINALIZAR                         ║
-                ║  Cambiá el href si querés redirigir      ║
-                ╚══════════════════════════════════════════╝
-                -->
-                <a
-                    href="#"
-                    class="limit-popup-btn"
-                    id="limitPopupBtnFinal"
-                >
-                    Volver al Menu Principal
                 </a>
             </div>
         </div>
@@ -1142,30 +1281,17 @@ function showLimitPopup() {
     const img = document.getElementById("limitPopupImg");
     if (!img.src || img.src === window.location.href) img.style.display = "none";
 
-    /* Animación de entrada */
-    requestAnimationFrame(() => overlay.classList.add("visible"));
-
-    /* Paso 1 → Paso 2: animar transición */
-    document.getElementById("limitPopupBtnNext").addEventListener("click", (e) => {
-        e.preventDefault();
-        const step1 = document.getElementById("limitPopupStep1");
-        const step2 = document.getElementById("limitPopupStep2");
-        step1.classList.add("limit-popup--exit");
-        setTimeout(() => {
-            step1.style.display = "none";
-            step2.classList.remove("limit-popup--hidden");
-            step2.classList.add("limit-popup--enter");
-        }, 260);
-    });
-
-    /* Paso 2 → Finalizar: volver al inicio */
-    document.getElementById("limitPopupBtnFinal").addEventListener("click", (e) => {
+    /* Al hacer click en el botón → volver al inicio */
+    document.getElementById("limitPopupBtn").addEventListener("click", (e) => {
         e.preventDefault();
         /* ↓ Si querés ir a una URL externa, cambiá el href del <a> de arriba
            y comentá las líneas de goHome() de abajo */
         overlay.remove();
         if (typeof goHome === "function") goHome();
     });
+
+    /* Animación de entrada */
+    requestAnimationFrame(() => overlay.classList.add("visible"));
 }
 
 sendBtn.addEventListener("click", sendMessage);
