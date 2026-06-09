@@ -1713,7 +1713,7 @@ function addMoodboard(response) {
         input.focus();
 
         [response.slide1, response.slide2].forEach((slide, si) => {
-            const cols  = si === 0 ? 5 : 4;   /* slide1: 5 col, slide2: 4 col */
+            const cols  = si === 0 ? 4 : 4;   /* slide1: 5 col, slide2: 4 col */
             const label = si === 0
                 ? `Slide 1 — Moodboard (${slide.length} imágenes)`
                 : `Slide 2 — Moodboard (${slide.length} imágenes)`;
@@ -2058,7 +2058,7 @@ function loadChatMessages(rawMessages) {
 function _renderMoodboardStatic(slides) {
     if (!slides) return;
     slides.forEach((slide, si) => {
-        const cols  = si === 0 ? 5 : 4;
+        const cols  = si === 0 ? 4 : 4;
         const label = si === 0
             ? `Slide 1 — Moodboard (${slide.length} imágenes)`
             : `Slide 2 — Moodboard (${slide.length} imágenes)`;

@@ -522,7 +522,7 @@ function renderSbMoodboard(response) {
     setTimeout(() => {
         loader2.remove();
         [response.slide1, response.slide2].forEach((slide, si) => {
-            const cols  = si === 0 ? 5 : 4;
+            const cols  = si === 0 ? 4 : 4;
             const label = `Slide ${si+1} — Moodboard (${slide.length} imágenes)`;
             const div = document.createElement("div");
             div.className = "message bot moodboard-block";
