@@ -192,7 +192,14 @@ const ALIASES = {
     "poster":             "portada",
     "imagen":             "portada",
     "portada cine":             "portada",
-    "portada pelicula":             "portada"
+    "portada pelicula":             "portada",
+
+    /* Personajes */
+    "personajes":          "__personajes__",
+    "ver personajes":      "__personajes__",
+    "lista de personajes": "__personajes__",
+    "quienes son":         "__personajes__",
+    "quiénes son":         "__personajes__"
 
 };
 
@@ -799,6 +806,40 @@ const FALLBACK_MESSAGE = "No tengo una respuesta para eso todavía. Probá con '
 
 const WELCOME_MESSAGE = "Bienvenido a NeuraScript. Estoy acá para ayudarte a explorar contenido creativo, personajes, mundos e ideas. Escribí 'ayuda' para comenzar.";
 
+/* ===================================================
+   ⬇️  LÍMITE DE USO DE LA IA
+   ---------------------------------------------------
+   Cambiá AI_USE_LIMIT para ajustar cuántas veces
+   puede enviar mensajes antes de ver el popup.
+   El contador se reinicia al recargar la página.
+   =================================================== */
+const AI_USE_LIMIT = 5;   // ← CAMBIÁ ESTE NÚMERO
+let   aiUseCount   = 0;   // contador en memoria (se resetea al recargar)
+
+/* ===================================================
+   ⬇️  PERSONAJES — editá las descripciones acá
+   =================================================== */
+const PERSONAJES = [
+    {
+        nombre: "Marcos",
+        emoji:  "🎭",
+        // ↓ Añadí la descripción de Marcos acá
+        descripcion: "Descripción de Marcos (completar)."
+    },
+    {
+        nombre: "Ángel",
+        emoji:  "😇",
+        // ↓ Añadí la descripción de Ángel acá
+        descripcion: "Descripción de Ángel (completar)."
+    },
+    {
+        nombre: "El Genio",
+        emoji:  "🧞",
+        // ↓ Añadí la descripción de El Genio acá
+        descripcion: "Descripción de El Genio (completar)."
+    }
+];
+
 
 /* ===================================================
    LÓGICA DEL CHAT — no hace falta tocar esto
@@ -931,10 +972,32 @@ function sendMessage() {
     const userText = input.value.trim();
     if (!userText) return;
 
+    /* ── Verificar límite de uso ── */
+    if (aiUseCount >= AI_USE_LIMIT) {
+        showLimitPopup();
+        input.value = "";
+        return;
+    }
+    aiUseCount++;
+
     addMessage(userText, "user");
     input.value = "";
 
     const key = resolveKey(userText);
+
+    /* ── Caso especial: Personajes ── */
+    if (key === "__personajes__") {
+        setInputLocked(true);
+        showTyping();
+        setTimeout(() => {
+            removeTyping();
+            setInputLocked(false);
+            input.focus();
+            addPersonajes();
+        }, 900);
+        return;
+    }
+
     const response = BOT_RESPONSES[key];
     const delay = (response && response.delay) ? response.delay : BASE_TYPING_DELAY;
 
@@ -977,6 +1040,94 @@ function sendMessage() {
             addMessage(FALLBACK_MESSAGE, "bot");
         }
     }, delay);
+}
+
+/* ===================================================
+   RENDER — PERSONAJES
+   =================================================== */
+function addPersonajes() {
+    const div = document.createElement("div");
+    div.className = "message bot personajes-card";
+    div.innerHTML = `
+        <div class="ficha-title">🎭 Personajes</div>
+        <div class="personajes-list">
+            ${PERSONAJES.map(p => `
+                <div class="personaje-item">
+                    <div class="personaje-emoji">${p.emoji}</div>
+                    <div class="personaje-info">
+                        <div class="personaje-nombre">${p.nombre}</div>
+                        <div class="personaje-desc">${p.descripcion}</div>
+                    </div>
+                </div>
+            `).join("")}
+        </div>
+    `;
+    chat.appendChild(div);
+    scrollToBottom();
+    if (!_loadingHistory) trackMessage("bot", "Personajes", "text");
+}
+
+/* ===================================================
+   POPUP — LÍMITE DE USO
+   =================================================== */
+function showLimitPopup() {
+    /* Si ya existe, no crear otro */
+    if (document.getElementById("limitPopupOverlay")) return;
+
+    const overlay = document.createElement("div");
+    overlay.id = "limitPopupOverlay";
+
+    overlay.innerHTML = `
+        <div class="limit-popup">
+
+            <!-- ↓ Zona para imagen opcional: reemplazá el src vacío con tu ruta -->
+            <img
+                src=""
+                alt=""
+                class="limit-popup-img"
+                id="limitPopupImg"
+            >
+
+            <div class="limit-popup-body">
+                <p class="limit-popup-msg">
+                    Kpo, no me delegues la creatividad a mí,<br>
+                    <strong>usá un poco tu cabeza también 😏</strong>
+                </p>
+
+                <!--
+                ╔══════════════════════════════════════════╗
+                ║  BOTÓN SUSCRIBIRSE                       ║
+                ║  Cambiá el href para apuntar a tu página ║
+                ╚══════════════════════════════════════════╝
+                -->
+                <a
+                    href="#"
+                    class="limit-popup-btn"
+                    id="limitPopupBtn"
+                >
+                    ✦ Suscribirse para seguir usando NeuraScript
+                </a>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    /* Ocultar imagen si no tiene src */
+    const img = document.getElementById("limitPopupImg");
+    if (!img.src || img.src === window.location.href) img.style.display = "none";
+
+    /* Al hacer click en el botón → volver al inicio */
+    document.getElementById("limitPopupBtn").addEventListener("click", (e) => {
+        e.preventDefault();
+        /* ↓ Si querés ir a una URL externa, cambiá el href del <a> de arriba
+           y comentá las líneas de goHome() de abajo */
+        overlay.remove();
+        if (typeof goHome === "function") goHome();
+    });
+
+    /* Animación de entrada */
+    requestAnimationFrame(() => overlay.classList.add("visible"));
 }
 
 sendBtn.addEventListener("click", sendMessage);
@@ -1723,6 +1874,7 @@ window.addEventListener("beforeunload", () => {
 
 /* ── CHIPS DE SUGERENCIAS ── */
 const SUGGESTION_CHIPS = [
+    { label: "🎭 Personajes",      key: "__personajes__" },
     { label: "🖼️ Portada",        key: "portada" },
     { label: "🎬 Ficha Técnica",  key: "ficha tecnica" },
     { label: "📖 Logline",         key: "logline" },
@@ -1745,9 +1897,20 @@ function buildChips() {
         btn.className = "chip-btn";
         btn.textContent = label;
         btn.addEventListener("click", () => {
-            /* Simular que el usuario escribió el comando */
-            document.getElementById("messageInput").value = key;
-            sendMessage();
+            if (key === "__personajes__") {
+                /* Personajes: no consume límite, abre directo */
+                setInputLocked(true);
+                showTyping();
+                setTimeout(() => {
+                    removeTyping();
+                    setInputLocked(false);
+                    input.focus();
+                    addPersonajes();
+                }, 900);
+            } else {
+                document.getElementById("messageInput").value = key;
+                sendMessage();
+            }
             hideChips();
         });
         chipsBar.appendChild(btn);

@@ -259,6 +259,7 @@ const MENU_TOP = {
    en script.js buscando la key correspondiente.
    ─────────────────────────────────────────────────────────── */
 const MENU_ITEMS = [
+    { icon: "🎭", label: "Personajes",     key: "__personajes_menu__" },
     { icon: "🖼️", label: "Portada",        key: "portada"        },
     { icon: "🎬", label: "Ficha Técnica",  key: "ficha tecnica"        },
     { icon: "📖", label: "Logline",        key: "logline"               },
@@ -307,6 +308,19 @@ function showSandbox(key) {
                 loader.remove();
                 renderSbSobreNosotros();
             }, 900);
+            return;
+        }
+
+        /* Caso especial: Personajes */
+        if (key === "__personajes_menu__") {
+            const loader = document.createElement("div");
+            loader.className = "message bot typing-indicator";
+            loader.innerHTML = "<span></span><span></span><span></span>";
+            sandboxContent.appendChild(loader);
+            setTimeout(() => {
+                loader.remove();
+                renderSbPersonajes();
+            }, 700);
             return;
         }
 
@@ -700,7 +714,33 @@ function renderSbSobreNosotros() {
     sandboxContent.appendChild(div);
 }
 
-/* ── Volver al menú desde el sandbox ── */
+/* ── Render especial: Personajes (menú principal) ── */
+function renderSbPersonajes() {
+    /* Usa el mismo array PERSONAJES definido en script.js.
+       Si script.js aún no cargó, reintenta. */
+    if (typeof PERSONAJES === "undefined") {
+        return setTimeout(renderSbPersonajes, 50);
+    }
+    const div = document.createElement("div");
+    div.className = "message bot personajes-card";
+    div.innerHTML = `
+        <div class="ficha-title">🎭 Personajes</div>
+        <div class="personajes-list">
+            ${PERSONAJES.map(p => `
+                <div class="personaje-item">
+                    <div class="personaje-emoji">${p.emoji}</div>
+                    <div class="personaje-info">
+                        <div class="personaje-nombre">${p.nombre}</div>
+                        <div class="personaje-desc">${p.descripcion}</div>
+                    </div>
+                </div>
+            `).join("")}
+        </div>
+    `;
+    sandboxContent.appendChild(div);
+}
+
+
 sandboxBackBtn.addEventListener("click", () => {
     sandboxPanel.classList.remove("active");
     sandboxPanel.classList.remove("sandbox--fullscreen");

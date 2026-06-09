@@ -1699,3 +1699,158 @@ body {
 #logoHomeBtn:hover,
 #logoHomeBtnDesktop:hover,
 #logoHomeBtnMobile:hover { opacity: .65; }
+/* =====================================================
+   PERSONAJES — card en chat y sandbox
+   ===================================================== */
+
+.personajes-card {
+    padding: 0 !important;
+    overflow: hidden;
+}
+
+.personajes-card .ficha-title {
+    padding: 16px 20px 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: .5px;
+    border-bottom: 1px solid rgba(255,255,255,.1);
+    margin-bottom: 0;
+}
+
+.personajes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.personaje-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 20px;
+    border-bottom: 1px solid rgba(255,255,255,.07);
+    transition: background .15s;
+}
+
+.personaje-item:last-child {
+    border-bottom: none;
+}
+
+.personaje-item:hover {
+    background: rgba(255,255,255,.05);
+}
+
+.personaje-emoji {
+    font-size: 1.8rem;
+    flex-shrink: 0;
+    line-height: 1;
+    padding-top: 2px;
+}
+
+.personaje-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.personaje-nombre {
+    font-size: .95rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: .3px;
+}
+
+.personaje-desc {
+    font-size: .82rem;
+    color: rgba(255,255,255,.6);
+    line-height: 1.45;
+}
+
+/* =====================================================
+   POPUP DE LÍMITE DE USO
+   ===================================================== */
+
+#limitPopupOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(0,0,0,.75);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity .25s ease;
+}
+
+#limitPopupOverlay.visible {
+    opacity: 1;
+}
+
+.limit-popup {
+    background: linear-gradient(145deg, rgba(4,20,255,.95), rgba(0,0,180,.98));
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 24px;
+    padding: 36px 28px 28px;
+    max-width: 380px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 24px 80px rgba(0,0,0,.5);
+    transform: translateY(0);
+    animation: popupIn .3s cubic-bezier(.34,1.56,.64,1) both;
+}
+
+@keyframes popupIn {
+    from { transform: translateY(30px) scale(.92); opacity: 0; }
+    to   { transform: translateY(0)    scale(1);   opacity: 1; }
+}
+
+.limit-popup-img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    display: block;
+    border: 3px solid rgba(255,255,255,.25);
+}
+
+.limit-popup-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.limit-popup-msg {
+    color: rgba(255,255,255,.9);
+    font-size: .98rem;
+    line-height: 1.55;
+}
+
+.limit-popup-msg strong {
+    color: #fff;
+    font-weight: 700;
+}
+
+.limit-popup-btn {
+    display: inline-block;
+    background: #fff;
+    color: #0414ff;
+    font-weight: 700;
+    font-size: .88rem;
+    padding: 13px 24px;
+    border-radius: 50px;
+    text-decoration: none;
+    letter-spacing: .3px;
+    transition: transform .15s, box-shadow .15s;
+    box-shadow: 0 4px 20px rgba(0,0,0,.25);
+    cursor: pointer;
+}
+
+.limit-popup-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(0,0,0,.35);
+}
