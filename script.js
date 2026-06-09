@@ -1137,7 +1137,7 @@ const PERSONAJES = [
     },
     {
         nombre: "Felipe (28)",
-        emoji:  "",
+        emoji:  "🕵️",
         // ↓ Añadí la descripción de El Genio acá
         descripcion: "(interpretado por Martín Slipak) Es el leal asistente de Ángel, y a pesar de que éste a veces lo menosprecia, Felipe siempre está dispuesto a sus peticiones. Es un aficionado del arte de los disfraces pero lo mantiene en secreto sin embargo, posteriormente esta habilidad es esencial para sabotear el rodaje de Marcos."
     },
