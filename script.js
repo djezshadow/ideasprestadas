@@ -1038,12 +1038,13 @@ En el programa, cuando su secreto sale poco a poco a la luz, siente culpa y asum
         delay: 2000,
         content: [
             /* ⬇️ Completá nombre, rol y foto para cada actor */
-            { nombre: "NICOLAS FURTADO", rol: "Marcos", foto: "" },
-            { nombre: "SANTIAGO TALLEDO", rol: "Ángel",  foto: "" },
-            { nombre: "MARTIN SLIPAK", rol: "Felipe", foto: "" },
-            { nombre: "CÉSAR TRONCOSO", rol: "EL GENIO", foto: "" },
-            { nombre: "DIEGO MARTÍN", rol: "Mario (Productor)", foto: "" },
-            { nombre: "MARIBEL VERDÚ", rol: "Luz de la Vega", foto: "" }
+            { nombre: "NICOLAS FURTADO", rol: "Marcos", foto: "img/actores/FURTADO.webp" },
+            { nombre: "SANTIAGO TALLEDO", rol: "Ángel",  foto: "img/actores/TALLEDO.webp" },
+            { nombre: "DIEGO PERETTI", rol: "Freddy Castelli",  foto: "img/actores/PERETTI.webp" },
+            { nombre: "MARTIN SLIPAK", rol: "Felipe", foto: "img/actores/SLIPAK.webp" },
+            { nombre: "CÉSAR TRONCOSO", rol: "EL GENIO", foto: "img/actores/TRONCOSO.webp" },
+            { nombre: "DIEGO MARTÍN", rol: "Mario (Productor)", foto: "img/actores/MARTIN.webp" },
+            { nombre: "MARIBEL VERDÚ", rol: "Luz de la Vega", foto: "img/actores/VERDU.webp" }
         ]
     },
 
@@ -1106,21 +1107,45 @@ let   aiUseCount   = 0;   // contador en memoria (se resetea al recargar)
 const PERSONAJES = [
     {
         nombre: "Marcos (34)",
-        emoji:  "🎭",
+        emoji:  "🎬",
         // ↓ Añadí la descripción de Marcos acá
-        descripcion: "Es un profesor de teatro que trabaja en un teatro barrial de Boedo. Le gusta su trabajo y sus alumnos y la gente del barrio lo aprecian mucho pero no es lo que quiere hacer. Es una persona gentil pero ambicioso ante la búsqueda de la fama, quiere reiniciar su camino escribiendo, dirigiendo y actuando en sus películas. Encuentra la manera de triunfar con el “camino corto” usando NeuraScript."
+        descripcion: "(interpretado por Nicolas Furtado) Es un profesor de teatro que trabaja en un teatro barrial de Boedo. Le gusta su trabajo y sus alumnos y la gente del barrio lo aprecian mucho pero no es lo que quiere hacer. Es una persona gentil pero ambicioso ante la búsqueda de la fama, quiere reiniciar su camino escribiendo, dirigiendo y actuando en sus películas. Encuentra la manera de triunfar con el “camino corto” usando NeuraScript."
     },
     {
         nombre: "Ángel (34)",
         emoji:  "😇",
         // ↓ Añadí la descripción de Ángel acá
-        descripcion: "Es un actor famoso y respetado ante la crítica y el público. Fue el mejor amigo de Marcos en el pasado pero se distanciaron cuando comenzó a volverse conocido. Es un egocéntrico y un ególatra, solo piensa en sus necesidades y necesita que todo el tiempo lo admiren. No quiere que Marcos opaque su imagen por lo que va a hacer todo lo posible para sacar a Marcos de “su lugar” en la industria cinematográfica."
+        descripcion: "(interpretado por Santiago Talledo) Es un actor famoso y respetado ante la crítica y el público. Fue el mejor amigo de Marcos en el pasado pero se distanciaron cuando comenzó a volverse conocido. Es un egocéntrico y un ególatra, solo piensa en sus necesidades y necesita que todo el tiempo lo admiren. No quiere que Marcos opaque su imagen por lo que va a hacer todo lo posible para sacar a Marcos de “su lugar” en la industria cinematográfica."
     },
     {
-        nombre: "El Genio",
+        nombre: "El Genio (50)",
         emoji:  "🧞",
         // ↓ Añadí la descripción de El Genio acá
-        descripcion: "Descripción de El Genio (completar)."
+        descripcion: "(interpretado por César Troncoso) Es un singular empleado de Bugel, que desarrolla Apps de Inteligencia Artificial para \"las mentes artísticas\". Él le da a Marcos una App llamada NeuraScript, especializada en la creación y corrección de la escritura cinematográfica."
+    },
+    {
+        nombre: "Freddy Castelli (63)",
+        emoji:  "📺",
+        // ↓ Añadí la descripción de El Genio acá
+        descripcion: "(interpretado por Diego Peretti) Comenzó como actor cómico de telenovelas hasta convertirse en el carismático conductor de tv histórico, famoso por llevar adelante el programa con su nombre “El show de Freddy Castelli” por más de 30 años. Tiene un fetiche con la actriz del cine español Luz de la Vega."
+    },
+    {
+        nombre: "Luz de la Vega (50)",
+        emoji:  "🎭",
+        // ↓ Añadí la descripción de El Genio acá
+        descripcion: "(interpretada por Maribel Verdú) Es una actriz consagrada del cine español, comenzando muy joven en los 80, se mantuvo brillante hasta la trágica muerte de su amado esposo, por lo que no ha vuelto a actuar en veinte años. Durante ese tiempo desarrolló profundas supersticiones de muerte y de mala suerte. Es la actriz fetiche de Freddy Castelli y por eso Marcos la convence de volver a actuar en su próxima película."
+    },
+    {
+        nombre: "Felipe (28)",
+        emoji:  "",
+        // ↓ Añadí la descripción de El Genio acá
+        descripcion: "(interpretado por Martín Slipak) Es el leal asistente de Ángel, y a pesar de que éste a veces lo menosprecia, Felipe siempre está dispuesto a sus peticiones. Es un aficionado del arte de los disfraces pero lo mantiene en secreto sin embargo, posteriormente esta habilidad es esencial para sabotear el rodaje de Marcos."
+    },
+    {
+        nombre: "Mario (38)",
+        emoji:  "📝",
+        // ↓ Añadí la descripción de El Genio acá
+        descripcion: "(interpretado por Diego Martin) Es un productor y guionista de una productora audiovisual importante de Buenos Aires. Mario rechaza la primera versión del guión de Marcos diciendo que su escritura es aburrida y poco creativa pero luego de leer la segunda versión del guión (hecha por NeuraScript) éste se sorprende por la rápida mejoría y acepta trabajar con Marcos."
     }
 ];
 
