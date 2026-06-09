@@ -1888,3 +1888,37 @@ body {
     line-height: 1.6;
     color: rgba(255,255,255,.92);
 }
+
+/* ── Segundo popup: agradecimiento ── */
+#thanksPopupOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10001;
+    background: rgba(0,0,0,.72);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity .3s ease;
+}
+
+#thanksPopupOverlay.visible {
+    opacity: 1;
+}
+
+.thanks-popup {
+    text-align: center;
+}
+
+.thanks-icon {
+    font-size: 2.8rem;
+    margin-bottom: 14px;
+}
+
+.thanks-msg {
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: rgba(255,255,255,.93);
+    margin-bottom: 8px;
+}

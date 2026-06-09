@@ -1400,16 +1400,52 @@ function showLimitPopup() {
     const img = document.getElementById("limitPopupImg");
     if (!img.src || img.src === window.location.href) img.style.display = "none";
 
-    /* Al hacer click en el botón → volver al inicio */
+    /* Al hacer click en "Finalizar" → mostrar popup de agradecimiento */
     document.getElementById("limitPopupBtn").addEventListener("click", (e) => {
         e.preventDefault();
-        /* ↓ Si querés ir a una URL externa, cambiá el href del <a> de arriba
-           y comentá las líneas de goHome() de abajo */
         overlay.remove();
-        if (typeof goHome === "function") goHome();
+        showThanksPopup();
     });
 
     /* Animación de entrada */
+    requestAnimationFrame(() => overlay.classList.add("visible"));
+}
+
+/* ===================================================
+   POPUP — AGRADECIMIENTO (aparece tras "Finalizar")
+   =================================================== */
+function showThanksPopup() {
+    const overlay = document.createElement("div");
+    overlay.id = "thanksPopupOverlay";
+
+    overlay.innerHTML = `
+        <div class="limit-popup thanks-popup">
+            <div class="limit-popup-body">
+                <div class="thanks-icon">🎬</div>
+                <p class="limit-popup-msg thanks-msg">
+                    Gracias por probar el simulador de NeuraScript.<br>
+                    Esperamos que hayas disfrutado la experiencia.
+                </p>
+                <a
+                    href="#"
+                    class="limit-popup-btn"
+                    id="thanksPopupBtn"
+                >
+                    Volver al Menú Principal
+                </a>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    document.getElementById("thanksPopupBtn").addEventListener("click", (e) => {
+        e.preventDefault();
+        overlay.remove();
+        aiUseCount = 0;   /* ← Resetear el contador recién acá */
+        if (typeof goHome === "function") goHome();
+    });
+
     requestAnimationFrame(() => overlay.classList.add("visible"));
 }
 
