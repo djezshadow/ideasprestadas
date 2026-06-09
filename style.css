@@ -6,7 +6,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Segoe UI, sans-serif;
+    font-family: 'Roboto' ,Segoe UI, sans-serif;
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -344,7 +344,7 @@ body {
 
 .script {
     white-space: pre-wrap;
-    font-family: Consolas, 'Courier New', monospace;
+    font-family: 'Poppins', Consolas, 'Courier New', monospace;
     font-size: 0.88rem;
     line-height: 1.7;
     background: rgba(0,0,0,.28);
