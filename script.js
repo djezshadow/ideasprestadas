@@ -1108,13 +1108,13 @@ const PERSONAJES = [
         nombre: "Marcos",
         emoji:  "🎭",
         // ↓ Añadí la descripción de Marcos acá
-        descripcion: "Es un profesor de teatro que trabaja en un teatro barrial de Boedo. Le gusta su trabajo y sus alumnos y la gente del barrio lo aprecian mucho pero no es lo que quiere hacer. Es una persona gentil pero ambicioso ante la búsqueda de la fama, quiere reiniciar su camino en busca de la fama, escribiendo, dirigiendo y actuando en sus películas. Encuentra la manera de llegar a la fama con el “camino corto” usando NeuraScript."
+        descripcion: "Es un profesor de teatro que trabaja en un teatro barrial de Boedo. Le gusta su trabajo y sus alumnos y la gente del barrio lo aprecian mucho pero no es lo que quiere hacer. Es una persona gentil pero ambicioso ante la búsqueda de la fama, quiere reiniciar su camino escribiendo, dirigiendo y actuando en sus películas. Encuentra la manera de triunfar con el “camino corto” usando NeuraScript."
     },
     {
         nombre: "Ángel",
         emoji:  "😇",
         // ↓ Añadí la descripción de Ángel acá
-        descripcion: "Es un actor famoso y respetado ante la crítica y el público. Fue el mejor amigo de Marcos en el pasado pero se distanciaron cuando comenzó a volverse conocido. Es un egocéntrico y un ególatra, solo piensa en sus necesidades y necesita que todo el tiempo lo admiren. No quiere que Marcos opaque su imagen por lo que va a a hacer todo lo posible para sacar a Marcos de “su lugar” en la industria cinematográfica."
+        descripcion: "Es un actor famoso y respetado ante la crítica y el público. Fue el mejor amigo de Marcos en el pasado pero se distanciaron cuando comenzó a volverse conocido. Es un egocéntrico y un ególatra, solo piensa en sus necesidades y necesita que todo el tiempo lo admiren. No quiere que Marcos opaque su imagen por lo que va a hacer todo lo posible para sacar a Marcos de “su lugar” en la industria cinematográfica."
     },
     {
         nombre: "El Genio",
