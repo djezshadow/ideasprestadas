@@ -1001,7 +1001,7 @@ En el programa, cuando su secreto sale poco a poco a la luz, siente culpa y asum
         type: "financiacion",
         delay: 1800,
         content: [
-            { nombre: "Patagonik Film Group",   foto: "img/financiacion/PATAGONIK.webp" },
+            { nombre: "Patagonik Film Group",   foto: "img/financiacion/PATAGONIK.JPG" },
             { nombre: "Coproducción España",     foto: "img/financiacion/ICAA.webp" },
             { nombre: "Coproducción Uruguay",    foto: "img/financiacion/ACAU.webp" },
             { nombre: "Programa Ibermedia",      foto: "img/financiacion/IBERMEDIA.webp" }
