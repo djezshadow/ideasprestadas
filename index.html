@@ -490,11 +490,16 @@ function renderSbFinanciacion(items) {
         <div class="financiacion-grid">
             ${items.map(item => `
                 <div class="financiacion-item">
-                    <div class="financiacion-foto">${item.foto ? `<img src="${item.foto}" alt="${item.nombre}">` : `<span>🏢</span>`}</div>
-                    <div class="financiacion-nombre">${item.nombre}</div>
+                    <div class="financiacion-foto">${item.foto ? `<img src="${item.foto}" alt="${item.nombre}" onerror="this.style.display='none'">` : `<span>🏢</span>`}</div>
+                    <div class="financiacion-nombre">${item.link ? `<a href="${item.link}" target="_blank" rel="noopener noreferrer" class="financiacion-link">${item.nombre}</a>` : item.nombre}</div>
                 </div>`).join("")}
         </div>`;
     sandboxContent.appendChild(div);
+    /* Lightbox en logos */
+    div.querySelectorAll(".financiacion-foto img").forEach(img => {
+        img.style.cursor = "zoom-in";
+        img.addEventListener("click", () => { if (typeof openLightbox === "function") openLightbox(img.src); });
+    });
 }
 
 function renderSbElenco(actores) {

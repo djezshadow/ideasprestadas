@@ -1003,10 +1003,10 @@ En el programa, cuando su secreto sale poco a poco a la luz, siente culpa y asum
         type: "financiacion",
         delay: 1800,
         content: [
-            { nombre: "Patagonik Film Group",   foto: "img/financiacion/PATAGONIK.jpg" },
-            { nombre: "Coproducción España",     foto: "img/financiacion/ICAA.webp" },
-            { nombre: "Coproducción Uruguay",    foto: "img/financiacion/ACAU.webp" },
-            { nombre: "Programa Ibermedia",      foto: "img/financiacion/IBERMEDIA.webp" }
+            { nombre: "Patagonik Film Group",   foto: "img/financiacion/PATAGONIK.jpg",  link: "https://www.patagonik.com.ar" },
+            { nombre: "Coproducción España",     foto: "img/financiacion/ICAA.webp",      link: "" },
+            { nombre: "Coproducción Uruguay",    foto: "img/financiacion/ACAU.webp",      link: "" },
+            { nombre: "Programa Ibermedia",      foto: "img/financiacion/IBERMEDIA.webp", link: "https://www.programaibermedia.com/wp-content/uploads/2017/11/COP_Bases_2026_1_ESP.pdf" }
         ]
     },
 
@@ -1660,14 +1660,22 @@ function addFinanciacion(items) {
                             : `<span>🏢</span>`
                         }
                     </div>
-                    <div class="financiacion-nombre">${item.nombre}</div>
+                    <div class="financiacion-nombre">
+                        ${item.link
+                            ? `<a href="${item.link}" target="_blank" rel="noopener noreferrer" class="financiacion-link">${item.nombre}</a>`
+                            : item.nombre
+                        }
+                    </div>
                 </div>
             `).join("")}
         </div>
     `;
     chat.appendChild(div);
-    /* Hacer clickeables las fotos si las hay */
     makeChatImagesClickable(div);
+    /* Nombre visible aunque la imagen falle */
+    div.querySelectorAll(".financiacion-foto img").forEach(img => {
+        img.onerror = function() { this.style.display = "none"; };
+    });
     scrollToBottom();
 }
 
