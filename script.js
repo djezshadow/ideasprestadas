@@ -1926,7 +1926,7 @@ sidebarOverlay.addEventListener("click", closeSidebar);
 (function() {
     let touchStartX = 0;
     let touchStartY = 0;
-    const EDGE_ZONE   = 30;  /* px desde el borde izquierdo para iniciar apertura */
+    const EDGE_ZONE   = 80;  /* px desde el borde izquierdo para iniciar apertura */
     const MIN_SWIPE_X = 60;  /* desplazamiento horizontal mínimo para activar */
     const MAX_SWIPE_Y = 80;  /* desplazamiento vertical máximo (evita confusión con scroll) */
 
