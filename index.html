@@ -268,7 +268,7 @@ const MENU_ITEMS = [
     { icon: "💰", label: "Presupuesto",    key: "presupuesto"           },
     { icon: "🤝", label: "Financiamiento", key: "financiacion"          },
     { icon: "🎭", label: "Elenco",         key: "elenco tentativo"      },
-    { icon: "🗺️", label: "Recorrido",      key: "recorrido de mercados" },
+    { icon: "🗺️", label: "Recorrido",      key: "recorrido de laboratorios, mercados y festivales" },
     { icon: "🎞", label: "Teaser",         key: "teaser"                },
 ];
 
@@ -545,31 +545,19 @@ function renderSbMoodboard(response) {
 }
 
 function renderSbRecorrido() {
-    /* Reutilizar la misma función de script.js pero redirigiendo al sandboxContent */
-    const paradas = [
-        { nombre: "Mercado 1", lugar: "Ciudad, País", fecha: "Fecha", foto: "", color: "#fff" },
-        { nombre: "Mercado 2", lugar: "Ciudad, País", fecha: "Fecha", foto: "", color: "#fff" },
-        { nombre: "Mercado 3", lugar: "Ciudad, País", fecha: "Fecha", foto: "", color: "#fff" },
-        { nombre: "Mercado 4", lugar: "Ciudad, País", fecha: "Fecha", foto: "", color: "#fff" },
-        { nombre: "Mercado 5", lugar: "Ciudad, País", fecha: "Fecha", foto: "", color: "#fff" },
-    ];
+    if (typeof RECORRIDO_PARADAS === "undefined" || typeof _buildRecorridoHTML === "undefined") {
+        return setTimeout(renderSbRecorrido, 50);
+    }
     const div = document.createElement("div");
     div.className = "message bot recorrido-block";
-    div.innerHTML = `
-        <div class="ficha-title">🗺️ Recorrido de Mercados</div>
-        <div class="recorrido-timeline">
-            ${paradas.map((p, i) => `
-                <div class="recorrido-parada visible" style="animation-delay:${i * 0.18}s">
-                    <div class="recorrido-dot" style="background:${p.color}"></div>
-                    <div class="recorrido-line ${i === paradas.length-1 ? "last" : ""}"></div>
-                    <div class="recorrido-info">
-                        ${p.foto ? `<img src="${p.foto}" class="recorrido-foto" alt="${p.nombre}" style="cursor:zoom-in">` : ""}
-                        <div class="recorrido-nombre">${p.nombre}</div>
-                        <div class="recorrido-lugar">📍 ${p.lugar}</div>
-                        <div class="recorrido-fecha">📅 ${p.fecha}</div>
-                    </div>
-                </div>`).join("")}
-        </div>`;
+    div.innerHTML = _buildRecorridoHTML(RECORRIDO_PARADAS);
+    /* Marcar visibles de entrada (sin animación) */
+    div.querySelectorAll(".recorrido-parada").forEach(el => el.classList.add("visible"));
+    /* Lightbox en las fotos */
+    div.querySelectorAll("img").forEach(img => {
+        img.style.cursor = "zoom-in";
+        img.addEventListener("click", () => { if (typeof openLightbox === "function") openLightbox(img.src); });
+    });
     sandboxContent.appendChild(div);
 }
 

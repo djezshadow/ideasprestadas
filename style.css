@@ -845,7 +845,8 @@ body {
 }
 
 .recorrido-parada {
-    display: flex;
+    display: grid;
+    grid-template-columns: 110px 1fr;
     gap: 14px;
     position: relative;
     opacity: 0;
@@ -856,6 +857,14 @@ body {
 .recorrido-parada.visible {
     opacity: 1;
     transform: translateX(0);
+}
+
+/* Columna izquierda: dot arriba, línea vertical, imagen abajo */
+.recorrido-left-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
 }
 
 .recorrido-dot-col {
@@ -878,24 +887,38 @@ body {
 .recorrido-line {
     width: 2px;
     flex: 1;
+    min-height: 8px;
     background: rgba(255,255,255,.2);
     margin: 4px auto 0;
 }
 
 .recorrido-line.last { display: none; }
 
+/* Imagen dentro de la columna izquierda */
+.recorrido-foto {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-top: 8px;
+    border: 1px solid rgba(255,255,255,.15);
+    display: block;
+}
+
+/* Placeholder cuando no hay imagen */
+.recorrido-foto-placeholder {
+    width: 100%;
+    aspect-ratio: 4/3;
+    border-radius: 8px;
+    margin-top: 8px;
+    background: rgba(255,255,255,.07);
+    border: 1px solid rgba(255,255,255,.1);
+}
+
+/* Columna derecha: texto */
 .recorrido-info {
     padding-bottom: 20px;
     flex: 1;
-}
-
-.recorrido-foto {
-    width: 100%;
-    max-height: 100px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 8px;
-    border: 1px solid rgba(255,255,255,.15);
 }
 
 .recorrido-nombre {
@@ -910,6 +933,24 @@ body {
     color: rgba(255,255,255,.55);
     font-size: 0.78rem;
     line-height: 1.5;
+}
+
+.recorrido-categoria {
+    color: rgba(255,255,255,.7);
+    font-size: 0.78rem;
+    margin-bottom: 2px;
+}
+
+.recorrido-link {
+    color: #a8d8ff;
+    text-decoration: underline;
+    text-decoration-color: rgba(168,216,255,.4);
+    text-underline-offset: 2px;
+    transition: color .15s, text-decoration-color .15s;
+}
+.recorrido-link:hover {
+    color: #ffffff;
+    text-decoration-color: rgba(255,255,255,.8);
 }
 
 @media (max-width: 700px) {

@@ -1003,10 +1003,10 @@ En el programa, cuando su secreto sale poco a poco a la luz, siente culpa y asum
         type: "financiacion",
         delay: 1800,
         content: [
-            { nombre: "Patagonik Film Group",   foto: "img/financiacion/PATAGONIK.jpg" },
-            { nombre: "Coproducción España",     foto: "img/financiacion/ICAA.webp" },
-            { nombre: "Coproducción Uruguay",    foto: "img/financiacion/ACAU.webp" },
-            { nombre: "Programa Ibermedia",      foto: "img/financiacion/IBERMEDIA.webp" }
+            { nombre: "Patagonik Film Group",   foto: "img/financiacion/PATAGONIK.jpg",  link: "" },
+            { nombre: "Coproducción España",     foto: "img/financiacion/ICAA.webp",      link: "" },
+            { nombre: "Coproducción Uruguay",    foto: "img/financiacion/ACAU.webp",      link: "" },
+            { nombre: "Programa Ibermedia",      foto: "img/financiacion/IBERMEDIA.webp", link: "" }
         ]
     },
 
@@ -1660,13 +1660,17 @@ function addFinanciacion(items) {
                             : `<span>🏢</span>`
                         }
                     </div>
-                    <div class="financiacion-nombre">${item.nombre}</div>
+                    <div class="financiacion-nombre">
+                        ${item.link
+                            ? `<a href="${item.link}" target="_blank" rel="noopener noreferrer" class="financiacion-link">${item.nombre}</a>`
+                            : item.nombre
+                        }
+                    </div>
                 </div>
             `).join("")}
         </div>
     `;
     chat.appendChild(div);
-    /* Hacer clickeables las fotos si las hay */
     makeChatImagesClickable(div);
     scrollToBottom();
 }
@@ -1793,39 +1797,17 @@ function addPortada(response) {
    ⬇️  EDITÁ EL RECORRIDO ACÁ
    =================================================== */
 
-/* ===================================================
-   ⬇️  RECORRIDO — EDITÁ LAS PARADAS ACÁ
-   ---------------------------------------------------
-   Campos disponibles por parada:
-     nombre, link, lugar, fecha, categoria,
-     categoriaLink, foto, color
-   =================================================== */
-const RECORRIDO_PARADAS = [
-    { nombre: "Bolivia Lab",                                       link: "https://www.bolivialab.com.bo",                                          lugar: "La Paz, Bolivia",          fecha: "04/08/2027 - 22/08/2027", categoria: "Laboratorio de Análisis y Clínica de Proyectos en Desarrollo", categoriaLink: "https://www.bolivialab.com.bo/wp-content/uploads/2026/03/Laboratorio-2026.pdf?pid=187", foto: "img/recorrido/Bolivia.png",      color: "#fff" },
-    { nombre: "ECM+Lab",                                           link: "https://www.famdetodos.com.br/ecm",                                      lugar: "Florianópolis, Brasil",    fecha: "03/06/2027 - 30/07/2027", categoria: "Laboratorio de Proyectos en Desarrollo",                        categoriaLink: "",                                                                                     foto: "img/recorrido/ecmlab.jpg",       color: "#fff" },
-    { nombre: "ECM Mercado",                                       link: "https://www.famdetodos.com.br/ecm",                                      lugar: "Florianópolis, Brasil",    fecha: "04/09/2027 - 06/09/2027", categoria: "Mercado de Proyectos en Desarrollo",                            categoriaLink: "",                                                                                     foto: "img/recorrido/ECM.png",          color: "#fff" },
-    { nombre: "Iber Series y Platino",                             link: "https://iberseriesplatinoindustria.com/",                                lugar: "Madrid, España",           fecha: "29/09/2027 - 02/10/2027", categoria: "Pitch de Plataformas y Productoras",                            categoriaLink: "https://iberseriesplatinoindustria.com/actividadespro/foro-de-coproduccion-y-financiacion/", foto: "img/recorrido/iberseries.png", color: "#fff" },
-    { nombre: "Ventana Sur",                                       link: "https://ventana-sur.com/",                                              lugar: "Montevideo, Uruguay",      fecha: "01/12/2027 - 05/12/2027", categoria: "Ventana Sur Proyecta",                                          categoriaLink: "https://ventana-sur.com/proyecta/",                                                    foto: "img/recorrido/ventana-sur.png",  color: "#fff" },
-    { nombre: "Festival Internacional de Cine de San Sebastián",  link: "https://www.sansebastianfestival.com/2025/festival_diary/2/in",          lugar: "San Sebastián, España",    fecha: "17/09/2028 - 25/09/2028", categoria: "Horizontes Latinos",                                            categoriaLink: "",                                                                                     foto: "img/recorrido/ssiff.png",        color: "#fff" },
-    { nombre: "Festival Internacional de Cine de Mar del Plata",  link: "https://mardelplatafilmfest.com/41/es/",                                 lugar: "Mar del Plata, Argentina", fecha: "06/11/2028",              categoria: "Competencia Argentina de Largometrajes",                        categoriaLink: "",                                                                                     foto: "img/recorrido/mdq.webp",         color: "#fff" },
-];
-
-/* Construye el HTML del recorrido — compartido por chat y sandbox */
+/* Construye el HTML del recorrido — usado tanto por el chat como por el sandbox */
 function _buildRecorridoHTML(paradas) {
     return `
         <div class="ficha-title">🗺️ Recorrido de Laboratorios, Mercados y Festivales</div>
         <div class="recorrido-timeline">
             ${paradas.map((p, i) => `
                 <div class="recorrido-parada" style="animation-delay:${i * 0.18}s">
-                    <div class="recorrido-left-col">
-                        <div class="recorrido-dot" style="background:${p.color}"></div>
-                        <div class="recorrido-line ${i === paradas.length - 1 ? "last" : ""}"></div>
-                        ${p.foto
-                            ? `<img src="${p.foto}" class="recorrido-foto" alt="${p.nombre}" style="cursor:zoom-in">`
-                            : `<div class="recorrido-foto-placeholder"></div>`
-                        }
-                    </div>
+                    <div class="recorrido-dot" style="background:${p.color}"></div>
+                    <div class="recorrido-line ${i === paradas.length-1 ? "last" : ""}"></div>
                     <div class="recorrido-info">
+                        ${p.foto ? `<img src="${p.foto}" class="recorrido-foto" alt="${p.nombre}" style="cursor:zoom-in">` : ""}
                         <div class="recorrido-nombre">
                             ${p.link
                                 ? `<a href="${p.link}" target="_blank" rel="noopener noreferrer" class="recorrido-link">${p.nombre}</a>`
@@ -1848,6 +1830,29 @@ function _buildRecorridoHTML(paradas) {
     `;
 }
 
+/* ===================================================
+   ⬇️  RECORRIDO — EDITÁ LAS PARADAS ACÁ
+   ---------------------------------------------------
+   Cada parada puede tener:
+     - nombre:        nombre del mercado / festival
+     - link:          URL del sitio (opcional)
+     - lugar:         ciudad, país
+     - fecha:         fecha o período
+     - categoria:     tipo de evento (opcional)
+     - categoriaLink: URL para la categoría (opcional)
+     - foto:          ruta a imagen (opcional)
+     - color:         color del punto en el mapa (hex)
+   =================================================== */
+const RECORRIDO_PARADAS = [
+    { nombre: "Bolivia Lab",                                        link: "https://www.bolivialab.com.bo",                                                                               lugar: "La Paz, Bolivia",          fecha: "04/08/2027 - 22/08/2027",  categoria: "Laboratorio de Análisis y Clínica de Proyectos en Desarrollo",  categoriaLink: "https://www.bolivialab.com.bo/wp-content/uploads/2026/03/Laboratorio-2026.pdf?pid=187",              foto: "img/recorrido/Bolivia.png", color: "#fff" },
+    { nombre: "ECM+Lab",                                            link: "https://www.famdetodos.com.br/ecm",                                                                           lugar: "Florianópolis, Brasil",     fecha: "03/06/2027 - 30/07/2027",  categoria: "Laboratorio de Proyectos en Desarrollo",                        categoriaLink: "",                                                                                                   foto: "img/recorrido/ecmlab.jpg", color: "#fff" },
+    { nombre: "ECM Mercado",                                        link: "https://www.famdetodos.com.br/ecm",                                                                           lugar: "Florianópolis, Brasil",     fecha: "04/09/2027 - 06/09/2027",  categoria: "Mercado de Proyectos en Desarrollo",                            categoriaLink: "",                                                                                                   foto: "img/recorrido/ECM.png", color: "#fff" },
+    { nombre: "Iber Series y Platino",                              link: "https://iberseriesplatinoindustria.com/",                                                                     lugar: "Madrid, España",            fecha: "29/09/2027 - 02/10/2027",  categoria: "Pitch de Plataformas y Productoras",                            categoriaLink: "https://iberseriesplatinoindustria.com/actividadespro/foro-de-coproduccion-y-financiacion/",         foto: "img/recorrido/", color: "#fff" },
+    { nombre: "Ventana Sur",                                        link: "https://ventana-sur.com/",                                                                                    lugar: "Montevideo, Uruguay",       fecha: "01/12/2027 - 05/12/2027",  categoria: "Ventana Sur Proyecta",                                          categoriaLink: "https://ventana-sur.com/proyecta/",                                                                  foto: "img/recorrido/ventana-sur.png", color: "#fff" },
+    { nombre: "Festival Internacional de Cine de San Sebastián",   link: "https://www.sansebastianfestival.com/2025/festival_diary/2/in",                                               lugar: "San Sebastián, España",     fecha: "17/09/2028 - 25/09/2028",  categoria: "Horizontes Latinos",                                            categoriaLink: "",                                                                                                   foto: "img/recorrido/ssiff.png", color: "#fff" },
+    { nombre: "Festival Internacional de Cine de Mar del Plata",   link: "https://mardelplatafilmfest.com/41/es/",                                                                      lugar: "Mar del Plata, Argentina",  fecha: "06/11/2028",               categoria: "Competencia Argentina de Largometrajes",                        categoriaLink: "",                                                                                                   foto: "img/recorrido/mdq.webp", color: "#fff" },
+];
+
 function addRecorrido(response) {
     addMessage(response.message || "Cargando recorrido de Laboratorios, Mercados y Festivales...", "bot");
     setInputLocked(true);
@@ -1860,12 +1865,14 @@ function addRecorrido(response) {
 
         const div = document.createElement("div");
         div.className = "message bot recorrido-block";
+
         div.innerHTML = _buildRecorridoHTML(RECORRIDO_PARADAS);
 
         chat.appendChild(div);
         makeChatImagesClickable(div);
         scrollToBottom();
 
+        /* Animar paradas una por una */
         div.querySelectorAll(".recorrido-parada").forEach((el, i) => {
             setTimeout(() => el.classList.add("visible"), i * 180);
         });
