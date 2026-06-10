@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>NeuraScript — Configuración</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', Segoe UI, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    background: linear-gradient(160deg, #0414ff 0%, #0000cc 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    padding: 20px;
+}
+
+/* Partículas de fondo */
+.bg-particles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.particle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,.06);
+    animation: float linear infinite;
+}
+
+@keyframes float {
+    0%   { transform: translateY(110vh) scale(0); opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+}
+
+/* Card central */
+.card {
+    position: relative;
+    z-index: 1;
+    background: rgba(255,255,255,.10);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 28px;
+    padding: 52px 48px 44px;
+    max-width: 460px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 24px 80px rgba(0,0,0,.25);
+    animation: cardIn .55s cubic-bezier(.34,1.3,.64,1) both;
+}
+
+@keyframes cardIn {
+    from { opacity: 0; transform: translateY(28px) scale(.96); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Ícono de engranaje animado */
+.gear-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 50%;
+    margin-bottom: 28px;
+}
+
+.gear {
+    font-size: 2.2rem;
+    display: inline-block;
+    animation: spin 6s linear infinite;
+    transform-origin: center;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+/* Eyebrow */
+.eyebrow {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.45);
+    margin-bottom: 12px;
+}
+
+/* Título */
+.title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 16px;
+    letter-spacing: -.3px;
+}
+
+/* Divider */
+.divider {
+    width: 40px;
+    height: 2px;
+    background: rgba(255,255,255,.25);
+    border-radius: 2px;
+    margin: 0 auto 20px;
+}
+
+/* Descripción */
+.desc {
+    font-size: 0.92rem;
+    color: rgba(255,255,255,.70);
+    line-height: 1.65;
+    margin-bottom: 36px;
+}
+
+/* Barra de progreso animada */
+.progress-wrap {
+    background: rgba(255,255,255,.1);
+    border-radius: 999px;
+    height: 4px;
+    overflow: hidden;
+    margin-bottom: 36px;
+}
+
+.progress-bar {
+    height: 100%;
+    border-radius: 999px;
+    background: rgba(255,255,255,.6);
+    animation: progress 2.8s ease-in-out infinite alternate;
+    width: 30%;
+}
+
+@keyframes progress {
+    0%   { width: 15%; margin-left: 0%; }
+    100% { width: 35%; margin-left: 65%; }
+}
+
+/* Botón volver */
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 28px;
+    background: white;
+    color: #0000cc;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    text-decoration: none;
+    letter-spacing: .2px;
+    transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+    box-shadow: 0 6px 28px rgba(0,0,0,.2);
+}
+
+.back-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 36px rgba(0,0,0,.28);
+}
+
+.back-btn:active {
+    transform: scale(.97);
+}
+
+/* Logo chico arriba */
+.logo-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 32px;
+    opacity: .55;
+}
+
+.logo-row img {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    filter: brightness(10);
+}
+
+.logo-row span {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: white;
+    letter-spacing: .5px;
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .card {
+        padding: 40px 28px 36px;
+        border-radius: 22px;
+    }
+    .title { font-size: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- Partículas de fondo -->
+<div class="bg-particles" id="particles"></div>
+
+<div class="card">
+
+    <div class="logo-row">
+        <img src="img/Neura 1.png" alt="NeuraScript" onerror="this.style.display='none'">
+        <span>NeuraScript</span>
+    </div>
+
+    <div class="gear-wrap">
+        <span class="gear">⚙</span>
+    </div>
+
+    <div class="eyebrow">Configuración</div>
+
+    <h1 class="title">En construcción</h1>
+
+    <div class="divider"></div>
+
+    <p class="desc">
+        Esta sección estará disponible próximamente.<br>
+        Estamos trabajando para traerte nuevas opciones.
+    </p>
+
+    <div class="progress-wrap">
+        <div class="progress-bar"></div>
+    </div>
+
+    <a href="index.html" class="back-btn">
+        ← Volver al inicio
+    </a>
+
+</div>
+
+<script>
+/* Genera partículas flotantes */
+const container = document.getElementById("particles");
+for (let i = 0; i < 18; i++) {
+    const p = document.createElement("div");
+    p.className = "particle";
+    const size = Math.random() * 60 + 20;
+    p.style.cssText = `
+        width: ${size}px;
+        height: ${size}px;
+        left: ${Math.random() * 100}%;
+        animation-duration: ${Math.random() * 14 + 10}s;
+        animation-delay: ${Math.random() * -20}s;
+    `;
+    container.appendChild(p);
+}
+</script>
+
+</body>
+</html>
