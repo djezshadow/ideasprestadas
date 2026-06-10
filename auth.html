@@ -371,23 +371,24 @@
 </div>
 
 <script>
-    /* ── Redirigir si ya hay sesión ── */
-    if (localStorage.getItem("ns_token")) {
-        window.location.href = "index.html";
-    }
-
-    /* ── Token de reset en la URL (?reset=TOKEN) ── */
+    /* ── Token de reset (declarado global para que doReset() lo lea) ── */
     let resetToken = null;
-    (function checkResetToken() {
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        /* ── Redirigir si ya hay sesión (solo si no hay token de reset) ── */
         const params = new URLSearchParams(window.location.search);
         const token  = params.get("reset");
+
         if (token) {
             resetToken = token;
-            showScreen("reset");
-            /* Limpiar URL sin recargar */
             history.replaceState({}, "", window.location.pathname);
+            showScreen("reset");
+        } else if (localStorage.getItem("ns_token")) {
+            window.location.href = "index.html";
         }
-    })();
+
+    });
 
     /* ── Navegación entre pantallas ── */
     function showScreen(name) {
