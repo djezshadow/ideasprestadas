@@ -1922,6 +1922,36 @@ function closeSidebar() {
 menuBtn.addEventListener("click", openSidebar);
 sidebarOverlay.addEventListener("click", closeSidebar);
 
+/* ── Swipe para abrir/cerrar el sidebar ── */
+(function() {
+    let touchStartX = 0;
+    let touchStartY = 0;
+    const EDGE_ZONE   = 30;  /* px desde el borde izquierdo para iniciar apertura */
+    const MIN_SWIPE_X = 60;  /* desplazamiento horizontal mínimo para activar */
+    const MAX_SWIPE_Y = 80;  /* desplazamiento vertical máximo (evita confusión con scroll) */
+
+    document.addEventListener("touchstart", (e) => {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+
+    document.addEventListener("touchend", (e) => {
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        const dy = Math.abs(e.changedTouches[0].clientY - touchStartY);
+
+        /* Swipe derecha desde el borde → abrir */
+        if (touchStartX <= EDGE_ZONE && dx >= MIN_SWIPE_X && dy <= MAX_SWIPE_Y) {
+            openSidebar();
+            return;
+        }
+
+        /* Swipe izquierda con sidebar abierto → cerrar */
+        if (sidebar.classList.contains("open") && dx <= -MIN_SWIPE_X && dy <= MAX_SWIPE_Y) {
+            closeSidebar();
+        }
+    }, { passive: true });
+})();
+
 /* ── Estado del chat actual ── */
 let currentMessages = []; /* [{ role: "user"|"bot", text }] */
 let currentLabel    = "";
