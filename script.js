@@ -17,7 +17,7 @@
      "lo que escribe el usuario": "key del diccionario"
    =================================================== */
 
-const ALIASES = {
+const ALIASES_ES = {
 
     /* Saludos */
     "hola!":           "hola",
@@ -379,6 +379,212 @@ const ALIASES = {
 
 
 /* ===================================================
+   ⬇️  ZONA 1B: ALIASES (ENGLISH)
+   ---------------------------------------------------
+   Mismo formato que ALIASES_ES pero con disparadores
+   en inglés. Las keys de destino son las mismas que
+   en BOT_RESPONSES_EN (comparten nombres con las
+   versiones en español — son sólo identificadores).
+   =================================================== */
+
+const ALIASES_EN = {
+
+    /* Greetings */
+    "hi":              "hola",
+    "hi!":             "hola",
+    "hello":           "hola",
+    "hello!":          "hola",
+    "hey":             "hola",
+    "hey!":            "hola",
+    "yo":              "hola",
+    "good morning":    "hola",
+    "good afternoon":  "hola",
+    "good evening":    "hola",
+    "morning":         "hola",
+    "sup":             "hola",
+    "whats up":        "hola",
+    "what's up":       "hola",
+
+    /* Help */
+    "help":               "ayuda",
+    "help!":              "ayuda",
+    "help me":            "ayuda",
+    "how does this work": "ayuda",
+    "what can you do":    "ayuda",
+    "what do you do":     "ayuda",
+    "commands":           "ayuda",
+    "menu":               "ayuda",
+    "options":            "ayuda",
+
+    /* Genres */
+    "genres":          "géneros",
+    "genre":           "géneros",
+    "what genres":     "géneros",
+    "genre list":      "géneros",
+    "genres list":     "géneros",
+    "list":            "géneros",
+    "types":           "géneros",
+
+    /* Horror */
+    "horror":               "guion de terror",
+    "horror script":        "guion de terror",
+    "scary":                "guion de terror",
+    "scary script":         "guion de terror",
+    "creepy script":        "guion de terror",
+    "fear":                 "guion de terror",
+    "give me a horror script": "guion de terror",
+
+    /* Comedy */
+    "comedy":               "guion de comedia",
+    "comedy script":        "guion de comedia",
+    "funny":                "guion de comedia",
+    "funny script":         "guion de comedia",
+    "humor":                "guion de comedia",
+    "humour":               "guion de comedia",
+
+    /* Romance */
+    "romance":              "guion de romance",
+    "romance script":       "guion de romance",
+    "love":                 "guion de romance",
+    "love story":           "guion de romance",
+    "romantic":             "guion de romance",
+    "romantic script":      "guion de romance",
+
+    /* Drama */
+    "drama":                "guion de drama",
+    "drama script":         "guion de drama",
+    "dramatic":             "guion de drama",
+    "emotional":            "guion de drama",
+    "emotional script":     "guion de drama",
+
+    /* Thriller */
+    "thriller":             "guion de thriller",
+    "thriller script":      "guion de thriller",
+    "action":               "guion de thriller",
+    "action script":        "guion de thriller",
+    "suspense":             "guion de thriller",
+    "suspense script":      "guion de thriller",
+
+    /* Sci-fi */
+    "sci fi":               "guion de ciencia ficcion",
+    "sci-fi":               "guion de ciencia ficcion",
+    "scifi":                "guion de ciencia ficcion",
+    "science fiction":      "guion de ciencia ficcion",
+    "science fiction script": "guion de ciencia ficcion",
+    "futuristic":           "guion de ciencia ficcion",
+    "future":               "guion de ciencia ficcion",
+
+    /* Character */
+    "character":            "crear personaje",
+    "create character":     "crear personaje",
+    "create a character":   "crear personaje",
+    "give me a character":  "crear personaje",
+    "make a character":     "crear personaje",
+    "i need a character":   "crear personaje",
+    "protagonist":          "crear personaje",
+    "new character":        "crear personaje",
+
+    /* Scene */
+    "scene":                "crear escena",
+    "create scene":         "crear escena",
+    "create a scene":       "crear escena",
+    "give me a scene":      "crear escena",
+    "i need a scene":       "crear escena",
+    "a scene":              "crear escena",
+
+    /* Dialogue */
+    "dialogue":             "crear dialogo",
+    "dialog":               "crear dialogo",
+    "dialogues":            "crear dialogo",
+    "dialogs":              "crear dialogo",
+    "create dialogue":      "crear dialogo",
+    "give me a dialogue":   "crear dialogo",
+    "conversation":         "crear dialogo",
+
+    /* QR / Contact */
+    "contact":              "qr contacto",
+    "my qr":                "qr contacto",
+    "qr":                   "qr contacto",
+    "qr code":              "qr contacto",
+    "link":                 "qr contacto",
+
+    /* Movie — Ideas Prestadas */
+    "fact sheet":           "ficha tecnica",
+    "factsheet":            "ficha tecnica",
+    "technical sheet":      "ficha tecnica",
+    "tech specs":           "ficha tecnica",
+    "details":              "ficha tecnica",
+    "logline":              "logline",
+    "log line":             "logline",
+    "storyline":            "storyline",
+    "story":                "storyline",
+    "synopsis":             "storyline",
+    "plot":                 "storyline",
+    "estimated budget":     "presupuesto",
+    "budget":               "presupuesto",
+    "financing":            "financiacion",
+    "funding":              "financiacion",
+    "financiers":           "financiacion",
+    "backers":              "financiacion",
+    "moodboard":            "moodboard",
+    "mood board":           "moodboard",
+    "visual references":   "moodboard",
+    "palette":              "moodboard",
+    "tour":                 "recorrido de laboratorios, mercados y festivales",
+    "market tour":          "recorrido de laboratorios, mercados y festivales",
+    "markets":              "recorrido de laboratorios, mercados y festivales",
+    "labs":                 "recorrido de laboratorios, mercados y festivales",
+    "festivals":            "recorrido de laboratorios, mercados y festivales",
+    "cast":                 "elenco tentativo",
+    "actors":               "elenco tentativo",
+    "casting":              "elenco tentativo",
+
+    /* Teaser / Trailer */
+    "trailer":              "teaser",
+    "teaser":               "teaser",
+    "preview":              "teaser",
+    "watch teaser":         "teaser",
+    "watch trailer":        "teaser",
+    "show teaser":          "teaser",
+    "show trailer":         "teaser",
+
+    /* Cover */
+    "cover":                "portada",
+    "poster":               "portada",
+    "image":                "portada",
+    "movie poster":         "portada",
+    "movie cover":          "portada",
+
+    /* Characters list */
+    "characters":           "__personajes__",
+    "the characters":       "__personajes__",
+    "character list":       "__personajes__",
+    "show characters":      "__personajes__",
+    "who are they":         "__personajes__",
+    "who are the characters": "__personajes__",
+
+    /* How are you? */
+    "how are you":          "como estas",
+    "how are you?":         "como estas",
+    "how are you doing":    "como estas",
+    "how are you doing?":   "como estas",
+    "how's it going":       "como estas",
+    "how is it going":      "como estas",
+    "how's it going?":      "como estas",
+    "whats new":            "como estas",
+    "what's new":           "como estas",
+    "what's new?":          "como estas",
+    "all good":             "como estas",
+    "all good?":            "como estas",
+    "you good":             "como estas",
+    "you good?":            "como estas",
+    "how do you feel":      "como estas",
+    "how do you feel?":     "como estas"
+
+};
+
+
+/* ===================================================
    ⬇️  ZONA 2: DICCIONARIO PRINCIPAL DE RESPUESTAS
    ---------------------------------------------------
    Cada entrada puede tener:
@@ -388,7 +594,7 @@ const ALIASES = {
      multi:   true → elige aleatoriamente entre varias respuestas en "variants"
    =================================================== */
 
-const BOT_RESPONSES = {
+const BOT_RESPONSES_ES = {
 
     /* ══════════════════════════════════════════
        SALUDOS
@@ -1082,14 +1288,603 @@ En el programa, cuando su secreto sale poco a poco a la luz, siente culpa y asum
 
 
 /* ===================================================
+   ⬇️  ZONA 2B: DICCIONARIO PRINCIPAL DE RESPUESTAS (ENGLISH)
+   ---------------------------------------------------
+   Misma estructura que BOT_RESPONSES_ES, traducido.
+   =================================================== */
+
+const BOT_RESPONSES_EN = {
+
+    /* ══════════════════════════════════════════
+       GREETINGS
+       ══════════════════════════════════════════ */
+    "hola": {
+        type: "text",
+        multi: true,
+        variants: [
+            "Hi. I'm NeuraScript, your screenwriting assistant. What do you want to write about today?",
+            "Hello! What kind of story do you have in mind?",
+            "Welcome back. Should we start a new script?",
+            "Hi. Tell me your idea and we'll turn it into scenes."
+        ]
+    },
+
+    /* ══════════════════════════════════════════
+       HOW ARE YOU?
+       ══════════════════════════════════════════ */
+    "como estas": {
+        type: "text",
+        multi: true,
+        variants: [
+            "Running at full capacity. Want to get started with something?",
+            "Everything's good on this end. What story do you have in mind?",
+            "Ready to write. What do you need today?"
+        ]
+    },
+
+    /* ══════════════════════════════════════════
+       HELP
+       ══════════════════════════════════════════ */
+    "ayuda": {
+        type: "list",
+        content: [
+            "📝 Ask me for a script by genre: horror, comedy, romance, drama, thriller, science fiction",
+            "🎭 Create a new character by typing 'character'",
+            "🎬 Ask for a standalone scene with 'scene'",
+            "💬 Generate a dialogue by typing 'dialogue'",
+            "📋 Type 'genres' to see all the styles",
+            "🔗 Type 'contact' to get an access QR code"
+        ]
+    },
+
+    /* ══════════════════════════════════════════
+       AVAILABLE GENRES
+       ══════════════════════════════════════════ */
+    "géneros": {
+        type: "list",
+        content: [
+            "🔪 Horror — type 'horror' or 'horror script'",
+            "😂 Comedy — type 'comedy' or 'comedy script'",
+            "❤️ Romance — type 'romance' or 'romance script'",
+            "😢 Drama — type 'drama' or 'drama script'",
+            "💥 Thriller — type 'thriller' or 'thriller script'",
+            "🚀 Science fiction — type 'sci fi' or 'science fiction'"
+        ]
+    },
+
+    /* ══════════════════════════════════════════
+       SCRIPTS BY GENRE
+       ══════════════════════════════════════════ */
+
+    "guion de terror": {
+        type: "script",
+        delay: 2800,
+        multi: true,
+        variants: [
+`SCRIPT — THE LAST ROOM
+
+SCENE 1 — EXT. ABANDONED HOUSE — NIGHT
+
+A decrepit house at the end of a dirt road.
+The wind bends the trees. No lights on.
+
+SCENE 2 — INT. HALLWAY — NIGHT
+
+MARCOS (30) moves forward with a flashlight.
+The floor creaks under his feet.
+
+MARCOS
+(whispering)
+Is anyone there?
+
+A door at the end opens by itself.
+
+END OF SCENE`,
+
+`SCRIPT — WHAT WAS LEFT
+
+SCENE 1 — INT. EMPTY APARTMENT — EARLY MORNING
+
+ELENA (25) goes through boxes. She just moved in.
+She finds a photo. She doesn't recognize it.
+There's a person in the background of every picture.
+Always the same one. Always watching.
+
+ELENA
+(to herself)
+Who are you?
+
+Her phone buzzes. A message with no sender:
+"I know you."
+
+END OF SCENE`
+        ]
+    },
+
+    "guion de comedia": {
+        type: "script",
+        delay: 2500,
+        multi: true,
+        variants: [
+`SCRIPT — THE WRONG GIFT
+
+SCENE 1 — INT. LIVING ROOM — DAY
+
+PEDRO (40) holds a huge gift-wrapped box.
+
+PEDRO
+I spent three months' salary on this.
+
+LAURA (38) looks at him, worried.
+
+LAURA
+Pedro... today isn't my birthday.
+
+(long pause)
+
+PEDRO
+Then the gift is mine.`,
+
+`SCRIPT — RESUME
+
+SCENE 1 — INT. HR OFFICE — DAY
+
+The INTERVIEWER (45) reads TOMÁS's (28) resume.
+
+INTERVIEWER
+It says here you have "experience
+leading international teams."
+
+TOMÁS
+Yes. I played Counter-Strike
+with people from five countries.
+
+Awkward silence.
+
+INTERVIEWER
+And "crisis management under pressure"?
+
+TOMÁS
+The 2022 World Cup final.
+
+END OF SCENE`
+        ]
+    },
+
+    "guion de romance": {
+        type: "script",
+        delay: 2200,
+        multi: true,
+        variants: [
+`SCRIPT — ON THE PLATFORM
+
+SCENE 1 — EXT. TRAIN STATION — SUNSET
+
+ANA (28) looks at the departures board.
+LUCAS (30) arrives running.
+
+LUCAS
+Wait. Don't leave yet.
+
+ANA
+The train leaves in two minutes.
+
+LUCAS
+I know.
+(pause)
+Is that enough time to tell you
+that I was wrong?`,
+
+`SCRIPT — THIRD FLOOR
+
+SCENE 1 — INT. ELEVATOR — DAY
+
+SOFÍA (26) and MATEO (29) ride up in silence.
+They've been crossing paths in the building for weeks.
+
+The elevator stops. Power outage.
+
+MATEO
+Well.
+
+SOFÍA
+Well.
+
+(pause)
+
+SOFÍA
+Have you always lived here?
+
+MATEO
+Four years. Never knew your name.
+
+SOFÍA
+(smiling in the dark)
+Sofía.
+
+MATEO
+Mateo. Nice to meet you.
+
+END OF SCENE`
+        ]
+    },
+
+    "guion de drama": {
+        type: "script",
+        delay: 2500,
+        content:
+`SCRIPT — THE CALL
+
+SCENE 1 — INT. KITCHEN — NIGHT
+
+ROBERTO (55) waits by the phone.
+The table is set for two.
+An empty chair across from him.
+
+The phone rings.
+
+ROBERTO
+(voice breaking)
+Did you get there okay?
+
+VOICE (phone)
+Yes, dad. I got here okay.
+
+A long pause.
+
+ROBERTO
+Good.
+
+(hangs up)
+
+He sits down alone. Starts eating.
+
+END OF SCENE`
+    },
+
+    "guion de thriller": {
+        type: "script",
+        delay: 2600,
+        content:
+`SCRIPT — TWENTY-FOUR HOURS
+
+SCENE 1 — INT. PARKED CAR — NIGHT
+
+CLAUDIA (35), a detective, reads an anonymous message.
+"You know where it is. You have until dawn."
+
+She checks the rearview mirror.
+A black car. Parked. No plates.
+
+She pulls a gun from the glove compartment.
+
+CLAUDIA
+(on the phone)
+I need backup. Now.
+
+The black car turns on its lights.
+It starts slowly moving toward her.
+
+END OF SCENE`
+    },
+
+    "guion de ciencia ficcion": {
+        type: "script",
+        delay: 2800,
+        content:
+`SCRIPT — SIGNAL
+
+SCENE 1 — INT. ORBITAL STATION — YEAR 2147
+
+The screen flickers. IARA (32), an engineer,
+approaches the communications monitor.
+
+A signal. Unknown origin. Not human.
+
+IARA
+(to the crew)
+It's been traveling toward us for 84 years.
+
+COMMANDER KAI (50)
+What does it say?
+
+Iara reads the processed translation.
+
+IARA
+"Don't be alone. Neither are we."
+
+Silence on the station.
+
+END OF SCENE`
+    },
+
+    /* ══════════════════════════════════════════
+       WRITING TOOLS
+       ══════════════════════════════════════════ */
+
+    "crear personaje": {
+        type: "script",
+        delay: 2000,
+        multi: true,
+        variants: [
+`CHARACTER SHEET
+
+NAME: Valentina Roca
+AGE: 34
+PROFESSION: Forensic translator
+
+DESCRIPTION:
+Speaks six languages but doesn't know
+how to tell her mother she loves her.
+
+MOTIVATION:
+Finds a letter in a lost suitcase
+that changes everything she thought she knew about her family.
+
+SIGNATURE LINE:
+"The exact words matter. Always."
+
+FLAW:
+Trusts documents more than people.`,
+
+`CHARACTER SHEET
+
+NAME: Ezequiel "Zeke" Morán
+AGE: 22
+PROFESSION: Film student. Works at a copy shop.
+
+DESCRIPTION:
+Wants to direct the movie of his life
+but can't even finish a three-page script.
+
+MOTIVATION:
+His professor tells him he has no talent.
+He decides to prove it wrong. Or prove it right.
+
+SIGNATURE LINE:
+"The scene doesn't work because I still
+don't know what I want to say."
+
+FLAW:
+Perfectionist. Never finishes anything.`
+        ]
+    },
+
+    "crear escena": {
+        type: "script",
+        delay: 1800,
+        multi: true,
+        variants: [
+`STANDALONE SCENE
+
+INT. EMPTY BAR — EARLY MORNING
+
+The bartender wipes glasses. The last customer
+won't leave. He just stares into his glass.
+
+BARTENDER
+Another one?
+
+CUSTOMER
+What time do you close?
+
+BARTENDER
+Closed two hours ago.
+
+The customer nods. Leaves a bill.
+Walks out without saying anything else.
+The door swings behind him.`,
+
+`STANDALONE SCENE
+
+EXT. ROOFTOP — DAWN
+
+PAULA (29) and RODRIGO (31) watch the sun rise.
+They didn't sleep. Cold cups of coffee.
+
+RODRIGO
+When was the last time you did something
+for the first time?
+
+Paula thinks. Takes too long.
+
+PAULA
+Today.
+
+Rodrigo looks at her. She doesn't look back.
+But she smiles.`
+        ]
+    },
+
+    "crear dialogo": {
+        type: "script",
+        delay: 1800,
+        multi: true,
+        variants: [
+`DIALOGUE — TRUTH OR LIE
+
+A: Did you lie to me?
+
+B: Depends on what you mean by lying.
+
+A: What kind of answer is that?!
+
+B: An honest one.
+
+(pause)
+
+A: That's the most frustrating thing you've ever said.
+
+B: I know. I'm sorry.
+
+A: And is that enough?
+
+B: No. But it's what I've got.`,
+
+`DIALOGUE — THE GOODBYE
+
+A: Everything's ready.
+
+B: Yeah, I can tell.
+
+A: Are you going to say something or...?
+
+B: What do you want me to say?
+
+A: Something. Anything.
+
+B: ...You're going to be okay.
+
+A: That's not what I wanted to hear.
+
+B: I know.`
+        ]
+    },
+
+    /* ══════════════════════════════════════════
+       QR — RESPUESTA CON CÓDIGO QR
+       ══════════════════════════════════════════ */
+
+    "qr contacto": {
+        type: "qr",
+        delay: 3500,
+        message: "Generating your access QR code...",
+        qrUrl: "https://youtu.be/dQw4w9WgXcQ",
+        caption: "Scan to access the screenplay portfolio."
+    },
+
+    /* ══════════════════════════════════════════
+       MOVIE — IDEAS PRESTADAS
+       ══════════════════════════════════════════ */
+
+    "ficha tecnica": {
+        type: "ficha",
+        delay: 1800,
+        content: {
+            proyecto:   "Ideas Prestadas",
+            formato:    "Feature Film",
+            genero:     "Dramatic Comedy",
+            tono:       "Tragic, Satirical",
+            duracion:   "120 min.",
+            directora:  "Victoria Gariglio",
+            productora: "5 Voces Producciones",
+            guionista:  "Elias Betés",
+            publico:    "25 to 35 years old"
+        }
+    },
+
+    "logline": {
+        type: "text",
+        delay: 1400,
+        content: "📖 Logline — Ideas Prestadas. \\n\\nMarcos, a theater teacher desperate for recognition, uses artificial intelligence to become famous."
+    },
+
+    "storyline": {
+        type: "script",
+        delay: 2000,
+        content: `STORYLINE — IDEAS PRESTADAS
+
+Marcos (34), a frustrated actor who dreams of making it as a screenwriter, discovers an innovative AI called NeuraScript that brings him fame and gets him close to being invited onto Freddy Castelli's show.
+
+To pull it off, he tries to get a film made with an eccentric actress, but faces constant sabotage from his former friend Ángel (34), a rival actor.
+
+On the show, as his secret slowly comes to light, he feels guilty and admits to his lie. Marcos loses everything he had gained, and realizes that what he truly needed was always in the humble theater where he started.`
+    },
+
+    "presupuesto": {
+        type: "presupuesto",
+        delay: 1600,
+        content: {
+            ars: "$2.425.274.948 ARS",
+            usd: "$1.695.997 USD"
+        }
+    },
+
+    "financiacion": {
+        type: "financiacion",
+        delay: 1800,
+        content: [
+            { nombre: "Patagonik Film Group",  foto: "img/financiacion/PATAGONIK.jpg",  link: "https://www.patagonik.com.ar" },
+            { nombre: "Spain Co-production",   foto: "img/financiacion/ICAA.webp",      link: "" },
+            { nombre: "Uruguay Co-production", foto: "img/financiacion/ACAU.webp",      link: "" },
+            { nombre: "Ibermedia Program",     foto: "img/financiacion/IBERMEDIA.webp", link: "https://www.programaibermedia.com/wp-content/uploads/2017/11/COP_Bases_2026_1_ESP.pdf" }
+        ]
+    },
+
+    "moodboard": {
+        type: "moodboard",
+        delay: 2800,
+        message: "Generating visual moodboard...",
+        slide1: [
+            "img/moodboard/01/001.webp", "img/moodboard/01/002.webp", "img/moodboard/01/003.webp", "img/moodboard/01/004.webp", "img/moodboard/01/005.webp", "img/moodboard/01/paleta_noia.webp"
+        ],
+        slide2: [
+            "img/moodboard/02/001.webp", "img/moodboard/02/002.webp", "img/moodboard/02/003.webp", "img/moodboard/02/004.webp", "img/moodboard/02/005.webp", "img/moodboard/02/paleta_siia.webp"
+        ]
+    },
+
+    "recorrido de laboratorios, mercados y festivales": {
+        type: "recorrido",
+        delay: 2200,
+        message: "Loading the labs, markets & festivals tour..."
+    },
+
+    "elenco tentativo": {
+        type: "elenco",
+        delay: 2000,
+        content: [
+            { nombre: "NICOLAS FURTADO", rol: "Marcos", foto: "img/actores/FURTADO.webp" },
+            { nombre: "SANTIAGO TALLEDO", rol: "Ángel",  foto: "img/actores/TALLEDO.webp" },
+            { nombre: "DIEGO PERETTI", rol: "Freddy Castelli",  foto: "img/actores/PERETTI.webp" },
+            { nombre: "MARTIN SLIPAK", rol: "Felipe", foto: "img/actores/SLIPAK.webp" },
+            { nombre: "CÉSAR TRONCOSO", rol: "THE GENIE", foto: "img/actores/TRONCOSO.webp" },
+            { nombre: "DIEGO MARTÍN", rol: "Mario (Producer)", foto: "img/actores/MARTIN.webp" },
+            { nombre: "MARIBEL VERDÚ", rol: "Luz de la Vega", foto: "img/actores/VERDU.webp" }
+        ]
+    },
+
+    /* ══════════════════════════════════════════
+       TEASER / TRAILER
+       ══════════════════════════════════════════ */
+
+    "teaser": {
+        type: "youtube",
+        delay: 1600,
+        message: "Loading the Official Teaser for Ideas Prestadas...",
+        youtubeId: "QgG4actvdaU",
+        caption: "IDEAS PRESTADAS — Official Teaser"
+    },
+
+    /* ══════════════════════════════════════════
+       Cover
+       ══════════════════════════════════════════ */
+    "portada": {
+        type: "portada",
+        delay: 2000,
+        message: "Generating cover art...",
+        images: [
+            "img/portada-vertical.png",
+            "img/portada-horizontal.webp"
+        ]
+    }
+
+    /* ══════════════════════════════════════════
+       ⬆️  END BOT_RESPONSES_EN
+       ══════════════════════════════════════════ */
+};
+
+
+/* ===================================================
    ⬇️  ZONA 3: CONFIGURACIÓN GLOBAL
    =================================================== */
 
 const BASE_TYPING_DELAY = 1400;
 
-const FALLBACK_MESSAGE = "No tengo una respuesta para eso todavía. Probá con 'ayuda' para ver qué puedo hacer, o usá 'géneros' para elegir un tipo de guion.";
+const FALLBACK_MESSAGE_ES = "No tengo una respuesta para eso todavía. Probá con 'ayuda' para ver qué puedo hacer, o usá 'géneros' para elegir un tipo de guion.";
+const FALLBACK_MESSAGE_EN = "I don't have an answer for that yet. Try 'help' to see what I can do, or use 'genres' to pick a script type.";
 
-const WELCOME_MESSAGE = "Bienvenido a NeuraScript. Estoy acá para ayudarte a explorar contenido creativo, personajes, mundos e ideas. Escribí 'ayuda' para comenzar.";
+const WELCOME_MESSAGE_ES = "Bienvenido a NeuraScript. Estoy acá para ayudarte a explorar contenido creativo, personajes, mundos e ideas. Escribí 'ayuda' para comenzar.";
+const WELCOME_MESSAGE_EN = "Welcome to NeuraScript. I'm here to help you explore creative content, characters, worlds, and ideas. Type 'help' to get started.";
 
 /* ===================================================
    ⬇️  LÍMITE DE USO DE LA IA
@@ -1104,7 +1899,7 @@ let   aiUseCount   = 0;   // contador en memoria (se resetea al recargar)
 /* ===================================================
    ⬇️  PERSONAJES — editá las descripciones acá
    =================================================== */
-const PERSONAJES = [
+const PERSONAJES_ES = [
     {
         nombre: "Marcos (34)",
         emoji:  "🎬",
@@ -1148,6 +1943,61 @@ const PERSONAJES = [
         descripcion: "(interpretado por Diego Martin) Es un productor y guionista de una productora audiovisual importante de Buenos Aires. Mario rechaza la primera versión del guión de Marcos diciendo que su escritura es aburrida y poco creativa pero luego de leer la segunda versión del guión (hecha por NeuraScript) éste se sorprende por la rápida mejoría y acepta trabajar con Marcos."
     }
 ];
+
+/* ===================================================
+   ⬇️  PERSONAJES (ENGLISH)
+   =================================================== */
+const PERSONAJES_EN = [
+    {
+        nombre: "Marcos (34)",
+        emoji:  "🎬",
+        descripcion: "(played by Nicolas Furtado) He's a theater teacher who works at a neighborhood theater in Boedo. He likes his job, and his students and the local community appreciate him a lot, but it's not what he really wants to do. He's a kind but ambitious person in his pursuit of fame, wanting to restart his career as a writer, director, and actor in his own films. He finds a way to succeed via the \"shortcut\" by using NeuraScript."
+    },
+    {
+        nombre: "Ángel (34)",
+        emoji:  "😇",
+        descripcion: "(played by Santiago Talledo) He's a famous actor, respected by both critics and audiences. He used to be Marcos's best friend, but they drifted apart when he started becoming well-known. He's egocentric and self-absorbed, only thinking about his own needs and constantly craving admiration. He doesn't want Marcos to overshadow his image, so he'll do everything possible to push Marcos out of \"his place\" in the film industry."
+    },
+    {
+        nombre: "The Genie (50)",
+        emoji:  "🧞",
+        descripcion: "(played by César Troncoso) A singular and mysterious employee at Bügel, where he develops AI apps for \"artistic minds.\" He used to work with other developers, but because of his somewhat strange personality, he was moved to the \"Unauthorized Algorithms\" department. He gives Marcos an app called NeuraScript, specialized in creating and correcting screenwriting."
+    },
+    {
+        nombre: "Freddy Castelli (63)",
+        emoji:  "📺",
+        descripcion: "(played by Diego Peretti) He started out as a comedic soap opera actor before becoming the charismatic host of a long-running TV show, famous for hosting his self-titled program \"The Freddy Castelli Show\" for over 30 years. He has a fixation on Spanish film actress Luz de la Vega."
+    },
+    {
+        nombre: "Luz de la Vega (50)",
+        emoji:  "🎭",
+        descripcion: "(played by Maribel Verdú) An acclaimed Spanish film actress who started out very young in the '80s and remained brilliant until the tragic death of her beloved husband, after which she hasn't acted again in twenty years. During that time she developed deep superstitions about death and bad luck. She's Freddy Castelli's favorite actress, which is why Marcos convinces her to return to acting for his next film."
+    },
+    {
+        nombre: "Felipe (28)",
+        emoji:  "🕵️",
+        descripcion: "(played by Martín Slipak) He's Ángel's loyal assistant, and even though Ángel sometimes belittles him, Felipe is always ready to do whatever he asks. He's a costume and disguise enthusiast but keeps it secret — though later, this skill becomes essential for sabotaging Marcos's shoot."
+    },
+    {
+        nombre: "Mario (38)",
+        emoji:  "📝",
+        descripcion: "(played by Diego Martin) He's a producer and screenwriter at a major audiovisual production company in Buenos Aires. Mario rejects the first version of Marcos's script, calling his writing boring and uncreative, but after reading the second version (written by NeuraScript), he's surprised by the rapid improvement and agrees to work with Marcos."
+    }
+];
+
+
+/* ===================================================
+   ⬇️  RESOLUCIÓN DE IDIOMA
+   ---------------------------------------------------
+   Usa i18n.js (getLang) para elegir el diccionario
+   activo entre las versiones _ES y _EN.
+   =================================================== */
+const LANG            = (typeof getLang === "function") ? getLang() : "es";
+const ALIASES         = LANG === "en" ? ALIASES_EN         : ALIASES_ES;
+const BOT_RESPONSES   = LANG === "en" ? BOT_RESPONSES_EN    : BOT_RESPONSES_ES;
+const PERSONAJES      = LANG === "en" ? PERSONAJES_EN       : PERSONAJES_ES;
+const WELCOME_MESSAGE = LANG === "en" ? WELCOME_MESSAGE_EN  : WELCOME_MESSAGE_ES;
+const FALLBACK_MESSAGE= LANG === "en" ? FALLBACK_MESSAGE_EN : FALLBACK_MESSAGE_ES;
 
 
 /* ===================================================
@@ -1195,7 +2045,7 @@ function addImage(url) {
     div.className = "message bot";
     const img = document.createElement("img");
     img.src = url;
-    img.alt = "Imagen generada";
+    img.alt = t("image.generatedAlt");
     div.appendChild(img);
     chat.appendChild(div);
     scrollToBottom();
@@ -1218,7 +2068,7 @@ function addList(items) {
 
 /* Muestra QR como imagen local + link clickeable */
 function addQR(response) {
-    addMessage(response.message || "Generando código QR...", "bot");
+    addMessage(response.message || t("qr.generating"), "bot");
     setInputLocked(true);
     showTyping();
     setTimeout(() => {
@@ -1234,17 +2084,17 @@ function addQR(response) {
         link.href   = response.qrUrl || "https://youtu.be/dQw4w9WgXcQ";
         link.target = "_blank";
         link.rel    = "noopener noreferrer";
-        link.title  = "Abrir enlace";
+        link.title  = t("link.open");
 
         const img = document.createElement("img");
         img.src = "img/qr.png";
-        img.alt = "Código QR — tocá para abrir";
+        img.alt = t("qr.alt");
 
         link.appendChild(img);
 
         const caption = document.createElement("p");
         caption.className = "qr-caption";
-        caption.textContent = (response.caption || "") + " (tocá para abrir)";
+        caption.textContent = (response.caption || "") + t("qr.tapToOpen");
 
         div.appendChild(link);
         div.appendChild(caption);
@@ -1358,7 +2208,7 @@ function addPersonajes() {
     const div = document.createElement("div");
     div.className = "message bot personajes-card";
     div.innerHTML = `
-        <div class="ficha-title">🎭 Personajes</div>
+        <div class="ficha-title">${t("card.characters")}</div>
         <div class="personajes-list">
             ${PERSONAJES.map(p => `
                 <div class="personaje-item">
@@ -1399,7 +2249,7 @@ function showLimitPopup() {
 
             <div class="limit-popup-body">
                 <p class="limit-popup-msg">
-                    Has delegado mucho tu creatividad a NeuraScript. Si deseas continuar, puedes seguir trabajando en ello con tu esfuerzo y dedicación
+                    ${t("limit.message")}
                 </p>
 
                 <!--
@@ -1413,7 +2263,7 @@ function showLimitPopup() {
                     class="limit-popup-btn"
                     id="limitPopupBtn"
                 >
-                    Finalizar
+                    ${t("limit.finish")}
                 </a>
             </div>
         </div>
@@ -1448,15 +2298,14 @@ function showThanksPopup() {
             <div class="limit-popup-body">
                 <div class="thanks-icon">🎬</div>
                 <p class="limit-popup-msg thanks-msg">
-                    Gracias por probar el simulador de NeuraScript.<br>
-                    Esperamos que hayas disfrutado la experiencia.
+                    ${t("thanks.message")}
                 </p>
                 <a
                     href="#"
                     class="limit-popup-btn"
                     id="thanksPopupBtn"
                 >
-                    Volver al Menú Principal
+                    ${t("thanks.backHome")}
                 </a>
             </div>
         </div>
@@ -1540,7 +2389,7 @@ function makeChatImagesClickable(container) {
    =================================================== */
 
 function addYoutube(response) {
-    addMessage(response.message || "Cargando video...", "bot");
+    addMessage(response.message || t("video.loading"), "bot");
     setInputLocked(true);
     showTyping();
 
@@ -1580,25 +2429,25 @@ function addYoutube(response) {
 
 function addFicha(data) {
     const fields = [
-        ["Nombre del Proyecto", data.proyecto],
-        ["Formato",             data.formato],
-        ["Género",              data.genero],
-        ["Tono",                data.tono],
-        ["Duración",            data.duracion],
-        ["Directora",           data.directora],
-        ["Productora",          data.productora],
-        ["Guionista",           data.guionista],
-        ["Público Objetivo",    data.publico]
+        [t("ficha.proyecto"),  data.proyecto],
+        [t("ficha.formato"),   data.formato],
+        [t("ficha.genero"),    data.genero],
+        [t("ficha.tono"),      data.tono],
+        [t("ficha.duracion"),  data.duracion],
+        [t("ficha.directora"), data.directora],
+        [t("ficha.productora"), data.productora],
+        [t("ficha.guionista"), data.guionista],
+        [t("ficha.publico"),   data.publico]
     ];
 
     const div = document.createElement("div");
     div.className = "message bot ficha-card";
     div.innerHTML = `
-        <div class="ficha-title">🎬 Ficha Técnica</div>
+        <div class="ficha-title">${t("card.factsheet")}</div>
         <img
             src="img/ideasprestadas.webp"
             class="ficha-portada"
-            alt="Portada — ${data.proyecto}"
+            alt="${t("ficha.alt")}${data.proyecto}"
             style="cursor:zoom-in"
             onerror="this.style.display='none'"
         >
@@ -1627,14 +2476,14 @@ function addPresupuesto(data) {
     const div = document.createElement("div");
     div.className = "message bot presupuesto-card";
     div.innerHTML = `
-        <div class="ficha-title">💰 Presupuesto Estimado</div>
+        <div class="ficha-title">${t("card.budget")}</div>
         <div class="presupuesto-row">
-            <span class="presupuesto-label">En Pesos Argentinos</span>
+            <span class="presupuesto-label">${t("presupuesto.ars")}</span>
             <span class="presupuesto-amount ars">${data.ars}</span>
         </div>
         <div class="presupuesto-divider"></div>
         <div class="presupuesto-row">
-            <span class="presupuesto-label">En Dólares</span>
+            <span class="presupuesto-label">${t("presupuesto.usd")}</span>
             <span class="presupuesto-amount usd">${data.usd}</span>
         </div>
     `;
@@ -1650,7 +2499,7 @@ function addFinanciacion(items) {
     const div = document.createElement("div");
     div.className = "message bot financiacion-card";
     div.innerHTML = `
-        <div class="ficha-title">🤝 Financiación</div>
+        <div class="ficha-title">${t("card.financing")}</div>
         <div class="financiacion-grid">
             ${items.map(item => `
                 <div class="financiacion-item">
@@ -1687,7 +2536,7 @@ function addElenco(actores) {
     const div = document.createElement("div");
     div.className = "message bot elenco-card";
     div.innerHTML = `
-        <div class="ficha-title">🎭 Elenco Tentativo</div>
+        <div class="ficha-title">${t("card.cast")}</div>
         <div class="elenco-grid">
             ${actores.map(a => `
                 <div class="elenco-item">
@@ -1713,7 +2562,7 @@ function addElenco(actores) {
    =================================================== */
 
 function addMoodboard(response) {
-    addMessage(response.message || "Generando moodboard...", "bot");
+    addMessage(response.message || t("moodboard.generating"), "bot");
     setInputLocked(true);
     showTyping();
 
@@ -1725,8 +2574,8 @@ function addMoodboard(response) {
         [response.slide1, response.slide2].forEach((slide, si) => {
             const cols  = si === 0 ? 4 : 4;   /* slide1: 5 col, slide2: 4 col */
             const label = si === 0
-                ? `Slide 1 — Moodboard (${slide.length} imágenes)`
-                : `Slide 2 — Moodboard (${slide.length} imágenes)`;
+                ? `${t("moodboard.slide1")} (${slide.length} ${t("moodboard.images")})`
+                : `${t("moodboard.slide2")} (${slide.length} ${t("moodboard.images")})`;
 
             const div = document.createElement("div");
             div.className = "message bot moodboard-block";
@@ -1739,7 +2588,7 @@ function addMoodboard(response) {
                             <div class="moodboard-cell ${isPaleta ? "paleta-cell" : ""}">
                                 ${src
                                     ? `<img src="${src}" alt="Imagen ${i+1}" style="cursor:zoom-in">`
-                                    : `<div class="moodboard-placeholder">${isPaleta ? "🎨 Paleta" : (i+1)}</div>`
+                                    : `<div class="moodboard-placeholder">${isPaleta ? t("moodboard.palette") : (i+1)}</div>`
                                 }
                             </div>
                         `;
@@ -1759,7 +2608,7 @@ function addMoodboard(response) {
    =================================================== */
 
 function addPortada(response) {
-    addMessage(response.message || "Generando portada...", "bot");
+    addMessage(response.message || t("portada.generating"), "bot");
 
     setInputLocked(true);
     showTyping();
@@ -1778,7 +2627,7 @@ function addPortada(response) {
                 div.innerHTML = `
                     <img
                         src="${src}"
-                        alt="Portada ${index + 1}"
+                        alt="${t("portada.alt")} ${index + 1}"
                         class="portada-img"
                         style="cursor:zoom-in"
                     >
@@ -1808,7 +2657,7 @@ function addPortada(response) {
      nombre, link, lugar, fecha, categoria,
      categoriaLink, foto, color
    =================================================== */
-const RECORRIDO_PARADAS = [
+const RECORRIDO_PARADAS_ES = [
     { nombre: "Bolivia Lab",                                       link: "https://www.bolivialab.com.bo",                                          lugar: "La Paz, Bolivia",          fecha: "04/08/2027 - 22/08/2027", categoria: "Laboratorio de Análisis y Clínica de Proyectos en Desarrollo", categoriaLink: "https://www.bolivialab.com.bo/wp-content/uploads/2026/03/Laboratorio-2026.pdf?pid=187", foto: "img/recorrido/Bolivia.png",      color: "#fff" },
     { nombre: "ECM+Lab",                                           link: "https://www.famdetodos.com.br/ecm",                                      lugar: "Florianópolis, Brasil",    fecha: "03/06/2027 - 30/07/2027", categoria: "Laboratorio de Proyectos en Desarrollo",                        categoriaLink: "",                                                                                     foto: "img/recorrido/ecmlab.jpg",       color: "#fff" },
     { nombre: "ECM Mercado",                                       link: "https://www.famdetodos.com.br/ecm",                                      lugar: "Florianópolis, Brasil",    fecha: "04/09/2027 - 06/09/2027", categoria: "Mercado de Proyectos en Desarrollo",                            categoriaLink: "",                                                                                     foto: "img/recorrido/ECM.png",          color: "#fff" },
@@ -1818,10 +2667,22 @@ const RECORRIDO_PARADAS = [
     { nombre: "Festival Internacional de Cine de Mar del Plata",  link: "https://mardelplatafilmfest.com/41/es/",                                 lugar: "Mar del Plata, Argentina", fecha: "06/11/2028",              categoria: "Competencia Argentina de Largometrajes",                        categoriaLink: "",                                                                                     foto: "img/recorrido/mdq.webp",         color: "#fff" },
 ];
 
+const RECORRIDO_PARADAS_EN = [
+    { nombre: "Bolivia Lab",                                       link: "https://www.bolivialab.com.bo",                                          lugar: "La Paz, Bolivia",          fecha: "Aug 4–22, 2027",       categoria: "Development Project Analysis & Clinic Lab",      categoriaLink: "https://www.bolivialab.com.bo/wp-content/uploads/2026/03/Laboratorio-2026.pdf?pid=187", foto: "img/recorrido/Bolivia.png",      color: "#fff" },
+    { nombre: "ECM+Lab",                                           link: "https://www.famdetodos.com.br/ecm",                                      lugar: "Florianópolis, Brazil",    fecha: "Jun 3 – Jul 30, 2027", categoria: "Development Projects Lab",                       categoriaLink: "",                                                                                     foto: "img/recorrido/ecmlab.jpg",       color: "#fff" },
+    { nombre: "ECM Market",                                        link: "https://www.famdetodos.com.br/ecm",                                      lugar: "Florianópolis, Brazil",    fecha: "Sep 4–6, 2027",        categoria: "Development Projects Market",                    categoriaLink: "",                                                                                     foto: "img/recorrido/ECM.png",          color: "#fff" },
+    { nombre: "Iber Series & Platino",                             link: "https://iberseriesplatinoindustria.com/",                                lugar: "Madrid, Spain",            fecha: "Sep 29 – Oct 2, 2027", categoria: "Platforms & Producers Pitch",                    categoriaLink: "https://iberseriesplatinoindustria.com/actividadespro/foro-de-coproduccion-y-financiacion/", foto: "img/recorrido/iberseries.png", color: "#fff" },
+    { nombre: "Ventana Sur",                                       link: "https://ventana-sur.com/",                                              lugar: "Montevideo, Uruguay",      fecha: "Dec 1–5, 2027",        categoria: "Ventana Sur Proyecta",                           categoriaLink: "https://ventana-sur.com/proyecta/",                                                    foto: "img/recorrido/ventana-sur.png",  color: "#fff" },
+    { nombre: "San Sebastián International Film Festival",         link: "https://www.sansebastianfestival.com/2025/festival_diary/2/in",          lugar: "San Sebastián, Spain",     fecha: "Sep 17–25, 2028",      categoria: "Horizontes Latinos",                             categoriaLink: "",                                                                                     foto: "img/recorrido/ssiff.png",        color: "#fff" },
+    { nombre: "Mar del Plata International Film Festival",         link: "https://mardelplatafilmfest.com/41/es/",                                 lugar: "Mar del Plata, Argentina", fecha: "Nov 6, 2028",          categoria: "Argentine Feature Film Competition",             categoriaLink: "",                                                                                     foto: "img/recorrido/mdq.webp",         color: "#fff" },
+];
+
+const RECORRIDO_PARADAS = LANG === "en" ? RECORRIDO_PARADAS_EN : RECORRIDO_PARADAS_ES;
+
 /* Construye el HTML del recorrido — compartido por chat y sandbox */
 function _buildRecorridoHTML(paradas) {
     return `
-        <div class="ficha-title">🗺️ Recorrido de Laboratorios, Mercados y Festivales</div>
+        <div class="ficha-title">${t("card.tour")}</div>
         <div class="recorrido-timeline">
             ${paradas.map((p, i) => `
                 <div class="recorrido-parada" style="animation-delay:${i * 0.18}s">
@@ -1857,7 +2718,7 @@ function _buildRecorridoHTML(paradas) {
 }
 
 function addRecorrido(response) {
-    addMessage(response.message || "Cargando recorrido de Laboratorios, Mercados y Festivales...", "bot");
+    addMessage(response.message || t("tour.loading"), "bot");
     setInputLocked(true);
     showTyping();
 
@@ -2028,7 +2889,7 @@ function renderHistoryItem(chat) {
     btn.innerHTML = `
         <span class="hist-icon">💬</span>
         <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${chat.label}</span>
-        <span class="hist-delete" title="Borrar chat">🗑</span>
+        <span class="hist-delete" title="${t('history.delete')}">🗑</span>
     `;
     btn.title = chat.label;
 
@@ -2048,7 +2909,7 @@ function renderHistoryItem(chat) {
             btn.remove();
             /* Si no quedan items, mostrar placeholder */
             if (!historyList.querySelector(".history-item")) {
-                historyList.innerHTML = `<p class="sidebar-empty">Tus conversaciones aparecerán acá.</p>`;
+                historyList.innerHTML = `<p class="sidebar-empty">${t("sidebar.empty")}</p>`;
                 /* Ocultar botón borrar todo */
                 const clearBtn = document.getElementById("clearAllBtn");
                 if (clearBtn) clearBtn.style.display = "none";
@@ -2121,8 +2982,8 @@ function _renderMoodboardStatic(slides) {
     slides.forEach((slide, si) => {
         const cols  = si === 0 ? 4 : 4;
         const label = si === 0
-            ? `Slide 1 — Moodboard (${slide.length} imágenes)`
-            : `Slide 2 — Moodboard (${slide.length} imágenes)`;
+            ? `${t("moodboard.slide1")} (${slide.length} ${t("moodboard.images")})`
+            : `${t("moodboard.slide2")} (${slide.length} ${t("moodboard.images")})`;
         const div = document.createElement("div");
         div.className = "message bot moodboard-block";
         div.innerHTML = `
@@ -2133,7 +2994,7 @@ function _renderMoodboardStatic(slides) {
                     return `<div class="moodboard-cell ${isPaleta ? "paleta-cell" : ""}">
                         ${src
                             ? `<img src="${src}" alt="Imagen ${i+1}" style="cursor:zoom-in">`
-                            : `<div class="moodboard-placeholder">${isPaleta ? "🎨 Paleta" : (i+1)}</div>`
+                            : `<div class="moodboard-placeholder">${isPaleta ? t("moodboard.palette") : (i+1)}</div>`
                         }
                     </div>`;
                 }).join("")}
@@ -2276,26 +3137,28 @@ window.addEventListener("beforeunload", () => {
 });
 
 /* ── CHIPS DE SUGERENCIAS ── */
-const SUGGESTION_CHIPS = [
-    { label: "🎭 Personajes",      key: "__personajes__" },
-    { label: "🖼️ Portada",        key: "portada" },
-    { label: "🎬 Ficha Técnica",  key: "ficha tecnica" },
-    { label: "📖 Logline",         key: "logline" },
-    { label: "📜 Storyline",       key: "storyline" },
-    { label: "🎨 Moodboard",       key: "moodboard" },
-    { label: "💰 Presupuesto",     key: "presupuesto" },
-    { label: "🤝 Financiamiento",  key: "financiacion" },
-    { label: "🎭 Elenco",          key: "elenco tentativo" },
-    { label: "🗺️ Recorrido",       key: "recorrido de laboratorios, mercados y festivales" },
-    { label: "🎞 Teaser",          key: "teaser" },
-];
+function getSuggestionChips() {
+    return [
+        { label: t("menu.characters"),  key: "__personajes__" },
+        { label: t("menu.cover"),        key: "portada" },
+        { label: t("menu.factsheet"),    key: "ficha tecnica" },
+        { label: t("menu.logline"),      key: "logline" },
+        { label: t("menu.storyline"),    key: "storyline" },
+        { label: t("menu.moodboard"),    key: "moodboard" },
+        { label: t("menu.budget"),       key: "presupuesto" },
+        { label: t("menu.financing"),    key: "financiacion" },
+        { label: t("menu.cast"),         key: "elenco tentativo" },
+        { label: t("menu.tour"),         key: "recorrido de laboratorios, mercados y festivales" },
+        { label: t("menu.teaser"),       key: "teaser" },
+    ];
+}
 
 const chipsBar = document.getElementById("chipsBar");
 
 function buildChips() {
     if (!chipsBar) return;
     chipsBar.innerHTML = "";
-    SUGGESTION_CHIPS.forEach(({ label, key }) => {
+    getSuggestionChips().forEach(({ label, key }) => {
         const btn = document.createElement("button");
         btn.className = "chip-btn";
         btn.textContent = label;
@@ -2331,12 +3194,12 @@ addMessage(WELCOME_MESSAGE, "bot");
 const clearAllBtn = document.getElementById("clearAllBtn");
 if (clearAllBtn) {
     clearAllBtn.addEventListener("click", async () => {
-        if (!confirm("¿Borrar todo el historial? Esta acción no se puede deshacer.")) return;
-        clearAllBtn.textContent = "Borrando...";
+        if (!confirm(t("history.confirmClear"))) return;
+        clearAllBtn.textContent = t("sidebar.clearing");
         clearAllBtn.disabled = true;
         const ok = await apiDeleteAllChats();
         if (ok) {
-            historyList.innerHTML = `<p class="sidebar-empty">Tus conversaciones aparecerán acá.</p>`;
+            historyList.innerHTML = `<p class="sidebar-empty">${t("sidebar.empty")}</p>`;
             clearAllBtn.style.display = "none";
         }
         clearAllBtn.disabled = false;

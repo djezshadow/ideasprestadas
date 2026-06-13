@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
 <script>if(localStorage.getItem("ns_darkmode")==="1"){document.documentElement.classList.add("dark-mode");}</script>
+<script src="i18n.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>NeuraScript — Acceso</title>
@@ -265,44 +266,44 @@
         <div id="screenAuth">
 
             <div class="auth-tabs">
-                <button class="auth-tab active" id="tabLogin"    onclick="showTab('login')">Iniciar sesión</button>
-                <button class="auth-tab"        id="tabRegister" onclick="showTab('register')">Registrarse</button>
+                <button class="auth-tab active" id="tabLogin"    onclick="showTab('login')" data-i18n="auth.tabLogin">Iniciar sesión</button>
+                <button class="auth-tab"        id="tabRegister" onclick="showTab('register')" data-i18n="auth.tabRegister">Registrarse</button>
             </div>
 
             <!-- LOGIN -->
             <div id="formLogin">
                 <div class="auth-field">
-                    <label>Usuario</label>
-                    <input type="text" id="loginUser" placeholder="tu_usuario" autocomplete="username">
+                    <label data-i18n="auth.username">Usuario</label>
+                    <input type="text" id="loginUser" data-i18n-placeholder="auth.userPlaceholder" placeholder="tu_usuario" autocomplete="username">
                 </div>
                 <div class="auth-field">
-                    <label>Contraseña</label>
-                    <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password">
+                    <label data-i18n="auth.password">Contraseña</label>
+                    <input type="password" id="loginPass" data-i18n-placeholder="auth.passwordPlaceholder" placeholder="••••••••" autocomplete="current-password">
                 </div>
-                <span class="auth-forgot-link" onclick="showScreen('forgot')">¿Olvidaste tu contraseña?</span>
-                <button class="auth-btn" id="loginBtn" onclick="doLogin()">Entrar</button>
-                <button class="auth-skip-btn" onclick="skipAuth()">Continuar sin cuenta →</button>
+                <span class="auth-forgot-link" onclick="showScreen('forgot')" data-i18n="auth.forgotLink">¿Olvidaste tu contraseña?</span>
+                <button class="auth-btn" id="loginBtn" onclick="doLogin()" data-i18n="auth.loginBtn">Entrar</button>
+                <button class="auth-skip-btn" onclick="skipAuth()" data-i18n="auth.skipBtn">Continuar sin cuenta →</button>
             </div>
 
             <!-- REGISTRO — con email reactivado -->
             <div id="formRegister" style="display:none">
                 <div class="auth-field">
-                    <label>Usuario</label>
-                    <input type="text" id="regUser" placeholder="tu_usuario" autocomplete="username">
+                    <label data-i18n="auth.username">Usuario</label>
+                    <input type="text" id="regUser" data-i18n-placeholder="auth.userPlaceholder" placeholder="tu_usuario" autocomplete="username">
                 </div>
                 <div class="auth-field">
-                    <label>Email</label>
+                    <label data-i18n="auth.email">Email</label>
                     <input type="email" id="regEmail" placeholder="tu@email.com" autocomplete="email">
                 </div>
                 <div class="auth-field">
-                    <label>Contraseña</label>
-                    <input type="password" id="regPass" placeholder="••••••••" autocomplete="new-password">
+                    <label data-i18n="auth.password">Contraseña</label>
+                    <input type="password" id="regPass" data-i18n-placeholder="auth.passwordPlaceholder" placeholder="••••••••" autocomplete="new-password">
                     <p class="auth-hint">
-                        ⚠️ Usá una contraseña genérica — no uses contraseñas de otros servicios.
+                        <span data-i18n="auth.hint">⚠️ Usá una contraseña genérica — no uses contraseñas de otros servicios.</span>
                     </p>
                 </div>
-                <button class="auth-btn" id="registerBtn" onclick="doRegister()">Crear cuenta</button>
-                <button class="auth-skip-btn" onclick="skipAuth()">Continuar sin cuenta →</button>
+                <button class="auth-btn" id="registerBtn" onclick="doRegister()" data-i18n="auth.registerBtn">Crear cuenta</button>
+                <button class="auth-skip-btn" onclick="skipAuth()" data-i18n="auth.skipBtn">Continuar sin cuenta →</button>
             </div>
 
             <div class="auth-msg" id="authMsg"></div>
@@ -313,18 +314,18 @@
              PANTALLA: OLVIDÉ MI CONTRASEÑA
              ══════════════════════════════════════ -->
         <div id="screenForgot" style="display:none">
-            <div class="auth-section-title">Recuperar contraseña</div>
+            <div class="auth-section-title" data-i18n="auth.forgotTitle">Recuperar contraseña</div>
             <div class="auth-section-sub">
-                Ingresá el email de tu cuenta y te mandamos un enlace para restablecer tu contraseña.
+                <span data-i18n="auth.forgotSub">Ingresá el email de tu cuenta y te mandamos un enlace para restablecer tu contraseña.</span>
             </div>
 
             <div class="auth-field">
-                <label>Email</label>
+                <label data-i18n="auth.email">Email</label>
                 <input type="email" id="forgotEmail" placeholder="tu@email.com" autocomplete="email">
             </div>
 
-            <button class="auth-btn" id="forgotBtn" onclick="doForgot()">Enviar enlace</button>
-            <button class="auth-skip-btn" onclick="showScreen('auth')">← Volver</button>
+            <button class="auth-btn" id="forgotBtn" onclick="doForgot()" data-i18n="auth.forgotBtn">Enviar enlace</button>
+            <button class="auth-skip-btn" onclick="showScreen('auth')" data-i18n="auth.backBtn">← Volver</button>
 
             <div class="auth-msg" id="forgotMsg"></div>
         </div>
@@ -333,21 +334,21 @@
              PANTALLA: NUEVA CONTRASEÑA (desde link)
              ══════════════════════════════════════ -->
         <div id="screenReset" style="display:none">
-            <div class="auth-section-title">Nueva contraseña</div>
+            <div class="auth-section-title" data-i18n="auth.resetTitle">Nueva contraseña</div>
             <div class="auth-section-sub">
-                Ingresá tu nueva contraseña. Tiene que tener al menos 6 caracteres.
+                <span data-i18n="auth.resetSub">Ingresá tu nueva contraseña. Tiene que tener al menos 6 caracteres.</span>
             </div>
 
             <div class="auth-field">
-                <label>Nueva contraseña</label>
+                <label data-i18n="auth.newPassword">Nueva contraseña</label>
                 <input type="password" id="resetPass" placeholder="••••••••" autocomplete="new-password">
             </div>
             <div class="auth-field">
-                <label>Confirmar contraseña</label>
+                <label data-i18n="auth.confirmPassword">Confirmar contraseña</label>
                 <input type="password" id="resetPassConfirm" placeholder="••••••••" autocomplete="new-password">
             </div>
 
-            <button class="auth-btn" id="resetBtn" onclick="doReset()">Guardar contraseña</button>
+            <button class="auth-btn" id="resetBtn" onclick="doReset()" data-i18n="auth.resetBtn">Guardar contraseña</button>
 
             <div class="auth-msg" id="resetMsg"></div>
         </div>
@@ -357,15 +358,15 @@
              ══════════════════════════════════════ -->
         <div id="screenResetOk" style="display:none">
             <div class="auth-success-icon">✅</div>
-            <div class="auth-section-title">¡Contraseña actualizada!</div>
+            <div class="auth-section-title" data-i18n="auth.resetOkTitle">¡Contraseña actualizada!</div>
             <div class="auth-section-sub" style="margin-bottom:24px;">
-                Tu contraseña fue cambiada exitosamente. Ya podés iniciar sesión.
+                <span data-i18n="auth.resetOkSub">Tu contraseña fue cambiada exitosamente. Ya podés iniciar sesión.</span>
             </div>
-            <button class="auth-btn" onclick="showScreen('auth')">Iniciar sesión</button>
+            <button class="auth-btn" onclick="showScreen('auth')" data-i18n="auth.loginBtn">Iniciar sesión</button>
         </div>
 
         <div class="auth-footer">
-            <a href="sobre-nosotros.html">Sobre Nosotros ↗</a>
+            <a href="sobre-nosotros.html" data-i18n="auth.aboutLink">Sobre Nosotros ↗</a>
         </div>
 
     </div>
@@ -429,11 +430,11 @@
     async function doLogin() {
         const username = document.getElementById("loginUser").value.trim();
         const password = document.getElementById("loginPass").value;
-        if (!username || !password) return showMsg("authMsg", "Completá todos los campos.", "error");
+        if (!username || !password) return showMsg("authMsg", t("auth.fillAll"), "error");
 
         const btn = document.getElementById("loginBtn");
         btn.disabled = true;
-        btn.textContent = "Entrando...";
+        btn.textContent = t("auth.entering");
 
         try {
             const res  = await fetch("/api/login", {
@@ -448,10 +449,10 @@
             localStorage.setItem("ns_username", data.username);
             window.location.href = "index.html";
         } catch {
-            showMsg("authMsg", "Error de conexión. Intentá de nuevo.", "error");
+            showMsg("authMsg", t("auth.connectionError"), "error");
         } finally {
             btn.disabled = false;
-            btn.textContent = "Entrar";
+            btn.textContent = t("auth.loginBtn");
         }
     }
 
@@ -463,11 +464,11 @@
         const email    = document.getElementById("regEmail").value.trim();
         const password = document.getElementById("regPass").value;
 
-        if (!username || !email || !password) return showMsg("authMsg", "Completá todos los campos.", "error");
+        if (!username || !email || !password) return showMsg("authMsg", t("auth.fillAll"), "error");
 
         const btn = document.getElementById("registerBtn");
         btn.disabled = true;
-        btn.textContent = "Creando cuenta...";
+        btn.textContent = t("auth.creating");
 
         try {
             const res  = await fetch("/api/register", {
@@ -478,13 +479,13 @@
             const data = await res.json();
             if (!res.ok) return showMsg("authMsg", data.error, "error");
 
-            showMsg("authMsg", "¡Cuenta creada! Iniciando sesión...", "success");
+            showMsg("authMsg", t("auth.accountCreated"), "success");
             setTimeout(() => doAutoLogin(username, password), 900);
         } catch {
-            showMsg("authMsg", "Error de conexión. Intentá de nuevo.", "error");
+            showMsg("authMsg", t("auth.connectionError"), "error");
         } finally {
             btn.disabled = false;
-            btn.textContent = "Crear cuenta";
+            btn.textContent = t("auth.registerBtn");
         }
     }
 
@@ -507,11 +508,11 @@
        ════════════════════════════════════════ */
     async function doForgot() {
         const email = document.getElementById("forgotEmail").value.trim();
-        if (!email) return showMsg("forgotMsg", "Ingresá tu email.", "error");
+        if (!email) return showMsg("forgotMsg", t("auth.enterEmail"), "error");
 
         const btn = document.getElementById("forgotBtn");
         btn.disabled = true;
-        btn.textContent = "Enviando...";
+        btn.textContent = t("auth.sending");
 
         try {
             const res  = await fetch("/api/forgot-password", {
@@ -526,15 +527,15 @@
             /* Siempre mostrar éxito (no revelar si el email existe) */
             showMsg(
                 "forgotMsg",
-                "Si ese email tiene una cuenta, te mandamos el enlace. Revisá también la carpeta de spam.",
+                t("auth.forgotSent"),
                 "success"
             );
             btn.style.display = "none";
         } catch {
-            showMsg("forgotMsg", "Error de conexión. Intentá de nuevo.", "error");
+            showMsg("forgotMsg", t("auth.connectionError"), "error");
         } finally {
             btn.disabled = false;
-            if (btn.style.display !== "none") btn.textContent = "Enviar enlace";
+            if (btn.style.display !== "none") btn.textContent = t("auth.forgotBtn");
         }
     }
 
@@ -545,14 +546,14 @@
         const newPassword = document.getElementById("resetPass").value;
         const confirm     = document.getElementById("resetPassConfirm").value;
 
-        if (!newPassword || !confirm)  return showMsg("resetMsg", "Completá los dos campos.", "error");
-        if (newPassword !== confirm)   return showMsg("resetMsg", "Las contraseñas no coinciden.", "error");
-        if (newPassword.length < 6)    return showMsg("resetMsg", "Mínimo 6 caracteres.", "error");
-        if (!resetToken)               return showMsg("resetMsg", "Token inválido. Pedí un nuevo enlace.", "error");
+        if (!newPassword || !confirm)  return showMsg("resetMsg", t("auth.fillBoth"), "error");
+        if (newPassword !== confirm)   return showMsg("resetMsg", t("auth.passwordMismatch"), "error");
+        if (newPassword.length < 6)    return showMsg("resetMsg", t("auth.minChars"), "error");
+        if (!resetToken)               return showMsg("resetMsg", t("auth.invalidToken"), "error");
 
         const btn = document.getElementById("resetBtn");
         btn.disabled = true;
-        btn.textContent = "Guardando...";
+        btn.textContent = t("auth.saving");
 
         try {
             const res  = await fetch("/api/reset-password", {
@@ -567,10 +568,10 @@
             resetToken = null;
             showScreen("resetOk");
         } catch {
-            showMsg("resetMsg", "Error de conexión. Intentá de nuevo.", "error");
+            showMsg("resetMsg", t("auth.connectionError"), "error");
         } finally {
             btn.disabled = false;
-            btn.textContent = "Guardar contraseña";
+            btn.textContent = t("auth.resetBtn");
         }
     }
 

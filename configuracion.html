@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
 <script>if(localStorage.getItem("ns_darkmode")==="1"){document.documentElement.classList.add("dark-mode");}</script>
+<script src="i18n.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>NeuraScript — Configuración</title>
@@ -216,6 +217,27 @@
 
     .config-switch input:checked + .config-switch-track::before {
         transform: translateX(22px);
+    }
+
+    /* ── Select de idioma ── */
+    .config-select {
+        flex-shrink: 0;
+        padding: 10px 14px;
+        background: rgba(255,255,255,.1);
+        border: 1.5px solid rgba(255,255,255,.24);
+        border-radius: 12px;
+        color: white;
+        font-family: inherit;
+        font-size: 0.88rem;
+        font-weight: 600;
+        outline: none;
+        cursor: pointer;
+        -webkit-appearance: none;
+        appearance: none;
+    }
+    .config-select option {
+        background: #0000cc;
+        color: white;
     }
 
     /* ── Info de usuario ── */
@@ -442,7 +464,7 @@
 
     <!-- ── Topbar ── -->
     <div class="config-topbar">
-        <a href="javascript:history.back()" class="config-back">← Volver</a>
+        <a href="javascript:history.back()" class="config-back" data-i18n="config.back">← Volver</a>
         <a href="index.html#menu" class="config-topbar-brand" title="Volver al menú">
             <img src="img/Neura 1.png" alt="NeuraScript">
             <span>NeuraScript</span>
@@ -452,25 +474,44 @@
     <!-- ── Cuerpo ── -->
     <div class="config-body">
 
-        <h1 class="config-heading">Configuración</h1>
-        <p class="config-sub">Personalizá tu experiencia y gestioná tu cuenta.</p>
+        <h1 class="config-heading" data-i18n="config.heading">Configuración</h1>
+        <p class="config-sub" data-i18n="config.sub">Personalizá tu experiencia y gestioná tu cuenta.</p>
 
         <!-- ══════════════════════════════════════
              APARIENCIA
              ══════════════════════════════════════ -->
         <div class="config-card">
-            <div class="config-card-title">🎨 Apariencia</div>
-            <div class="config-card-sub">Elegí cómo se ve NeuraScript en tu dispositivo.</div>
+            <div class="config-card-title" data-i18n="config.appearance.title">🎨 Apariencia</div>
+            <div class="config-card-sub" data-i18n="config.appearance.sub">Elegí cómo se ve NeuraScript en tu dispositivo.</div>
 
             <div class="config-row">
                 <div class="config-row-label">
-                    <div class="config-row-title">Modo azul oscuro</div>
-                    <div class="config-row-desc">Cambia el fondo a un tono de azul más oscuro, ideal para ambientes con poca luz.</div>
+                    <div class="config-row-title" data-i18n="config.darkmode.title">Modo azul oscuro</div>
+                    <div class="config-row-desc" data-i18n="config.darkmode.desc">Cambia el fondo a un tono de azul más oscuro, ideal para ambientes con poca luz.</div>
                 </div>
                 <label class="config-switch">
                     <input type="checkbox" id="darkModeToggle">
                     <span class="config-switch-track"></span>
                 </label>
+            </div>
+        </div>
+
+        <!-- ══════════════════════════════════════
+             IDIOMA
+             ══════════════════════════════════════ -->
+        <div class="config-card">
+            <div class="config-card-title" data-i18n="config.language.title">🌐 Idioma</div>
+            <div class="config-card-sub" data-i18n="config.language.sub">Elegí el idioma de NeuraScript.</div>
+
+            <div class="config-row">
+                <div class="config-row-label">
+                    <div class="config-row-title" data-i18n="config.language.label">Idioma de la interfaz</div>
+                    <div class="config-row-desc" data-i18n="config.language.desc">Cambia el idioma de todos los textos, menús y respuestas del asistente.</div>
+                </div>
+                <select class="config-select" id="langSelect">
+                    <option value="es">Español</option>
+                    <option value="en">English</option>
+                </select>
             </div>
         </div>
 
@@ -483,46 +524,46 @@
                 <div class="config-user-icon">👤</div>
                 <div>
                     <div class="config-user-name" id="accountUsername">—</div>
-                    <div class="config-user-tag">Cuenta activa</div>
+                    <div class="config-user-tag" data-i18n="config.account.active">Cuenta activa</div>
                 </div>
             </div>
 
             <!-- Cambiar contraseña -->
             <button class="config-action-btn" id="togglePasswordBtn">
-                <span>🔑 Cambiar contraseña</span>
+                <span data-i18n="config.changePassword">🔑 Cambiar contraseña</span>
                 <span class="config-chevron">▶</span>
             </button>
             <div class="config-panel" id="passwordPanel">
                 <div class="config-field">
-                    <label>Contraseña actual</label>
+                    <label data-i18n="config.currentPassword">Contraseña actual</label>
                     <input type="password" id="cpCurrent" placeholder="••••••••" autocomplete="current-password">
                 </div>
                 <div class="config-field">
-                    <label>Nueva contraseña</label>
+                    <label data-i18n="config.newPassword">Nueva contraseña</label>
                     <input type="password" id="cpNew" placeholder="••••••••" autocomplete="new-password">
                 </div>
                 <div class="config-field">
-                    <label>Confirmar nueva contraseña</label>
+                    <label data-i18n="config.confirmPassword">Confirmar nueva contraseña</label>
                     <input type="password" id="cpConfirm" placeholder="••••••••" autocomplete="new-password">
                 </div>
-                <button class="config-submit-btn" id="cpSubmitBtn">Guardar nueva contraseña</button>
+                <button class="config-submit-btn" id="cpSubmitBtn" data-i18n="config.savePassword">Guardar nueva contraseña</button>
                 <div class="config-msg" id="cpMsg"></div>
             </div>
 
             <!-- Eliminar cuenta -->
             <button class="config-action-btn danger" id="toggleDeleteBtn" style="margin-top:12px">
-                <span>🗑 Eliminar cuenta</span>
+                <span data-i18n="config.deleteAccount">🗑 Eliminar cuenta</span>
                 <span class="config-chevron">▶</span>
             </button>
             <div class="config-panel" id="deletePanel">
-                <p class="config-danger-warning">
+                <p class="config-danger-warning" data-i18n-html="config.deleteWarning">
                     Esta acción es <strong>permanente</strong>. Se eliminará tu cuenta y todo tu historial de chats, y no podrá recuperarse.
                 </p>
                 <div class="config-field">
-                    <label>Confirmá tu contraseña</label>
+                    <label data-i18n="config.confirmYourPassword">Confirmá tu contraseña</label>
                     <input type="password" id="delPassword" placeholder="••••••••" autocomplete="current-password">
                 </div>
-                <button class="config-submit-btn danger" id="delSubmitBtn">Eliminar mi cuenta para siempre</button>
+                <button class="config-submit-btn danger" id="delSubmitBtn" data-i18n="config.deleteForever">Eliminar mi cuenta para siempre</button>
                 <div class="config-msg" id="delMsg"></div>
             </div>
 
@@ -533,17 +574,17 @@
              ══════════════════════════════════════ -->
         <div class="config-card config-guest-card" id="guestCard" style="display:none">
             <div class="config-guest-icon">👤</div>
-            <p class="config-guest-text">
+            <p class="config-guest-text" data-i18n="config.guestText">
                 Iniciá sesión para cambiar tu contraseña o gestionar tu cuenta.
             </p>
-            <a href="auth.html" class="config-guest-btn">Iniciar sesión →</a>
+            <a href="auth.html" class="config-guest-btn" data-i18n="config.loginCta">Iniciar sesión →</a>
         </div>
 
     </div>
 
     <!-- Footer -->
     <div class="config-footer">
-        <p>© 2026 NeuraScript — Todos los derechos reservados</p>
+        <p data-i18n="footer.rights">© 2026 NeuraScript — Todos los derechos reservados</p>
     </div>
 
 </div>
@@ -563,6 +604,18 @@ darkToggle.addEventListener("change", () => {
         localStorage.setItem("ns_darkmode", "0");
         document.documentElement.classList.remove("dark-mode");
     }
+});
+
+/* ════════════════════════════════════════
+   IDIOMA
+   ════════════════════════════════════════ */
+const langSelect = document.getElementById("langSelect");
+langSelect.value = getLang();
+
+langSelect.addEventListener("change", () => {
+    setLang(langSelect.value);
+    /* Recargar para que se reescriba todo el contenido dinámico (bot, menús, etc.) */
+    window.location.reload();
 });
 
 /* ════════════════════════════════════════
@@ -611,18 +664,18 @@ document.getElementById("cpSubmitBtn").addEventListener("click", async () => {
     const confirmPassword = document.getElementById("cpConfirm").value;
 
     if (!currentPassword || !newPassword || !confirmPassword) {
-        return showMsg("cpMsg", "Completá todos los campos.", "error");
+        return showMsg("cpMsg", t("config.msg.fillAll"), "error");
     }
     if (newPassword.length < 6) {
-        return showMsg("cpMsg", "La nueva contraseña debe tener al menos 6 caracteres.", "error");
+        return showMsg("cpMsg", t("config.msg.passwordMinLen"), "error");
     }
     if (newPassword !== confirmPassword) {
-        return showMsg("cpMsg", "Las contraseñas no coinciden.", "error");
+        return showMsg("cpMsg", t("config.msg.passwordMismatch"), "error");
     }
 
     const btn = document.getElementById("cpSubmitBtn");
     btn.disabled = true;
-    btn.textContent = "Guardando...";
+    btn.textContent = t("config.saving");
 
     try {
         const res = await fetch("/api/change-password", {
@@ -635,17 +688,17 @@ document.getElementById("cpSubmitBtn").addEventListener("click", async () => {
         });
         const data = await res.json();
 
-        if (!res.ok) return showMsg("cpMsg", data.error || "No se pudo cambiar la contraseña.", "error");
+        if (!res.ok) return showMsg("cpMsg", data.error || t("config.msg.changeError"), "error");
 
-        showMsg("cpMsg", "¡Contraseña actualizada correctamente!", "success");
+        showMsg("cpMsg", t("config.msg.passwordChanged"), "success");
         document.getElementById("cpCurrent").value = "";
         document.getElementById("cpNew").value = "";
         document.getElementById("cpConfirm").value = "";
     } catch {
-        showMsg("cpMsg", "Error de conexión. Intentá de nuevo.", "error");
+        showMsg("cpMsg", t("config.msg.connectionError"), "error");
     } finally {
         btn.disabled = false;
-        btn.textContent = "Guardar nueva contraseña";
+        btn.textContent = t("config.savePassword");
     }
 });
 
@@ -657,16 +710,16 @@ document.getElementById("delSubmitBtn").addEventListener("click", async () => {
 
     const password = document.getElementById("delPassword").value;
     if (!password) {
-        return showMsg("delMsg", "Ingresá tu contraseña para confirmar.", "error");
+        return showMsg("delMsg", t("config.msg.enterPassword"), "error");
     }
 
-    if (!confirm("¿Estás seguro? Esta acción eliminará tu cuenta y todo tu historial de forma permanente.")) {
+    if (!confirm(t("config.msg.confirmDelete"))) {
         return;
     }
 
     const btn = document.getElementById("delSubmitBtn");
     btn.disabled = true;
-    btn.textContent = "Eliminando...";
+    btn.textContent = t("config.deleting");
 
     try {
         const res = await fetch("/api/delete-account", {
@@ -680,20 +733,20 @@ document.getElementById("delSubmitBtn").addEventListener("click", async () => {
         const data = await res.json();
 
         if (!res.ok) {
-            showMsg("delMsg", data.error || "No se pudo eliminar la cuenta.", "error");
+            showMsg("delMsg", data.error || t("config.msg.deleteError"), "error");
             btn.disabled = false;
-            btn.textContent = "Eliminar mi cuenta para siempre";
+            btn.textContent = t("config.deleteForever");
             return;
         }
 
-        showMsg("delMsg", "Cuenta eliminada. Hasta luego 👋", "success");
+        showMsg("delMsg", t("config.msg.accountDeleted"), "success");
         localStorage.removeItem("ns_token");
         localStorage.removeItem("ns_username");
         setTimeout(() => { window.location.href = "index.html"; }, 1500);
     } catch {
-        showMsg("delMsg", "Error de conexión. Intentá de nuevo.", "error");
+        showMsg("delMsg", t("config.msg.connectionError"), "error");
         btn.disabled = false;
-        btn.textContent = "Eliminar mi cuenta para siempre";
+        btn.textContent = t("config.deleteForever");
     }
 });
 </script>

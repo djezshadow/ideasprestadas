@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
 <script>if(localStorage.getItem("ns_darkmode")==="1"){document.documentElement.classList.add("dark-mode");}</script>
+<script src="i18n.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>NeuraScript</title>
@@ -21,13 +22,13 @@
 <div id="splash">
     <!-- Fase 1: solo el botón -->
     <div id="splashPhase1">
-        <button class="splash-start-btn" id="splashBtn">✦ Empezar</button>
+        <button class="splash-start-btn" id="splashBtn" data-i18n="splash.start">✦ Empezar</button>
     </div>
     <!-- Fase 2: animación del logo (oculta hasta click) -->
     <div id="splashPhase2">
         <img src="img/Neura 1.png" class="splash-logo" alt="NeuraScript">
         <div class="splash-name">NeuraScript</div>
-        <div class="splash-tagline">Tu asistente de guion</div>
+        <div class="splash-tagline" data-i18n="splash.tagline">Tu asistente de guion</div>
     </div>
 </div>
 
@@ -38,8 +39,8 @@
 
     <!-- Vista principal: el menú de chips -->
     <div id="welcomeMenu">
-        <div class="welcome-heading">¿Qué querés explorar?</div>
-        <div class="welcome-sub">Exploré el proyecto o entrá a la IA para escribir libremente.</div>
+        <div class="welcome-heading" data-i18n="welcome.heading">¿Qué querés explorar?</div>
+        <div class="welcome-sub" data-i18n="welcome.sub">Exploré el proyecto o entrá a la IA para escribir libremente.</div>
 
         <!-- ── Fila superior: Sobre Nosotros (sandbox) ── -->
         <div class="welcome-row-top" id="welcomeTop"></div>
@@ -53,7 +54,7 @@
 
     <!-- Vista sandbox: respuesta de la opción elegida -->
     <div id="sandboxPanel">
-        <button class="sandbox-back-btn" id="sandboxBackBtn">← Volver al menú</button>
+        <button class="sandbox-back-btn" id="sandboxBackBtn" data-i18n="sandbox.back">← Volver al menú</button>
         <div class="sandbox-content" id="sandboxContent"></div>
     </div>
 
@@ -79,17 +80,17 @@
 
         <button class="sidebar-new-chat" id="newChatBtn">
             <span class="icon">✦</span>
-            Nuevo chat
+            <span data-i18n="sidebar.newChat">Nuevo chat</span>
         </button>
 
-        <div class="sidebar-section-label">Recientes</div>
+        <div class="sidebar-section-label" data-i18n="sidebar.recent">Recientes</div>
         <nav class="sidebar-history" id="historyList">
-            <p class="sidebar-empty">Tus conversaciones aparecerán acá.</p>
+            <p class="sidebar-empty" data-i18n="sidebar.empty">Tus conversaciones aparecerán acá.</p>
         </nav>
 
         <button class="sidebar-clear-all" id="clearAllBtn" style="display:none">
             <span class="sidebar-link-icon">🗑</span>
-            Borrar todo el historial
+            <span data-i18n="sidebar.clearAll">Borrar todo el historial</span>
         </button>
 
         <div class="sidebar-spacer"></div>
@@ -97,15 +98,15 @@
         <div class="sidebar-bottom">
             <a href="sobre-nosotros.html" class="sidebar-link">
                 <span class="sidebar-link-icon">🎬</span>
-                Sobre Nosotros
+                <span data-i18n="sidebar.aboutUs">Sobre Nosotros</span>
             </a>
             <a target="" href="configuracion.html" class="sidebar-link">
                 <span class="sidebar-link-icon">⚙</span>
-                Configuración
+                <span data-i18n="sidebar.settings">Configuración</span>
             </a>
             <a href="contacto.html" class="sidebar-link">
                 <span class="sidebar-link-icon">✉</span>
-                Contacto
+                <span data-i18n="sidebar.contact">Contacto</span>
             </a>
             <div class="sidebar-version">v1.2.1</div>
         </div>
@@ -123,7 +124,7 @@
         <!-- Topbar mobile -->
         <div class="topbar">
             <button class="topbar-menu-btn" id="menuBtn" aria-label="Abrir menú">☰</button>
-            <span class="topbar-title" id="logoHomeBtnMobile" title="Volver al menú" style="cursor:pointer">NeuraScript</span>
+            <span class="topbar-title" id="logoHomeBtnMobile" style="cursor:pointer" data-i18n-title="sidebar.logoutTitle" data-i18n="topbar.title">NeuraScript</span>
             <div class="topbar-spacer"></div>
             <!-- Botón login para invitados -->
             <div id="topbarLoginArea"></div>
@@ -153,6 +154,7 @@
                 <input
                     id="messageInput"
                     placeholder="Escribe tu idea de guion..."
+                data-i18n-placeholder="input.placeholder"
                     autocomplete="off"
                     autocorrect="off"
                     autocapitalize="sentences"
@@ -180,7 +182,7 @@ if (_token && _username) {
         <div class="sidebar-user">
             <span class="sidebar-user-icon">👤</span>
             <span class="sidebar-user-name">${_username}</span>
-            <button class="sidebar-logout-btn" id="logoutBtn" title="Cerrar sesión">↩</button>
+            <button class="sidebar-logout-btn" id="logoutBtn" data-i18n-title="sidebar.logoutTitle" title="Cerrar sesión">↩</button>
         </div>`;
     document.getElementById("logoutBtn").addEventListener("click", () => {
         localStorage.removeItem("ns_token");
@@ -241,8 +243,8 @@ splashBtn.addEventListener("click", () => {
    ─────────────────────────────────────────────────────────── */
 const MENU_TOP = {
     icon:  "📃",
-    label: "Sobre Nosotros",
-    key:   "__sobrenosotros__"   // clave interna — no la cambies
+    get label() { return t("menu.aboutUs"); },
+    key:   "__sobrenosotros__"
 };
 
 /* ═══════════════════════════════════════════════════════════
@@ -260,17 +262,17 @@ const MENU_TOP = {
    en script.js buscando la key correspondiente.
    ─────────────────────────────────────────────────────────── */
 const MENU_ITEMS = [
-    { icon: "🎭", label: "Personajes",     key: "__personajes_menu__" },
-    { icon: "🖼️", label: "Portada",        key: "portada"        },
-    { icon: "🎬", label: "Ficha Técnica",  key: "ficha tecnica"        },
-    { icon: "📖", label: "Logline",        key: "logline"               },
-    { icon: "📜", label: "Storyline",      key: "storyline"             },
-    { icon: "🎨", label: "Moodboard",      key: "moodboard"             },
-    { icon: "💰", label: "Presupuesto",    key: "presupuesto"           },
-    { icon: "🤝", label: "Financiamiento", key: "financiacion"          },
-    { icon: "🎭", label: "Elenco",         key: "elenco tentativo"      },
-    { icon: "🗺️", label: "Recorrido",      key: "recorrido de laboratorios, mercados y festivales" },
-    { icon: "🎞", label: "Teaser",         key: "teaser"                },
+    { icon: "🎭", get label() { return t("menu.characters"); },  key: "__personajes_menu__" },
+    { icon: "🖼️", get label() { return t("menu.cover"); },       key: "portada"        },
+    { icon: "🎬", get label() { return t("menu.factsheet"); },   key: "ficha tecnica"        },
+    { icon: "📖", get label() { return t("menu.logline"); },     key: "logline"               },
+    { icon: "📜", get label() { return t("menu.storyline"); },   key: "storyline"             },
+    { icon: "🎨", get label() { return t("menu.moodboard"); },   key: "moodboard"             },
+    { icon: "💰", get label() { return t("menu.budget"); },      key: "presupuesto"           },
+    { icon: "🤝", get label() { return t("menu.financing"); },   key: "financiacion"          },
+    { icon: "🎭", get label() { return t("menu.cast"); },        key: "elenco tentativo"      },
+    { icon: "🗺️", get label() { return t("menu.tour"); },        key: "recorrido de laboratorios, mercados y festivales" },
+    { icon: "🎞", get label() { return t("menu.teaser"); },      key: "teaser"                },
 ];
 
 /* ═══════════════════════════════════════════════════════════
@@ -279,7 +281,7 @@ const MENU_ITEMS = [
    ─────────────────────────────────────────────────────────── */
 const MENU_BOTTOM = {
     icon:  "🤖",
-    label: "Probar Simulador de NeuraScript"
+    get label() { return t("menu.useAI"); }
 };
 
 /* ─── SANDBOX: render de respuesta dentro del overlay ─── */
@@ -444,21 +446,21 @@ function renderSandboxResponse(response, key) {
 
 function renderSbFicha(data) {
     const fields = [
-        ["Nombre del Proyecto", data.proyecto],
-        ["Formato",             data.formato],
-        ["Género",              data.genero],
-        ["Tono",                data.tono],
-        ["Duración",            data.duracion],
-        ["Directora",           data.directora],
-        ["Productora",          data.productora],
-        ["Guionista",           data.guionista],
-        ["Público Objetivo",    data.publico]
+        [t("ficha.proyecto"),  data.proyecto],
+        [t("ficha.formato"),   data.formato],
+        [t("ficha.genero"),    data.genero],
+        [t("ficha.tono"),      data.tono],
+        [t("ficha.duracion"),  data.duracion],
+        [t("ficha.directora"), data.directora],
+        [t("ficha.productora"), data.productora],
+        [t("ficha.guionista"), data.guionista],
+        [t("ficha.publico"),   data.publico]
     ];
     const div = document.createElement("div");
     div.className = "message bot ficha-card";
     div.innerHTML = `
-        <div class="ficha-title">🎬 Ficha Técnica</div>
-        <img src="img/ideasprestadas.webp" class="ficha-portada" alt="Portada" style="cursor:zoom-in" onerror="this.style.display='none'">
+        <div class="ficha-title">${t("card.factsheet")}</div>
+        <img src="img/ideasprestadas.webp" class="ficha-portada" alt="${t('portada.alt')}" style="cursor:zoom-in" onerror="this.style.display='none'">
         <div class="ficha-subtitle">${data.proyecto}</div>
         <table class="ficha-table">
             ${fields.map(([k,v]) => `<tr><td class="ficha-key">${k}</td><td class="ficha-val">${v}</td></tr>`).join("")}
@@ -470,14 +472,14 @@ function renderSbPresupuesto(data) {
     const div = document.createElement("div");
     div.className = "message bot presupuesto-card";
     div.innerHTML = `
-        <div class="ficha-title">💰 Presupuesto Estimado</div>
+        <div class="ficha-title">${t("card.budget")}</div>
         <div class="presupuesto-row">
-            <span class="presupuesto-label">En Pesos Argentinos</span>
+            <span class="presupuesto-label">${t("presupuesto.ars")}</span>
             <span class="presupuesto-amount ars">${data.ars}</span>
         </div>
         <div class="presupuesto-divider"></div>
         <div class="presupuesto-row">
-            <span class="presupuesto-label">En Dólares</span>
+            <span class="presupuesto-label">${t("presupuesto.usd")}</span>
             <span class="presupuesto-amount usd">${data.usd}</span>
         </div>`;
     sandboxContent.appendChild(div);
@@ -487,7 +489,7 @@ function renderSbFinanciacion(items) {
     const div = document.createElement("div");
     div.className = "message bot financiacion-card";
     div.innerHTML = `
-        <div class="ficha-title">🤝 Financiación</div>
+        <div class="ficha-title">${t("card.financing")}</div>
         <div class="financiacion-grid">
             ${items.map(item => `
                 <div class="financiacion-item">
@@ -507,7 +509,7 @@ function renderSbElenco(actores) {
     const div = document.createElement("div");
     div.className = "message bot elenco-card";
     div.innerHTML = `
-        <div class="ficha-title">🎭 Elenco Tentativo</div>
+        <div class="ficha-title">${t("card.cast")}</div>
         <div class="elenco-grid">
             ${actores.map(a => `
                 <div class="elenco-item">
@@ -529,7 +531,7 @@ function renderSbMoodboard(response) {
         loader2.remove();
         [response.slide1, response.slide2].forEach((slide, si) => {
             const cols  = si === 0 ? 4 : 4;
-            const label = `Slide ${si+1} — Moodboard (${slide.length} imágenes)`;
+            const label = si === 0 ? `${t("moodboard.slide1")} (${slide.length} ${t("moodboard.images")})` : `${t("moodboard.slide2")} (${slide.length} ${t("moodboard.images")})`;
             const div = document.createElement("div");
             div.className = "message bot moodboard-block";
             div.innerHTML = `
@@ -538,7 +540,7 @@ function renderSbMoodboard(response) {
                     ${slide.map((src, i) => {
                         const isPaleta = (i === slide.length - 1);
                         return `<div class="moodboard-cell ${isPaleta ? "paleta-cell" : ""}">
-                            ${src ? `<img src="${src}" alt="Imagen ${i+1}" style="cursor:zoom-in">` : `<div class="moodboard-placeholder">${isPaleta ? "🎨 Paleta" : (i+1)}</div>`}
+                            ${src ? `<img src="${src}" alt="Imagen ${i+1}" style="cursor:zoom-in">` : `<div class="moodboard-placeholder">${isPaleta ? t("moodboard.palette") : (i+1)}</div>`}
                         </div>`;
                     }).join("")}
                 </div>`;
@@ -577,7 +579,7 @@ function renderPortada(response) {
         const img = document.createElement("img");
 
         img.src = src;
-        img.alt = "Portada";
+        img.alt = t("portada.alt");
 
         img.style.width = "100%";
         img.style.maxWidth = "100%";
@@ -639,7 +641,39 @@ function renderSbQR(response) {
 
 /* ── Render especial: Sobre Nosotros (resumido en sandbox) ── */
 function renderSbSobreNosotros() {
-    const equipo = [
+    const isEN = (typeof getLang === "function" && getLang() === "en");
+    const equipo = isEN ? [
+        {
+            nombre: "Victoria Gariglio",
+            rol: "Director / Producer",
+            foto: "img/vicky_sn.webp",
+            bio: "Image and Sound Design (UBA). Assistant director on a documentary. Creates stories connected to our reality."
+        },
+        {
+            nombre: "Elias Betés",
+            rol: "Screenwriter / Producer",
+            foto: "img/eli_sn.jpg",
+            bio: "Image and Sound Design (UBA). Short films at regional festivals and the Buenos Aires Rojo Sangre Festival."
+        },
+        {
+            nombre: "Serena Arcuri",
+            rol: "Labs, Markets & Festivals Tour / Producer",
+            foto: "img/sere_sn.webp",
+            bio: "Advanced student of ISD (UBA). Experience in directing, cinematography, editing, and production design."
+        },
+        {
+            nombre: "Ezequiel Sánchez",
+            rol: "Budget & Financing / Producer",
+            foto: "img/emi_sn.jpg",
+            bio: "Image and Sound Design (UBA). 3D design and freelance camera operator for events."
+        },
+        {
+            nombre: "Isabel Rabanal",
+            rol: "Graphic Designer / Producer",
+            foto: "img/isa_sn.webp",
+            bio: "Image and Sound Design (UBA). Participated in music videos and university short films."
+        },
+    ] : [
         {
             nombre: "Victoria Gariglio",
             rol: "Directora / Productora",
@@ -680,7 +714,7 @@ function renderSbSobreNosotros() {
             <img src="img/5voces.png" alt="5 Voces Producciones"
                  style="width:250px;margin:0 auto 10px;display:block;
                         filter:drop-shadow(0 0 14px rgba(255,255,255,.22))">
-            <div class="ficha-title" style="margin-bottom:4px">El Equipo</div>
+            <div class="ficha-title" style="margin-bottom:4px">${isEN ? "The Team" : "El Equipo"}</div>
             <div style="color:rgba(255,255,255,.45);font-size:.78rem;letter-spacing:1.5px;
                         text-transform:uppercase;font-weight:700">5 Voces Producciones</div>
         </div>
@@ -702,7 +736,7 @@ function renderSbSobreNosotros() {
 
         <!-- Botón Ver Página Completa -->
         <a href="sobre-nosotros.html" target="_blank" class="sobre-nosotros-fullpage-btn">
-            🎬 Ver Página Completa ↗
+            🎬 ${isEN ? "View Full Page ↗" : "Ver Página Completa ↗"}
         </a>
     `;
     sandboxContent.appendChild(div);
