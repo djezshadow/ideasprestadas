@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<script>if(localStorage.getItem("ns_darkmode")==="1"){document.documentElement.classList.add("dark-mode");}</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>NeuraScript — Configuración</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+
+    html, body {
+        height: auto;
+        min-height: 100vh;
+        min-height: -webkit-fill-available;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    /* ── Fondo brillante (igual al de sobre-nosotros / contacto) ── */
+    .config-hero-bg {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        background:
+            radial-gradient(ellipse 80% 60% at 50% -10%, rgba(80,100,255,.55) 0%, transparent 70%),
+            radial-gradient(ellipse 60% 40% at 80% 110%, rgba(0,0,200,.4) 0%, transparent 60%);
+    }
+
+    .config-page {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        padding: max(40px, env(safe-area-inset-top, 40px)) 20px
+                 max(60px, env(safe-area-inset-bottom, 60px));
+    }
+
+    /* ── Topbar ── */
+    .config-topbar {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        max-width: 640px;
+        margin: 0 auto 48px;
+        animation: slideDown .5s ease both;
+    }
+
+    @keyframes slideDown {
+        from { opacity:0; transform: translateY(-16px); }
+        to   { opacity:1; transform: translateY(0); }
+    }
+
+    .config-back {
+        color: rgba(255,255,255,.75);
+        text-decoration: none;
+        font-size: 0.95rem;
+        font-weight: 700;
+        padding: 9px 16px;
+        border-radius: 50px;
+        border: 1.5px solid rgba(255,255,255,.28);
+        background: rgba(255,255,255,.08);
+        backdrop-filter: blur(8px);
+        transition: all .18s ease;
+        white-space: nowrap;
+    }
+    .config-back:hover { background: rgba(255,255,255,.18); color: white; transform: translateX(-2px); }
+
+    a.config-topbar-brand {
+        text-decoration: none;
+        transition: opacity .18s ease;
+        -webkit-tap-highlight-color: transparent;
+    }
+    a.config-topbar-brand:hover { opacity: .7; }
+
+    .config-topbar-brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .config-topbar-brand img {
+        width: 34px;
+        filter: drop-shadow(0 0 10px rgba(255,255,255,.3));
+    }
+    .config-topbar-brand span {
+        color: white;
+        font-size: 1.05rem;
+        font-weight: 800;
+    }
+
+    /* ── Cuerpo ── */
+    .config-body {
+        max-width: 560px;
+        margin: 0 auto;
+        animation: fadeUp .7s ease .1s both;
+    }
+
+    @keyframes fadeUp {
+        from { opacity:0; transform: translateY(24px); }
+        to   { opacity:1; transform: translateY(0); }
+    }
+
+    .config-heading {
+        color: white;
+        font-size: 1.9rem;
+        font-weight: 800;
+        text-align: center;
+        letter-spacing: -.5px;
+        margin-bottom: 6px;
+    }
+
+    .config-sub {
+        color: rgba(255,255,255,.55);
+        font-size: 0.9rem;
+        text-align: center;
+        margin-bottom: 36px;
+    }
+
+    /* ── Card genérica ── */
+    .config-card {
+        background: rgba(255,255,255,.08);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255,255,255,.14);
+        border-radius: 24px;
+        padding: 28px 26px;
+        margin-bottom: 24px;
+    }
+
+    .config-card-title {
+        color: white;
+        font-size: 1.02rem;
+        font-weight: 800;
+        margin-bottom: 4px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .config-card-sub {
+        color: rgba(255,255,255,.5);
+        font-size: 0.82rem;
+        line-height: 1.5;
+        margin-bottom: 18px;
+    }
+
+    /* ── Fila con switch ── */
+    .config-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+    }
+
+    .config-row-label {
+        flex: 1;
+    }
+
+    .config-row-title {
+        color: white;
+        font-size: 0.95rem;
+        font-weight: 700;
+        margin-bottom: 3px;
+    }
+
+    .config-row-desc {
+        color: rgba(255,255,255,.5);
+        font-size: 0.8rem;
+        line-height: 1.5;
+    }
+
+    /* ── Switch tipo iOS ── */
+    .config-switch {
+        position: relative;
+        flex-shrink: 0;
+        width: 52px;
+        height: 30px;
+    }
+
+    .config-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .config-switch-track {
+        position: absolute;
+        cursor: pointer;
+        inset: 0;
+        background: rgba(255,255,255,.18);
+        border: 1.5px solid rgba(255,255,255,.22);
+        border-radius: 999px;
+        transition: background .2s ease, border-color .2s ease;
+    }
+
+    .config-switch-track::before {
+        content: "";
+        position: absolute;
+        height: 22px;
+        width: 22px;
+        left: 3px;
+        bottom: 3px;
+        background: white;
+        border-radius: 50%;
+        transition: transform .2s ease;
+        box-shadow: 0 2px 6px rgba(0,0,0,.25);
+    }
+
+    .config-switch input:checked + .config-switch-track {
+        background: rgba(120,140,255,.85);
+        border-color: rgba(120,140,255,.9);
+    }
+
+    .config-switch input:checked + .config-switch-track::before {
+        transform: translateX(22px);
+    }
+
+    /* ── Info de usuario ── */
+    .config-user-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding-bottom: 18px;
+        margin-bottom: 18px;
+        border-bottom: 1px solid rgba(255,255,255,.1);
+    }
+
+    .config-user-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        background: rgba(255,255,255,.1);
+        border: 1px solid rgba(255,255,255,.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+        flex-shrink: 0;
+    }
+
+    .config-user-name {
+        color: white;
+        font-size: 1rem;
+        font-weight: 800;
+    }
+
+    .config-user-tag {
+        color: rgba(255,255,255,.45);
+        font-size: 0.76rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    /* ── Botones de acción dentro de las cards ── */
+    .config-action-btn {
+        width: 100%;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 14px 16px;
+        background: rgba(255,255,255,.06);
+        border: 1.5px solid rgba(255,255,255,.14);
+        border-radius: 14px;
+        color: white;
+        font-family: inherit;
+        font-size: 0.92rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background .18s ease, border-color .18s ease;
+        margin-bottom: 12px;
+    }
+    .config-action-btn:last-child { margin-bottom: 0; }
+
+    .config-action-btn:hover {
+        background: rgba(255,255,255,.11);
+        border-color: rgba(255,255,255,.26);
+    }
+
+    .config-action-btn.danger {
+        color: #ffb3b3;
+        border-color: rgba(255,90,90,.28);
+        background: rgba(255,60,60,.08);
+    }
+    .config-action-btn.danger:hover {
+        background: rgba(255,60,60,.14);
+        border-color: rgba(255,90,90,.45);
+    }
+
+    .config-chevron {
+        opacity: .5;
+        transition: transform .2s ease;
+        font-size: 0.8rem;
+    }
+    .config-action-btn.open .config-chevron { transform: rotate(90deg); }
+
+    /* ── Paneles expandibles (formularios) ── */
+    .config-panel {
+        display: none;
+        margin-top: 14px;
+        padding-top: 16px;
+        border-top: 1px solid rgba(255,255,255,.08);
+    }
+    .config-panel.open { display: block; }
+
+    .config-field {
+        margin-bottom: 13px;
+    }
+
+    .config-field label {
+        display: block;
+        color: rgba(255,255,255,.65);
+        font-size: 0.74rem;
+        font-weight: 700;
+        margin-bottom: 5px;
+        letter-spacing: .6px;
+        text-transform: uppercase;
+    }
+
+    .config-field input {
+        width: 100%;
+        padding: 12px 14px;
+        background: rgba(255,255,255,.08);
+        border: 1.5px solid rgba(255,255,255,.22);
+        border-radius: 10px;
+        color: white;
+        outline: none;
+        transition: border-color .18s ease;
+        font-size: 16px; /* Fix iOS zoom */
+        box-sizing: border-box;
+        font-family: inherit;
+    }
+    .config-field input:focus { border-color: rgba(255,255,255,.6); }
+    .config-field input::placeholder { color: rgba(255,255,255,.3); }
+
+    .config-submit-btn {
+        width: 100%;
+        padding: 13px;
+        margin-top: 6px;
+        background: white;
+        color: #0000cc;
+        border: none;
+        border-radius: 12px;
+        font-size: 0.92rem;
+        font-weight: 700;
+        font-family: inherit;
+        cursor: pointer;
+        transition: transform .15s ease, opacity .15s ease;
+        box-sizing: border-box;
+    }
+    .config-submit-btn:hover  { opacity: .92; }
+    .config-submit-btn:active { transform: scale(0.98); }
+    .config-submit-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+    .config-submit-btn.danger {
+        background: #ff4d4d;
+        color: white;
+    }
+
+    .config-msg {
+        margin-top: 12px;
+        padding: 10px 14px;
+        border-radius: 8px;
+        font-size: 0.83rem;
+        text-align: center;
+        display: none;
+        line-height: 1.4;
+    }
+    .config-msg.error {
+        display: block;
+        background: rgba(255,80,80,.18);
+        border: 1px solid rgba(255,80,80,.35);
+        color: #ffaaaa;
+    }
+    .config-msg.success {
+        display: block;
+        background: rgba(80,255,150,.15);
+        border: 1px solid rgba(80,255,150,.3);
+        color: #aaffcc;
+    }
+
+    .config-danger-warning {
+        color: rgba(255,255,255,.6);
+        font-size: 0.82rem;
+        line-height: 1.6;
+        margin-bottom: 14px;
+    }
+    .config-danger-warning strong { color: #ffb3b3; }
+
+    /* ── Card de acceso para invitados ── */
+    .config-guest-card {
+        text-align: center;
+        padding: 36px 26px;
+    }
+    .config-guest-icon { font-size: 2.2rem; margin-bottom: 14px; }
+    .config-guest-text {
+        color: rgba(255,255,255,.65);
+        font-size: 0.9rem;
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+    .config-guest-btn {
+        display: inline-block;
+        background: white;
+        color: #0000cc;
+        font-weight: 700;
+        font-size: 0.9rem;
+        padding: 12px 30px;
+        border-radius: 50px;
+        text-decoration: none;
+        transition: opacity .18s ease;
+    }
+    .config-guest-btn:hover { opacity: .9; }
+
+    /* ── Footer ── */
+    .config-footer {
+        max-width: 560px;
+        margin: 0 auto;
+        text-align: center;
+        padding-top: 28px;
+        border-top: 1px solid rgba(255,255,255,.1);
+    }
+
+    .config-footer p {
+        color: rgba(255,255,255,.3);
+        font-size: 0.78rem;
+    }
+
+</style>
+</head>
+<body>
+
+<!-- Fondo con glow -->
+<div class="config-hero-bg"></div>
+
+<div class="config-page">
+
+    <!-- ── Topbar ── -->
+    <div class="config-topbar">
+        <a href="javascript:history.back()" class="config-back">← Volver</a>
+        <a href="index.html#menu" class="config-topbar-brand" title="Volver al menú">
+            <img src="img/Neura 1.png" alt="NeuraScript">
+            <span>NeuraScript</span>
+        </a>
+    </div>
+
+    <!-- ── Cuerpo ── -->
+    <div class="config-body">
+
+        <h1 class="config-heading">Configuración</h1>
+        <p class="config-sub">Personalizá tu experiencia y gestioná tu cuenta.</p>
+
+        <!-- ══════════════════════════════════════
+             APARIENCIA
+             ══════════════════════════════════════ -->
+        <div class="config-card">
+            <div class="config-card-title">🎨 Apariencia</div>
+            <div class="config-card-sub">Elegí cómo se ve NeuraScript en tu dispositivo.</div>
+
+            <div class="config-row">
+                <div class="config-row-label">
+                    <div class="config-row-title">Modo azul oscuro</div>
+                    <div class="config-row-desc">Cambia el fondo a un tono de azul más oscuro, ideal para ambientes con poca luz.</div>
+                </div>
+                <label class="config-switch">
+                    <input type="checkbox" id="darkModeToggle">
+                    <span class="config-switch-track"></span>
+                </label>
+            </div>
+        </div>
+
+        <!-- ══════════════════════════════════════
+             CUENTA — usuario logueado
+             ══════════════════════════════════════ -->
+        <div class="config-card" id="accountCard" style="display:none">
+
+            <div class="config-user-row">
+                <div class="config-user-icon">👤</div>
+                <div>
+                    <div class="config-user-name" id="accountUsername">—</div>
+                    <div class="config-user-tag">Cuenta activa</div>
+                </div>
+            </div>
+
+            <!-- Cambiar contraseña -->
+            <button class="config-action-btn" id="togglePasswordBtn">
+                <span>🔑 Cambiar contraseña</span>
+                <span class="config-chevron">▶</span>
+            </button>
+            <div class="config-panel" id="passwordPanel">
+                <div class="config-field">
+                    <label>Contraseña actual</label>
+                    <input type="password" id="cpCurrent" placeholder="••••••••" autocomplete="current-password">
+                </div>
+                <div class="config-field">
+                    <label>Nueva contraseña</label>
+                    <input type="password" id="cpNew" placeholder="••••••••" autocomplete="new-password">
+                </div>
+                <div class="config-field">
+                    <label>Confirmar nueva contraseña</label>
+                    <input type="password" id="cpConfirm" placeholder="••••••••" autocomplete="new-password">
+                </div>
+                <button class="config-submit-btn" id="cpSubmitBtn">Guardar nueva contraseña</button>
+                <div class="config-msg" id="cpMsg"></div>
+            </div>
+
+            <!-- Eliminar cuenta -->
+            <button class="config-action-btn danger" id="toggleDeleteBtn" style="margin-top:12px">
+                <span>🗑 Eliminar cuenta</span>
+                <span class="config-chevron">▶</span>
+            </button>
+            <div class="config-panel" id="deletePanel">
+                <p class="config-danger-warning">
+                    Esta acción es <strong>permanente</strong>. Se eliminará tu cuenta y todo tu historial de chats, y no podrá recuperarse.
+                </p>
+                <div class="config-field">
+                    <label>Confirmá tu contraseña</label>
+                    <input type="password" id="delPassword" placeholder="••••••••" autocomplete="current-password">
+                </div>
+                <button class="config-submit-btn danger" id="delSubmitBtn">Eliminar mi cuenta para siempre</button>
+                <div class="config-msg" id="delMsg"></div>
+            </div>
+
+        </div>
+
+        <!-- ══════════════════════════════════════
+             CUENTA — invitado
+             ══════════════════════════════════════ -->
+        <div class="config-card config-guest-card" id="guestCard" style="display:none">
+            <div class="config-guest-icon">👤</div>
+            <p class="config-guest-text">
+                Iniciá sesión para cambiar tu contraseña o gestionar tu cuenta.
+            </p>
+            <a href="auth.html" class="config-guest-btn">Iniciar sesión →</a>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="config-footer">
+        <p>© 2026 NeuraScript — Todos los derechos reservados</p>
+    </div>
+
+</div>
+
+<script>
+/* ════════════════════════════════════════
+   MODO AZUL OSCURO
+   ════════════════════════════════════════ */
+const darkToggle = document.getElementById("darkModeToggle");
+darkToggle.checked = localStorage.getItem("ns_darkmode") === "1";
+
+darkToggle.addEventListener("change", () => {
+    if (darkToggle.checked) {
+        localStorage.setItem("ns_darkmode", "1");
+        document.documentElement.classList.add("dark-mode");
+    } else {
+        localStorage.setItem("ns_darkmode", "0");
+        document.documentElement.classList.remove("dark-mode");
+    }
+});
+
+/* ════════════════════════════════════════
+   CUENTA — mostrar según sesión
+   ════════════════════════════════════════ */
+const _token    = localStorage.getItem("ns_token");
+const _username = localStorage.getItem("ns_username");
+
+if (_token && _username) {
+    document.getElementById("accountCard").style.display = "block";
+    document.getElementById("accountUsername").textContent = _username;
+} else {
+    document.getElementById("guestCard").style.display = "block";
+}
+
+/* ── Helpers de mensajes ── */
+function showMsg(id, text, type) {
+    const el = document.getElementById(id);
+    el.textContent = text;
+    el.className = `config-msg ${type}`;
+}
+function hideMsg(id) {
+    document.getElementById(id).className = "config-msg";
+}
+
+/* ── Expandir/colapsar paneles ── */
+function setupToggle(btnId, panelId) {
+    const btn   = document.getElementById(btnId);
+    const panel = document.getElementById(panelId);
+    btn.addEventListener("click", () => {
+        const isOpen = panel.classList.toggle("open");
+        btn.classList.toggle("open", isOpen);
+    });
+}
+setupToggle("togglePasswordBtn", "passwordPanel");
+setupToggle("toggleDeleteBtn",   "deletePanel");
+
+/* ════════════════════════════════════════
+   CAMBIAR CONTRASEÑA
+   ════════════════════════════════════════ */
+document.getElementById("cpSubmitBtn").addEventListener("click", async () => {
+    hideMsg("cpMsg");
+
+    const currentPassword = document.getElementById("cpCurrent").value;
+    const newPassword     = document.getElementById("cpNew").value;
+    const confirmPassword = document.getElementById("cpConfirm").value;
+
+    if (!currentPassword || !newPassword || !confirmPassword) {
+        return showMsg("cpMsg", "Completá todos los campos.", "error");
+    }
+    if (newPassword.length < 6) {
+        return showMsg("cpMsg", "La nueva contraseña debe tener al menos 6 caracteres.", "error");
+    }
+    if (newPassword !== confirmPassword) {
+        return showMsg("cpMsg", "Las contraseñas no coinciden.", "error");
+    }
+
+    const btn = document.getElementById("cpSubmitBtn");
+    btn.disabled = true;
+    btn.textContent = "Guardando...";
+
+    try {
+        const res = await fetch("/api/change-password", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("ns_token")}`
+            },
+            body: JSON.stringify({ currentPassword, newPassword })
+        });
+        const data = await res.json();
+
+        if (!res.ok) return showMsg("cpMsg", data.error || "No se pudo cambiar la contraseña.", "error");
+
+        showMsg("cpMsg", "¡Contraseña actualizada correctamente!", "success");
+        document.getElementById("cpCurrent").value = "";
+        document.getElementById("cpNew").value = "";
+        document.getElementById("cpConfirm").value = "";
+    } catch {
+        showMsg("cpMsg", "Error de conexión. Intentá de nuevo.", "error");
+    } finally {
+        btn.disabled = false;
+        btn.textContent = "Guardar nueva contraseña";
+    }
+});
+
+/* ════════════════════════════════════════
+   ELIMINAR CUENTA
+   ════════════════════════════════════════ */
+document.getElementById("delSubmitBtn").addEventListener("click", async () => {
+    hideMsg("delMsg");
+
+    const password = document.getElementById("delPassword").value;
+    if (!password) {
+        return showMsg("delMsg", "Ingresá tu contraseña para confirmar.", "error");
+    }
+
+    if (!confirm("¿Estás seguro? Esta acción eliminará tu cuenta y todo tu historial de forma permanente.")) {
+        return;
+    }
+
+    const btn = document.getElementById("delSubmitBtn");
+    btn.disabled = true;
+    btn.textContent = "Eliminando...";
+
+    try {
+        const res = await fetch("/api/delete-account", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("ns_token")}`
+            },
+            body: JSON.stringify({ password })
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+            showMsg("delMsg", data.error || "No se pudo eliminar la cuenta.", "error");
+            btn.disabled = false;
+            btn.textContent = "Eliminar mi cuenta para siempre";
+            return;
+        }
+
+        showMsg("delMsg", "Cuenta eliminada. Hasta luego 👋", "success");
+        localStorage.removeItem("ns_token");
+        localStorage.removeItem("ns_username");
+        setTimeout(() => { window.location.href = "index.html"; }, 1500);
+    } catch {
+        showMsg("delMsg", "Error de conexión. Intentá de nuevo.", "error");
+        btn.disabled = false;
+        btn.textContent = "Eliminar mi cuenta para siempre";
+    }
+});
+</script>
+
+</body>
+</html>
