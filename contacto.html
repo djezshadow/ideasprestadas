@@ -301,7 +301,7 @@
 
     <!-- ── Topbar ── -->
     <div class="contact-topbar">
-        <a href="javascript:history.back()" class="contact-back">← Volver</a>
+        <a href="javascript:history.back()" class="contact-back" data-i18n="config.back">← Volver</a>
         <a href="index.html#menu" class="contact-topbar-brand" title="Volver al menú">
             <img src="img/Neura 1.png" alt="NeuraScript">
             <span>NeuraScript</span>
@@ -319,7 +319,7 @@
             <div class="contact-item">
                 <div class="contact-icon">✉️</div>
                 <div class="contact-info">
-                    <div class="contact-label">Email</div>
+                    <div class="contact-label" data-i18n="contact.email">Email</div>
                     <div class="contact-value">
                         <a href="mailto:productora@5vocesproducciones.com">productora@5vocesproducciones.com</a>
                     </div>
@@ -329,7 +329,7 @@
             <div class="contact-item">
                 <div class="contact-icon">📞</div>
                 <div class="contact-info">
-                    <div class="contact-label">Número</div>
+                    <div class="contact-label" data-i18n="contact.phone">Número</div>
                     <div class="contact-value">
                         <a href="tel:+5491133573386">+54 9 11 3357-3386</a>
                     </div>
@@ -339,7 +339,7 @@
             <div class="contact-item">
                 <div class="contact-icon">🌐</div>
                 <div class="contact-info">
-                    <div class="contact-label">Website</div>
+                    <div class="contact-label" data-i18n="contact.website">Website</div>
                     <div class="contact-value">
                         <a href="sobre-nosotros.html" target="_blank" rel="noopener">www.5vocesproducciones.com</a>
                     </div>
@@ -388,10 +388,14 @@
 
     <!-- Footer -->
     <div class="contact-footer">
-        <p>© 2026 NeuraScript — Todos los derechos reservados</p>
+        <p data-i18n="footer.rights">© 2026 NeuraScript — Todos los derechos reservados</p>
     </div>
 
 </div>
 
+
+<script>
+document.addEventListener("ns:langchange", () => { applyI18n(); });
+</script>
 </body>
 </html>

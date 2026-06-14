@@ -242,7 +242,6 @@ splashBtn.addEventListener("click", () => {
    Podés cambiar el icon, label o href.
    ─────────────────────────────────────────────────────────── */
 const MENU_TOP = {
-    icon:  "📃",
     get label() { return t("menu.aboutUs"); },
     key:   "__sobrenosotros__"
 };
@@ -262,17 +261,17 @@ const MENU_TOP = {
    en script.js buscando la key correspondiente.
    ─────────────────────────────────────────────────────────── */
 const MENU_ITEMS = [
-    { icon: "🎭", get label() { return t("menu.characters"); },  key: "__personajes_menu__" },
-    { icon: "🖼️", get label() { return t("menu.cover"); },       key: "portada"        },
-    { icon: "🎬", get label() { return t("menu.factsheet"); },   key: "ficha tecnica"        },
-    { icon: "📖", get label() { return t("menu.logline"); },     key: "logline"               },
-    { icon: "📜", get label() { return t("menu.storyline"); },   key: "storyline"             },
-    { icon: "🎨", get label() { return t("menu.moodboard"); },   key: "moodboard"             },
-    { icon: "💰", get label() { return t("menu.budget"); },      key: "presupuesto"           },
-    { icon: "🤝", get label() { return t("menu.financing"); },   key: "financiacion"          },
-    { icon: "🎭", get label() { return t("menu.cast"); },        key: "elenco tentativo"      },
-    { icon: "🗺️", get label() { return t("menu.tour"); },        key: "recorrido de laboratorios, mercados y festivales" },
-    { icon: "🎞", get label() { return t("menu.teaser"); },      key: "teaser"                },
+    { get label() { return t("menu.characters"); },  key: "__personajes_menu__" },
+    { get label() { return t("menu.cover"); },       key: "portada"        },
+    { get label() { return t("menu.factsheet"); },   key: "ficha tecnica"        },
+    { get label() { return t("menu.logline"); },     key: "logline"               },
+    { get label() { return t("menu.storyline"); },   key: "storyline"             },
+    { get label() { return t("menu.moodboard"); },   key: "moodboard"             },
+    { get label() { return t("menu.budget"); },      key: "presupuesto"           },
+    { get label() { return t("menu.financing"); },   key: "financiacion"          },
+    { get label() { return t("menu.cast"); },        key: "elenco tentativo"      },
+    { get label() { return t("menu.tour"); },        key: "recorrido de laboratorios, mercados y festivales" },
+    { get label() { return t("menu.teaser"); },      key: "teaser"                },
 ];
 
 /* ═══════════════════════════════════════════════════════════
@@ -280,7 +279,6 @@ const MENU_ITEMS = [
    Podés cambiar el icon y el label, pero no el key "__ai__".
    ─────────────────────────────────────────────────────────── */
 const MENU_BOTTOM = {
-    icon:  "🤖",
     get label() { return t("menu.useAI"); }
 };
 
@@ -780,41 +778,49 @@ sandboxBackBtn.addEventListener("click", () => {
 
 /* — Zona superior: Sobre Nosotros — */
 const welcomeTopEl = document.getElementById("welcomeTop");
-(function() {
-    const btn = document.createElement("button");
-    btn.className = "welcome-chip welcome-chip--sobrenosotros";
-    btn.innerHTML = `<span class="wc-icon">${MENU_TOP.icon}</span>${MENU_TOP.label}`;
-    btn.addEventListener("click", () => {
-        showSandbox(MENU_TOP.key);
-    });
-    welcomeTopEl.appendChild(btn);
-})();
 
 /* — Zona central: las 9 opciones editables (sandbox) — */
 const welcomeChipsEl = document.getElementById("welcomeChips");
-MENU_ITEMS.forEach(({ icon, label, key }) => {
-    const btn = document.createElement("button");
-    btn.className = "welcome-chip";
-    btn.innerHTML = `<span class="wc-icon">${icon}</span>${label}`;
-    btn.addEventListener("click", () => {
-        /* Abre la respuesta en modo sandbox dentro del overlay */
-        showSandbox(key);
-    });
-    welcomeChipsEl.appendChild(btn);
-});
 
 /* — Zona inferior: Usar la IA — */
 const welcomeBottomEl = document.getElementById("welcomeBottom");
-(function() {
-    const btn = document.createElement("button");
-    btn.className = "welcome-chip welcome-chip--ai";
-    btn.innerHTML = `<span class="wc-icon">${MENU_BOTTOM.icon}</span>${MENU_BOTTOM.label}`;
-    btn.addEventListener("click", () => {
-        /* Único botón que cierra el overlay y habilita el chat */
-        unlockChat();
+
+function buildWelcomeMenu() {
+    /* Top */
+    welcomeTopEl.innerHTML = "";
+    const btnTop = document.createElement("button");
+    btnTop.className = "welcome-chip welcome-chip--sobrenosotros";
+    btnTop.textContent = MENU_TOP.label;
+    btnTop.addEventListener("click", () => { showSandbox(MENU_TOP.key); });
+    welcomeTopEl.appendChild(btnTop);
+
+    /* Grid */
+    welcomeChipsEl.innerHTML = "";
+    MENU_ITEMS.forEach(({ label, key }) => {
+        const btn = document.createElement("button");
+        btn.className = "welcome-chip";
+        btn.textContent = label;
+        btn.addEventListener("click", () => { showSandbox(key); });
+        welcomeChipsEl.appendChild(btn);
     });
-    welcomeBottomEl.appendChild(btn);
-})();
+
+    /* Bottom */
+    welcomeBottomEl.innerHTML = "";
+    const btnBot = document.createElement("button");
+    btnBot.className = "welcome-chip welcome-chip--ai";
+    btnBot.textContent = MENU_BOTTOM.label;
+    btnBot.addEventListener("click", () => { unlockChat(); });
+    welcomeBottomEl.appendChild(btnBot);
+}
+
+buildWelcomeMenu();
+
+/* Rebuild menus + chips on language change (no reload needed) */
+document.addEventListener("ns:langchange", () => {
+    buildWelcomeMenu();
+    if (typeof buildChips === "function") buildChips();
+    applyI18n();
+});
 
 /* ── Ir al menú principal (salteando la animación) ── */
 function goHome() {

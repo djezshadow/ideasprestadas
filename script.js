@@ -4,7 +4,7 @@
 
 
 /* ===================================================
-   ⬇️  ZONA 1: ALIASES — VARIANTES Y ERRORES DE TIPEO
+   ⬇️  ZONA 1: getAliases() — VARIANTES Y ERRORES DE TIPEO
    ---------------------------------------------------
    Acá mapeás palabras clave alternativas a la key
    principal del diccionario. Sirve para:
@@ -342,7 +342,7 @@ const ALIASES_ES = {
        ──────────────────────────────────────────────────────
        Formato: "lo que escribe el usuario": "key del diccionario"
        La key del diccionario tiene que coincidir con una entrada
-       que crees más abajo en BOT_RESPONSES.
+       que crees más abajo en getBotResponses().
        ══════════════════════════════════════════════════════ */
 
     /* Palabra 1 — descomentá y completá */
@@ -379,7 +379,7 @@ const ALIASES_ES = {
 
 
 /* ===================================================
-   ⬇️  ZONA 1B: ALIASES (ENGLISH)
+   ⬇️  ZONA 1B: getAliases() (ENGLISH)
    ---------------------------------------------------
    Mismo formato que ALIASES_ES pero con disparadores
    en inglés. Las keys de destino son las mismas que
@@ -638,7 +638,7 @@ const BOT_RESPONSES_ES = {
        Para activar cada entrada:
          1. Descomentá el bloque (quitá los  /* y  * /)
          2. Cambiá el texto de content por tu respuesta
-         3. En ALIASES (arriba) descomentá la línea
+         3. En getAliases() (arriba) descomentá la línea
             correspondiente y escribí el disparador
        ════════════════════════════════════════════════════════ */
 
@@ -1897,7 +1897,7 @@ const AI_USE_LIMIT = 5;   // ← CAMBIÁ ESTE NÚMERO
 let   aiUseCount   = 0;   // contador en memoria (se resetea al recargar)
 
 /* ===================================================
-   ⬇️  PERSONAJES — editá las descripciones acá
+   ⬇️  getPersonajes() — editá las descripciones acá
    =================================================== */
 const PERSONAJES_ES = [
     {
@@ -1945,7 +1945,7 @@ const PERSONAJES_ES = [
 ];
 
 /* ===================================================
-   ⬇️  PERSONAJES (ENGLISH)
+   ⬇️  getPersonajes() (ENGLISH)
    =================================================== */
 const PERSONAJES_EN = [
     {
@@ -1992,12 +1992,15 @@ const PERSONAJES_EN = [
    Usa i18n.js (getLang) para elegir el diccionario
    activo entre las versiones _ES y _EN.
    =================================================== */
-const LANG            = (typeof getLang === "function") ? getLang() : "es";
-const ALIASES         = LANG === "en" ? ALIASES_EN         : ALIASES_ES;
-const BOT_RESPONSES   = LANG === "en" ? BOT_RESPONSES_EN    : BOT_RESPONSES_ES;
-const PERSONAJES      = LANG === "en" ? PERSONAJES_EN       : PERSONAJES_ES;
-const WELCOME_MESSAGE = LANG === "en" ? WELCOME_MESSAGE_EN  : WELCOME_MESSAGE_ES;
-const FALLBACK_MESSAGE= LANG === "en" ? FALLBACK_MESSAGE_EN : FALLBACK_MESSAGE_ES;
+
+/* ── Getters dinámicos: leen getLang() en tiempo de ejecución,
+      sin necesidad de recargar la página. ── */
+function getAliases()        { return getLang() === "en" ? ALIASES_EN        : ALIASES_ES; }
+function getBotResponses()   { return getLang() === "en" ? BOT_RESPONSES_EN   : BOT_RESPONSES_ES; }
+function getPersonajes()     { return getLang() === "en" ? PERSONAJES_EN      : PERSONAJES_ES; }
+function getWelcomeMessage() { return getLang() === "en" ? WELCOME_MESSAGE_EN : WELCOME_MESSAGE_ES; }
+function getFallbackMessage(){ return getLang() === "en" ? FALLBACK_MESSAGE_EN: FALLBACK_MESSAGE_ES; }
+function getRecorrido()      { return getLang() === "en" ? RECORRIDO_PARADAS_EN : RECORRIDO_PARADAS_ES; }
 
 
 /* ===================================================
@@ -2011,7 +2014,7 @@ const sendBtn = document.getElementById("sendBtn");
 /* Resuelve aliases y devuelve la key final */
 function resolveKey(raw) {
     const k = raw.toLowerCase().trim();
-    return ALIASES[k] || k;
+    return getAliases()[k] || k;
 }
 
 /* Elige variante aleatoria si el bloque tiene multi:true */
@@ -2157,7 +2160,7 @@ function sendMessage() {
         return;
     }
 
-    const response = BOT_RESPONSES[key];
+    const response = getBotResponses()[key];
     const delay = (response && response.delay) ? response.delay : BASE_TYPING_DELAY;
 
     setInputLocked(true);
@@ -2196,13 +2199,13 @@ function sendMessage() {
         } else {
             setInputLocked(false);
             input.focus();
-            addMessage(FALLBACK_MESSAGE, "bot");
+            addMessage(getFallbackMessage(), "bot");
         }
     }, delay);
 }
 
 /* ===================================================
-   RENDER — PERSONAJES
+   RENDER — getPersonajes()
    =================================================== */
 function addPersonajes() {
     const div = document.createElement("div");
@@ -2210,7 +2213,7 @@ function addPersonajes() {
     div.innerHTML = `
         <div class="ficha-title">${t("card.characters")}</div>
         <div class="personajes-list">
-            ${PERSONAJES.map(p => `
+            ${getPersonajes().map(p => `
                 <div class="personaje-item">
                     <div class="personaje-emoji">${p.emoji}</div>
                     <div class="personaje-info">
@@ -2677,8 +2680,6 @@ const RECORRIDO_PARADAS_EN = [
     { nombre: "Mar del Plata International Film Festival",         link: "https://mardelplatafilmfest.com/41/es/",                                 lugar: "Mar del Plata, Argentina", fecha: "Nov 6, 2028",          categoria: "Argentine Feature Film Competition",             categoriaLink: "",                                                                                     foto: "img/recorrido/mdq.webp",         color: "#fff" },
 ];
 
-const RECORRIDO_PARADAS = LANG === "en" ? RECORRIDO_PARADAS_EN : RECORRIDO_PARADAS_ES;
-
 /* Construye el HTML del recorrido — compartido por chat y sandbox */
 function _buildRecorridoHTML(paradas) {
     return `
@@ -2729,7 +2730,7 @@ function addRecorrido(response) {
 
         const div = document.createElement("div");
         div.className = "message bot recorrido-block";
-        div.innerHTML = _buildRecorridoHTML(RECORRIDO_PARADAS);
+        div.innerHTML = _buildRecorridoHTML(getRecorrido());
 
         chat.appendChild(div);
         makeChatImagesClickable(div);
@@ -3051,7 +3052,7 @@ function _debounceSave() {
 const _origAddMessage = addMessage;
 window.addMessage = function(text, sender) {
     const el = _origAddMessage(text, sender);
-    if (!_loadingHistory && text !== WELCOME_MESSAGE) {
+    if (!_loadingHistory && text !== getWelcomeMessage()) {
         trackMessage(sender === "user" ? "user" : "bot", text, "text");
     }
     return el;
@@ -3118,7 +3119,7 @@ newChatBtn.addEventListener("click", async () => {
     currentLabel    = "";
     const chatEl = document.getElementById("chat");
     chatEl.innerHTML = "";
-    addMessage(WELCOME_MESSAGE, "bot");
+    addMessage(getWelcomeMessage(), "bot");
 });
 
 /* Guardar al cerrar/salir de la página */
@@ -3184,11 +3185,15 @@ function buildChips() {
 }
 
 buildChips();
-/* Chips siempre visibles — no se ocultan */
+
+/* Rebuild chips instantly when language changes */
+document.addEventListener("ns:langchange", () => {
+    buildChips();
+});
 
 /* ── Init ── */
 loadHistory();
-addMessage(WELCOME_MESSAGE, "bot");
+addMessage(getWelcomeMessage(), "bot");
 
 /* ── Borrar todo el historial ── */
 const clearAllBtn = document.getElementById("clearAllBtn");

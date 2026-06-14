@@ -597,13 +597,7 @@ const darkToggle = document.getElementById("darkModeToggle");
 darkToggle.checked = localStorage.getItem("ns_darkmode") === "1";
 
 darkToggle.addEventListener("change", () => {
-    if (darkToggle.checked) {
-        localStorage.setItem("ns_darkmode", "1");
-        document.documentElement.classList.add("dark-mode");
-    } else {
-        localStorage.setItem("ns_darkmode", "0");
-        document.documentElement.classList.remove("dark-mode");
-    }
+    setDarkMode(darkToggle.checked);
 });
 
 /* ════════════════════════════════════════
@@ -613,9 +607,19 @@ const langSelect = document.getElementById("langSelect");
 langSelect.value = getLang();
 
 langSelect.addEventListener("change", () => {
-    setLang(langSelect.value);
-    /* Recargar para que se reescriba todo el contenido dinámico (bot, menús, etc.) */
-    window.location.reload();
+    changeLang(langSelect.value);
+});
+
+/* Sync controls if lang/darkmode changed from another tab via storage */
+window.addEventListener("storage", (e) => {
+    if (e.key === "ns_lang")     langSelect.value = getLang();
+    if (e.key === "ns_darkmode") darkToggle.checked = localStorage.getItem("ns_darkmode") === "1";
+});
+
+/* Re-apply i18n strings when language changes (covers data-i18n on this page) */
+document.addEventListener("ns:langchange", () => {
+    applyI18n();
+    langSelect.value = getLang();
 });
 
 /* ════════════════════════════════════════

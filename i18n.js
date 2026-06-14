@@ -52,19 +52,19 @@ const UI_STRINGS = {
         "input.send":           "Enviar",
 
         /* ── Menú principal ── */
-        "menu.aboutUs":         "Sobre Nosotros",
-        "menu.characters":      "Personajes",
-        "menu.cover":           "Portada",
-        "menu.factsheet":       "Ficha Técnica",
-        "menu.logline":         "Logline",
-        "menu.storyline":       "Storyline",
-        "menu.moodboard":       "Moodboard",
-        "menu.budget":          "Presupuesto",
-        "menu.financing":       "Financiamiento",
-        "menu.cast":            "Elenco",
-        "menu.tour":            "Recorrido",
-        "menu.teaser":          "Teaser",
-        "menu.useAI":           "Probar Simulador de NeuraScript",
+        "menu.aboutUs":         "📃 Sobre Nosotros",
+        "menu.characters":      "🎭 Personajes",
+        "menu.cover":           "🖼️ Portada",
+        "menu.factsheet":       "🎬 Ficha Técnica",
+        "menu.logline":         "📖 Logline",
+        "menu.storyline":       "📜 Storyline",
+        "menu.moodboard":       "🎨 Moodboard",
+        "menu.budget":          "💰 Presupuesto",
+        "menu.financing":       "🤝 Financiamiento",
+        "menu.cast":            "🎭 Elenco",
+        "menu.tour":            "🗺️ Recorrido",
+        "menu.teaser":          "🎞 Teaser",
+        "menu.useAI":           "🤖 Probar Simulador de NeuraScript",
 
         /* ── Chat: títulos de tarjetas ── */
         "card.characters":      "🎭 Personajes",
@@ -198,7 +198,32 @@ const UI_STRINGS = {
         "auth.passwordMismatch":"Las contraseñas no coinciden.",
         "auth.minChars":        "Mínimo 6 caracteres.",
         "auth.invalidToken":    "Token inválido. Pedí un nuevo enlace.",
-        "auth.saving":          "Guardando..."
+        "auth.saving":          "Guardando...",
+
+        /* ── Sobre Nosotros ── */
+        "about.back":           "← Volver",
+        "about.badge":          "PRESENTA",
+        "about.tagline":        "Marcos (34), un frustrado actor que sueña con triunfar como guionista, encuentra una innovadora IA llamada NeuraScript que lo lleva a la fama y lo acerca a ser invitado al programa de Freddy Castelli. Para ello Intenta concretar una película junto a una excéntrica actriz, pero enfrenta los constantes sabotajes de su ex amigo Ángel (34), un actor rival. En el programa, cuando su secreto sale poco a poco a la luz, siente culpa y asume su mentira. Marcos pierde todo lo que había conseguido, y comprende que lo que de verdad necesitaba siempre estuvo en el humilde teatro donde comenzó.",
+        "about.chip.year":      "📅 2028",
+        "about.chip.genre":     "🎭 Comedia Dramática",
+        "about.chip.runtime":   "⏱ 120min",
+        "about.chip.country":   "📍 Argentina",
+        "about.team":           "El Equipo",
+        "about.role.victoria":  "Directora / Productora",
+        "about.role.elias":     "Guionista / Productor",
+        "about.role.serena":    "Recorrido de Laboratorios, Mercados y Festivales / Productora",
+        "about.role.ezequiel":  "Presupuesto y Financiamiento / Productor",
+        "about.role.isabel":    "Diseñadora Gráfica / Productora",
+        "about.bio.victoria":   "Estudia Diseño de Imagen y Sonido en la UBA. Se desempeñó como asistente de dirección en un corto documental y directora en pequeños trabajos facultativos. Le apasiona crear historias conectadas a la realidad en la que vivimos.",
+        "about.bio.elias":      "Estudia Diseño de imagen y sonido en la UBA. Participó de varios cortometrajes independientes que han sido parte de festivales regionales y ha participado en el Fin de Semana Sangriento del Festival Buenos Aires Rojo Sangre.",
+        "about.bio.serena":     "Alumna avanzada de Diseño de Imagen y Sonido en la UBA, con experiencia en dirección, fotografía, montaje y dirección de arte en cortometrajes seleccionados para proyecciones académicas.",
+        "about.bio.ezequiel":   "Estudia Diseño de Imagen y Sonido en la UBA. Cuenta con un amplio recorrido en el Diseño 3D y Freelancer como Camarografo para eventos.",
+        "about.bio.isabel":     "Estudia Diseño de imagen y sonido en la UBA. Participó de varios video clips y cortos universitarios.",
+
+        /* ── Contacto ── */
+        "contact.email":        "Email",
+        "contact.phone":        "Número",
+        "contact.website":      "Website"
     },
 
     en: {
@@ -231,19 +256,19 @@ const UI_STRINGS = {
         "input.send":           "Send",
 
         /* ── Main menu ── */
-        "menu.aboutUs":         "About Us",
-        "menu.characters":      "Characters",
-        "menu.cover":           "Cover",
-        "menu.factsheet":       "Fact Sheet",
-        "menu.logline":         "Logline",
-        "menu.storyline":       "Storyline",
-        "menu.moodboard":       "Moodboard",
-        "menu.budget":          "Budget",
-        "menu.financing":       "Financing",
-        "menu.cast":            "Cast",
-        "menu.tour":            "Tour",
-        "menu.teaser":          "Teaser",
-        "menu.useAI":           "Try the NeuraScript Simulator",
+        "menu.aboutUs":         "📃 About Us",
+        "menu.characters":      "🎭 Characters",
+        "menu.cover":           "🖼️ Cover",
+        "menu.factsheet":       "🎬 Fact Sheet",
+        "menu.logline":         "📖 Logline",
+        "menu.storyline":       "📜 Storyline",
+        "menu.moodboard":       "🎨 Moodboard",
+        "menu.budget":          "💰 Budget",
+        "menu.financing":       "🤝 Financing",
+        "menu.cast":            "🎭 Cast",
+        "menu.tour":            "🗺️ Tour",
+        "menu.teaser":          "🎞 Teaser",
+        "menu.useAI":           "🤖 Try the NeuraScript Simulator",
 
         /* ── Chat: card titles ── */
         "card.characters":      "🎭 Characters",
@@ -377,7 +402,32 @@ const UI_STRINGS = {
         "auth.passwordMismatch":"Passwords don't match.",
         "auth.minChars":        "Minimum 6 characters.",
         "auth.invalidToken":    "Invalid token. Please request a new link.",
-        "auth.saving":          "Saving..."
+        "auth.saving":          "Saving...",
+
+        /* ── About Us ── */
+        "about.back":           "← Back",
+        "about.badge":          "PRESENTS",
+        "about.tagline":        "Marcos (34), a frustrated actor who dreams of making it as a screenwriter, discovers an innovative AI called NeuraScript that brings him fame and gets him close to being invited onto Freddy Castelli's show. To pull it off, he tries to make a film with an eccentric actress, but faces constant sabotage from his former friend Ángel (34), a rival actor. On the show, as his secret slowly comes to light, he feels guilty and admits to his lie. Marcos loses everything he had gained, and realizes that what he truly needed was always in the humble theater where he started.",
+        "about.chip.year":      "📅 2028",
+        "about.chip.genre":     "🎭 Dramatic Comedy",
+        "about.chip.runtime":   "⏱ 120min",
+        "about.chip.country":   "📍 Argentina",
+        "about.team":           "The Team",
+        "about.role.victoria":  "Director / Producer",
+        "about.role.elias":     "Screenwriter / Producer",
+        "about.role.serena":    "Labs, Markets & Festivals Tour / Producer",
+        "about.role.ezequiel":  "Budget & Financing / Producer",
+        "about.role.isabel":    "Graphic Designer / Producer",
+        "about.bio.victoria":   "Studying Image and Sound Design at UBA. Served as assistant director on a short documentary and director on small academic projects. Passionate about creating stories connected to the reality we live in.",
+        "about.bio.elias":      "Studying Image and Sound Design at UBA. Participated in several independent short films selected for regional festivals and in the Bloody Weekend at the Buenos Aires Rojo Sangre Festival.",
+        "about.bio.serena":     "Advanced student of Image and Sound Design at UBA, with experience in directing, cinematography, editing, and production design on short films selected for academic screenings.",
+        "about.bio.ezequiel":   "Studying Image and Sound Design at UBA. Has a broad background in 3D Design and works as a freelance camera operator for events.",
+        "about.bio.isabel":     "Studying Image and Sound Design at UBA. Participated in music videos and university short films.",
+
+        /* ── Contact ── */
+        "contact.email":        "Email",
+        "contact.phone":        "Phone",
+        "contact.website":      "Website"
     }
 };
 
@@ -415,3 +465,26 @@ function applyI18n(root) {
 }
 
 document.addEventListener("DOMContentLoaded", () => applyI18n());
+
+/* =====================================================
+   CAMBIO DE IDIOMA — sin recarga
+   ===================================================== */
+function changeLang(lang) {
+    setLang(lang);                          /* guarda en localStorage */
+    applyI18n();                            /* re-traduce data-i18n   */
+    document.dispatchEvent(new CustomEvent("ns:langchange", { detail: { lang } }));
+}
+
+/* =====================================================
+   TOGGLE MODO OSCURO — sin recarga
+   ===================================================== */
+function setDarkMode(on) {
+    if (on) {
+        localStorage.setItem("ns_darkmode", "1");
+        document.documentElement.classList.add("dark-mode");
+    } else {
+        localStorage.setItem("ns_darkmode", "0");
+        document.documentElement.classList.remove("dark-mode");
+    }
+    document.dispatchEvent(new CustomEvent("ns:darkmodechange", { detail: { on } }));
+}
