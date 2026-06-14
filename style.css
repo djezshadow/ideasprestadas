@@ -1980,21 +1980,24 @@ body {
 /* =====================================================
    MODO AZUL OSCURO (toggle desde Configuración)
    Se activa agregando la clase "dark-mode" al <html>.
-   Solo oscurece los fondos generales — el resto de los
-   elementos (glass, textos, botones) ya funcionan bien
-   sobre un azul más oscuro gracias a las transparencias.
+   Usa transition en body para que se vea suave.
    ===================================================== */
 
+body {
+    transition: background 0.35s ease;
+}
+
 html.dark-mode body {
-    background: linear-gradient(160deg, #060a3d 0%, #00001a 100%);
+    background: linear-gradient(160deg, #060a3d 0%, #00001a 100%) !important;
 }
 
 html.dark-mode #splash {
-    background: linear-gradient(160deg, #060a3d 0%, #00001a 100%);
+    background: linear-gradient(160deg, #060a3d 0%, #00001a 100%) !important;
+    transition: background 0.35s ease;
 }
 
 html.dark-mode .safari-bottom-fill {
-    background: #00001a;
+    background: #00001a !important;
 }
 
 html.dark-mode .about-hero-bg,
@@ -2002,14 +2005,19 @@ html.dark-mode .contact-hero-bg,
 html.dark-mode .config-hero-bg {
     background:
         radial-gradient(ellipse 80% 60% at 50% -10%, rgba(40,55,160,.45) 0%, transparent 70%),
-        radial-gradient(ellipse 60% 40% at 80% 110%, rgba(0,0,90,.45) 0%, transparent 60%);
+        radial-gradient(ellipse 60% 40% at 80% 110%, rgba(0,0,90,.45) 0%, transparent 60%) !important;
 }
 
 html.dark-mode .limit-popup {
-    background: linear-gradient(145deg, rgba(10,16,90,.97), rgba(0,0,40,.99));
+    background: linear-gradient(145deg, rgba(10,16,90,.97), rgba(0,0,40,.99)) !important;
 }
 
 html.dark-mode .gear-wrap,
 html.dark-mode .card {
-    background: rgba(255,255,255,.06);
+    background: rgba(255,255,255,.06) !important;
+}
+
+html.dark-mode .welcome-overlay,
+html.dark-mode #welcomeOverlay {
+    background: linear-gradient(160deg, #060a3d 0%, #00001a 100%) !important;
 }

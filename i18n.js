@@ -467,16 +467,19 @@ function applyI18n(root) {
 document.addEventListener("DOMContentLoaded", () => applyI18n());
 
 /* =====================================================
-   CAMBIO DE IDIOMA — sin recarga
+   CAMBIO DE IDIOMA — sin recarga, cross-page via storage
    ===================================================== */
 function changeLang(lang) {
-    setLang(lang);                          /* guarda en localStorage */
-    applyI18n();                            /* re-traduce data-i18n   */
-    document.dispatchEvent(new CustomEvent("ns:langchange", { detail: { lang } }));
+    setLang(lang);
+    applyI18n();
+    /* Dispara en la página actual (mismo tab) */
+    setTimeout(() => {
+        document.dispatchEvent(new CustomEvent("ns:langchange", { detail: { lang } }));
+    }, 0);
 }
 
 /* =====================================================
-   TOGGLE MODO OSCURO — sin recarga
+   TOGGLE MODO OSCURO — sin recarga, cross-page via storage
    ===================================================== */
 function setDarkMode(on) {
     if (on) {
@@ -486,5 +489,28 @@ function setDarkMode(on) {
         localStorage.setItem("ns_darkmode", "0");
         document.documentElement.classList.remove("dark-mode");
     }
-    document.dispatchEvent(new CustomEvent("ns:darkmodechange", { detail: { on } }));
+    setTimeout(() => {
+        document.dispatchEvent(new CustomEvent("ns:darkmodechange", { detail: { on } }));
+    }, 0);
 }
+
+/* =====================================================
+   ESCUCHAR CAMBIOS DESDE OTRAS PESTAÑAS / PÁGINAS
+   (el evento "storage" se dispara en todos los tabs
+    que tengan la app abierta excepto el que hizo el cambio)
+   ===================================================== */
+window.addEventListener("storage", (e) => {
+    if (e.key === "ns_lang") {
+        applyI18n();
+        document.dispatchEvent(new CustomEvent("ns:langchange", { detail: { lang: e.newValue } }));
+    }
+    if (e.key === "ns_darkmode") {
+        const on = e.newValue === "1";
+        if (on) {
+            document.documentElement.classList.add("dark-mode");
+        } else {
+            document.documentElement.classList.remove("dark-mode");
+        }
+        document.dispatchEvent(new CustomEvent("ns:darkmodechange", { detail: { on } }));
+    }
+});

@@ -597,29 +597,38 @@ const darkToggle = document.getElementById("darkModeToggle");
 darkToggle.checked = localStorage.getItem("ns_darkmode") === "1";
 
 darkToggle.addEventListener("change", () => {
-    setDarkMode(darkToggle.checked);
+    const on = darkToggle.checked;
+    if (on) {
+        localStorage.setItem("ns_darkmode", "1");
+        document.documentElement.classList.add("dark-mode");
+    } else {
+        localStorage.setItem("ns_darkmode", "0");
+        document.documentElement.classList.remove("dark-mode");
+    }
+    /* Feedback visual inmediato — fuerza repaint */
+    document.body.style.transition = "background 0.4s ease";
 });
 
 /* ════════════════════════════════════════
    IDIOMA
    ════════════════════════════════════════ */
 const langSelect = document.getElementById("langSelect");
-langSelect.value = getLang();
+langSelect.value = (localStorage.getItem("ns_lang") === "en") ? "en" : "es";
 
 langSelect.addEventListener("change", () => {
-    changeLang(langSelect.value);
+    const lang = langSelect.value;
+    localStorage.setItem("ns_lang", lang);
+    document.documentElement.lang = lang;
+    /* Retraduccir todos los data-i18n de esta página */
+    if (typeof applyI18n === "function") applyI18n();
+    /* Re-sincronizar el select por si acaso */
+    langSelect.value = lang;
 });
 
-/* Sync controls if lang/darkmode changed from another tab via storage */
-window.addEventListener("storage", (e) => {
-    if (e.key === "ns_lang")     langSelect.value = getLang();
-    if (e.key === "ns_darkmode") darkToggle.checked = localStorage.getItem("ns_darkmode") === "1";
-});
-
-/* Re-apply i18n strings when language changes (covers data-i18n on this page) */
+/* Re-aplicar i18n si llega evento (otras pestañas, etc.) */
 document.addEventListener("ns:langchange", () => {
-    applyI18n();
-    langSelect.value = getLang();
+    if (typeof applyI18n === "function") applyI18n();
+    langSelect.value = (localStorage.getItem("ns_lang") === "en") ? "en" : "es";
 });
 
 /* ════════════════════════════════════════
