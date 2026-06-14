@@ -325,13 +325,13 @@ function showSandbox(key) {
             return;
         }
 
-        if (typeof BOT_RESPONSES === "undefined") {
+        if (typeof getBotResponses === "undefined") {
             return setTimeout(tryRender, 50);
         }
 
         /* Resolver alias */
-        const resolvedKey = (typeof ALIASES !== "undefined" && ALIASES[key]) ? ALIASES[key] : key;
-        const response = BOT_RESPONSES[resolvedKey];
+        const resolvedKey = (typeof getAliases === "function" && getAliases()[key]) ? getAliases()[key] : key;
+        const response = getBotResponses()[resolvedKey];
 
         if (!response) {
             sandboxContent.innerHTML = `<div class="message bot" style="opacity:.7">No hay información disponible para esta sección todavía.</div>`;
@@ -551,12 +551,12 @@ function renderSbMoodboard(response) {
 }
 
 function renderSbRecorrido() {
-    if (typeof RECORRIDO_PARADAS === "undefined" || typeof _buildRecorridoHTML === "undefined") {
+    if (typeof getRecorrido === "undefined" || typeof _buildRecorridoHTML === "undefined") {
         return setTimeout(renderSbRecorrido, 50);
     }
     const div = document.createElement("div");
     div.className = "message bot recorrido-block";
-    div.innerHTML = _buildRecorridoHTML(RECORRIDO_PARADAS);
+    div.innerHTML = _buildRecorridoHTML(getRecorrido());
     /* Marcar visibles de entrada (sin animación) */
     div.querySelectorAll(".recorrido-parada").forEach(el => el.classList.add("visible"));
     /* Lightbox en las fotos */
@@ -744,7 +744,7 @@ function renderSbSobreNosotros() {
 function renderSbPersonajes() {
     /* Usa el mismo array PERSONAJES definido en script.js.
        Si script.js aún no cargó, reintenta. */
-    if (typeof PERSONAJES === "undefined") {
+    if (typeof getPersonajes === "undefined") {
         return setTimeout(renderSbPersonajes, 50);
     }
     const div = document.createElement("div");
@@ -752,7 +752,7 @@ function renderSbPersonajes() {
     div.innerHTML = `
         <div class="ficha-title">🎭 Personajes</div>
         <div class="personajes-list">
-            ${PERSONAJES.map(p => `
+            ${getPersonajes().map(p => `
                 <div class="personaje-item">
                     <div class="personaje-emoji">${p.emoji}</div>
                     <div class="personaje-info">
